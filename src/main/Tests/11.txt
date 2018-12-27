@@ -1,5 +1,6 @@
 class Test { 
 	def main() : int {
+		this = 1;
 		return 0;
 	}
 }

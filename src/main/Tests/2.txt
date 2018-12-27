@@ -6,9 +6,19 @@ class Test {
 
 class Book {
 	var j : int[];
+	var l: int;
 	var k : boolean; 
 	def x (f1: int) : int {
 		j = 5;
+		if(l) then {
+
+		}
+		if(l=2) then{
+
+		}
+		if(l=true) then{
+
+		}
 		while (i.length < 4){
 			j = j && (3*2);
 		}

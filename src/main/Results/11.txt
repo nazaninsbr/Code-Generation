@@ -1,0 +1,2 @@
+Line:3:left side of assignment must be a valid lvalue
+Line:3:unsupported operand type for assign
