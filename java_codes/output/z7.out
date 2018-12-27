@@ -1,0 +1,24 @@
+Compiled from "z7.java"
+public class z7 {
+  public z7();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: bipush        20
+       2: istore_1
+       3: iload_1
+       4: bipush        18
+       6: if_icmpge     20
+       9: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+      12: ldc           #3                  // String Good day.
+      14: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+      17: goto          28
+      20: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+      23: ldc           #5                  // String Good evening.
+      25: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+      28: return
+}

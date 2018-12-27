@@ -1,0 +1,25 @@
+Compiled from "z6.java"
+public class z6 {
+  public z6();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: iconst_1
+       1: istore_1
+       2: iload_1
+       3: iconst_5
+       4: if_icmpge     21
+       7: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+      10: iload_1
+      11: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+      14: iload_1
+      15: iconst_1
+      16: iadd
+      17: istore_1
+      18: goto          2
+      21: return
+}

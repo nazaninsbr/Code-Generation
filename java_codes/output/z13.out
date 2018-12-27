@@ -1,0 +1,19 @@
+Compiled from "z13.java"
+public class z13 {
+  public z13();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: iconst_4
+       1: newarray       int
+       3: astore_1
+       4: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+       7: aload_1
+       8: arraylength
+       9: invokevirtual #3                  // Method java/io/PrintStream.println:(I)V
+      12: return
+}

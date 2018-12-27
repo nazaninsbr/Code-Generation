@@ -1,0 +1,50 @@
+Compiled from "z3.java"
+public class z3 {
+  public z3();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: iconst_5
+       1: newarray       int
+       3: astore_1
+       4: aload_1
+       5: iconst_0
+       6: bipush        10
+       8: iastore
+       9: aload_1
+      10: iconst_1
+      11: bipush        20
+      13: iastore
+      14: aload_1
+      15: iconst_2
+      16: bipush        30
+      18: iastore
+      19: aload_1
+      20: iconst_3
+      21: bipush        40
+      23: iastore
+      24: aload_1
+      25: iconst_4
+      26: bipush        50
+      28: iastore
+      29: iconst_0
+      30: istore_2
+      31: iload_2
+      32: aload_1
+      33: arraylength
+      34: if_icmpge     58
+      37: getstatic     #2                  // Field java/lang/System.out:Ljava/io/PrintStream;
+      40: iload_2
+      41: aload_1
+      42: iload_2
+      43: iaload
+      44: invokedynamic #3,  0              // InvokeDynamic #0:makeConcatWithConstants:(II)Ljava/lang/String;
+      49: invokevirtual #4                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+      52: iinc          2, 1
+      55: goto          31
+      58: return
+}

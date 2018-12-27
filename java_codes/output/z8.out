@@ -1,0 +1,52 @@
+Compiled from "z8.java"
+public class z8 extends Calculation {
+  public z8();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method Calculation."<init>":()V
+       4: return
+
+  public void multiplication(int, int);
+    Code:
+       0: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: bipush        20
+       2: istore_1
+       3: bipush        10
+       5: istore_2
+       6: new           #2                  // class z8
+       9: dup
+      10: invokespecial #3                  // Method "<init>":()V
+      13: astore_3
+      14: aload_3
+      15: iload_1
+      16: iload_2
+      17: invokevirtual #4                  // Method addition:(II)V
+      20: aload_3
+      21: iload_1
+      22: iload_2
+      23: invokevirtual #5                  // Method Subtraction:(II)V
+      26: aload_3
+      27: iload_1
+      28: iload_2
+      29: invokevirtual #6                  // Method multiplication:(II)V
+      32: return
+
+  public void Subtraction(int, int);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: iload_2
+       3: invokespecial #7                  // Method Calculation.Subtraction:(II)V
+       6: return
+
+  public void addition(int, int);
+    Code:
+       0: aload_0
+       1: iload_1
+       2: iload_2
+       3: invokespecial #8                  // Method Calculation.addition:(II)V
+       6: return
+}

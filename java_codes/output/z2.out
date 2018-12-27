@@ -1,0 +1,29 @@
+Compiled from "z2.java"
+public class z2 {
+  public z2();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void main(java.lang.String[]);
+    Code:
+       0: iconst_1
+       1: istore        6
+       3: bipush        20
+       5: newarray       int
+       7: astore        7
+       9: new           #2                  // class D
+      12: dup
+      13: invokespecial #3                  // Method D."<init>":()V
+      16: astore        8
+      18: new           #4                  // class B
+      21: dup
+      22: invokespecial #5                  // Method B."<init>":()V
+      25: astore_3
+      26: new           #6                  // class C
+      29: dup
+      30: invokespecial #7                  // Method C."<init>":()V
+      33: astore        4
+      35: return
+}
