@@ -1,0 +1,19 @@
+class Test{
+	def main(): int{
+		new BabyTest();
+		1 + 2;
+		new BabyTest().b(2,3);
+		this.main(2);
+		this.main();
+		new d().testMethod("hi there;ghj1`2344][vcza88^$% ??!");
+		return 0;
+	}
+}
+class BabyTest{
+	def testMethod(f1: int, f2: int) : int {
+	return 7;
+	}
+	def b():int{
+		return 0;
+	}
+}

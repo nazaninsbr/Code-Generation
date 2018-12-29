@@ -814,7 +814,7 @@ public class VisitorImpl implements Visitor {
     }
 
     @Override
-    public void visit(MethodCall methodCall) {
+    public void visit(MethodCall methodCall){
         if(second_round==false){
             methodCall.getInstance().accept(this);
             ArrayList<Expression> methodcall_args = methodCall.getArgs();
@@ -843,28 +843,45 @@ public class VisitorImpl implements Visitor {
                     SymbolTableMethodItem method_item = (SymbolTableMethodItem) thisItem;
                     ArrayList<Expression> args = methodCall.getArgs();
                     ArrayList<Type> argTypes = method_item.get_arg_types();
+                    int j = argTypes.size();
+                    boolean flag_invlaid_num_arg = false;
                     for(int i=0; i<args.size(); i++){
-                        args.get(i).accept(this);
-                        if (! args.get(i).getType().toString().equals("NoType")){
-                            if ( (args.get(i).getType().getClass().getName().equals("ast.Type.UserDefinedType.UserDefinedType")) && (argTypes.get(i).getClass().getName().equals("ast.Type.UserDefinedType.UserDefinedType")) ){
-                                ArrayList<String> parents = new ArrayList<String>();
-                                String this_class_name = ((UserDefinedType)(args.get(i).getType())).getClassDeclaration().getName().getName();
-                                parents.add(this_class_name);
-                                parents.add("Object");
-                                add_all_parent_names(this_class_name, parents);
-                                check_subtype_class(((UserDefinedType)(args.get(i).getType())).getClassDeclaration().getName().getName(),((UserDefinedType)(args.get(i).getType())).getClassDeclaration().getParentName().getName(),parents);
-                                boolean ok_subtype = in_this_array(parents, argTypes.get(i).toString());
+                        if (i > j - 1){
+                            //args.get(i).accept(this); //???????
+                            System.out.println("Line:"+Integer.toString(methodCall.get_line_number())+":actual and formal argument lists differ in length");
+                            flag_invlaid_num_arg = true;
+                            break;
+                            
+                        }
+                        else{
+                            args.get(i).accept(this);
+                            if (! args.get(i).getType().toString().equals("NoType")){
+                                if ( (args.get(i).getType().getClass().getName().equals("ast.Type.UserDefinedType.UserDefinedType")) && (argTypes.get(i).getClass().getName().equals("ast.Type.UserDefinedType.UserDefinedType")) ){
+                                    ArrayList<String> parents = new ArrayList<String>();
+                                    String this_class_name = ((UserDefinedType)(args.get(i).getType())).getClassDeclaration().getName().getName();
+                                    parents.add(this_class_name);
+                                    parents.add("Object");
+                                    add_all_parent_names(this_class_name, parents);
+                                    check_subtype_class(((UserDefinedType)(args.get(i).getType())).getClassDeclaration().getName().getName(),((UserDefinedType)(args.get(i).getType())).getClassDeclaration().getParentName().getName(),parents);
+                                    boolean ok_subtype = in_this_array(parents, argTypes.get(i).toString());
 
-                                if (!ok_subtype){
+                                    if (!ok_subtype){
+                                        System.out.println("Line:"+Integer.toString(methodCall.get_line_number())+":invalid type for argument number "+Integer.toString(i+1));
+                                    }
+                                }
+                                else if (! args.get(i).getType().toString().equals(argTypes.get(i).toString())){
                                     System.out.println("Line:"+Integer.toString(methodCall.get_line_number())+":invalid type for argument number "+Integer.toString(i+1));
                                 }
                             }
-                            else if (! args.get(i).getType().toString().equals(argTypes.get(i).toString())){
-                                System.out.println("Line:"+Integer.toString(methodCall.get_line_number())+":invalid type for argument number "+Integer.toString(i+1));
-                            }
                         }
                     }
-                    methodCall.setType(method_item.get_return_type());
+                    if(flag_invlaid_num_arg){
+                        methodCall.setType(new NoType());
+                    }
+                    else{
+                        methodCall.setType(method_item.get_return_type());                       
+                    }
+
                 }
                 catch(ItemNotFoundException ex){
                     String the_class_name = methodCall.getInstance().getType().toString();
@@ -1008,55 +1025,65 @@ public class VisitorImpl implements Visitor {
     @Override
     public void visit(Assign assign) {
         ArrayList<Expression> exprs = new ArrayList<Expression>();
-        exprs.add(assign.getlValue()); 
-        if (assign.getrValue()!=null){
-            exprs.add(assign.getrValue());
+        exprs.add(assign.getrValue()); 
+        if (assign.getlValue()!=null){
+            exprs.add(assign.getlValue());
         }
         if(second_round==false){
             check_statement_expressions_for_newArray_expr(exprs);
         }
         else if(second_round==true){
-            if (!(assign.getlValue().getClass().getName().equals("ast.node.expression.Identifier") || assign.getlValue().getClass().getName().equals("ast.node.expression.ArrayCall") )) {
-                System.out.println("Line:"+Integer.toString(assign.getlValue().get_line_number())+":left side of assignment must be a valid lvalue");
+            if(assign.getlValue() == null){
+                assign.getrValue().accept(this);
             }
+            else{
+                ///////////////////
+                if (!(assign.getlValue().getClass().getName().equals("ast.node.expression.Identifier") || assign.getlValue().getClass().getName().equals("ast.node.expression.ArrayCall") )) {
+                    System.out.println("Line:"+Integer.toString(assign.getlValue().get_line_number())+":left side of assignment must be a valid lvalue");
+                }
 
-            //else if (assign.getlValue().getClass().getName().equals("ast.node.expression.ArrayCall") ){
-            //    if (!(((ArrayCall)assign.getlValue()).getInstance().getClass().getName().equals("ast.node.expression.Identifier"))){
-            //        System.out.println("Line:"+Integer.toString(assign.getlValue().get_line_number())+":left side of assignment must be a valid lvalue");
-           //     }
-           // }
-            assign.getlValue().accept(this);
-            assign.getrValue().accept(this);
-            if (!(assign.getlValue().getType().toString().equals("NoType") || assign.getrValue().getType().toString().equals("NoType"))) {
-                
-                if ( (assign.getrValue().getType().getClass().getName().equals("ast.Type.UserDefinedType.UserDefinedType")) && (assign.getlValue().getType().getClass().getName().equals("ast.Type.UserDefinedType.UserDefinedType")) ){
-                    ArrayList<String> parents = new ArrayList<String>();
-                    String this_class_name = ((UserDefinedType)(assign.getrValue().getType())).getClassDeclaration().getName().getName();
-                    parents.add(this_class_name);
-                    parents.add("Object");
-                    add_all_parent_names(this_class_name, parents);
-                    check_subtype_class(((UserDefinedType)(assign.getrValue().getType())).getClassDeclaration().getName().getName(),((UserDefinedType)(assign.getrValue().getType())).getClassDeclaration().getParentName().getName(),parents);
-                    boolean ok_subtype = in_this_array(parents,assign.getlValue().getType().toString());
+                //else if (assign.getlValue().getClass().getName().equals("ast.node.expression.ArrayCall") ){
+                //    if (!(((ArrayCall)assign.getlValue()).getInstance().getClass().getName().equals("ast.node.expression.Identifier"))){
+                //        System.out.println("Line:"+Integer.toString(assign.getlValue().get_line_number())+":left side of assignment must be a valid lvalue");
+               //     }
+               // }
+                assign.getlValue().accept(this);
+                assign.getrValue().accept(this);
+                if (!(assign.getlValue().getType().toString().equals("NoType") || assign.getrValue().getType().toString().equals("NoType"))) {
+                    
+                    if ( (assign.getrValue().getType().getClass().getName().equals("ast.Type.UserDefinedType.UserDefinedType")) && (assign.getlValue().getType().getClass().getName().equals("ast.Type.UserDefinedType.UserDefinedType")) ){
+                        ArrayList<String> parents = new ArrayList<String>();
+                        String this_class_name = ((UserDefinedType)(assign.getrValue().getType())).getClassDeclaration().getName().getName();
+                        parents.add(this_class_name);
+                        parents.add("Object");
+                        add_all_parent_names(this_class_name, parents);
+                        check_subtype_class(((UserDefinedType)(assign.getrValue().getType())).getClassDeclaration().getName().getName(),((UserDefinedType)(assign.getrValue().getType())).getClassDeclaration().getParentName().getName(),parents);
+                        boolean ok_subtype = in_this_array(parents,assign.getlValue().getType().toString());
 
-                    if (!ok_subtype){
-                        System.out.println("Line:"+Integer.toString(assign.get_line_number())+":unsupported operand type for assign");
+                        if (!ok_subtype){
+                            System.out.println("Line:"+Integer.toString(assign.get_line_number())+":unsupported operand type for assign");
+                        }
+                    }
+                    else{
+                        if( ! assign.getlValue().getType().toString().equals(assign.getrValue().getType().toString()) ){
+                            System.out.println("Line:"+Integer.toString(assign.get_line_number())+":unsupported operand type for assign");
+                        }                   
+                    }
+                    if(assign.getlValue().getClass().getName().equals("ast.node.expression.Identifier") && assign.getrValue().getClass().getName().equals("ast.node.expression.NewArray")){
+                        try {
+                            SymbolTableItem this_item = symTable.top.get(((Identifier) assign.getlValue()).getName());
+                            SymbolTableVariableItemBase this_var_item = (SymbolTableVariableItemBase) this_item;
+                            this_var_item.setType(assign.getrValue().getType()); 
+                        }
+                        catch(ItemNotFoundException ex){
+                        }
                     }
                 }
-                else{
-                    if( ! assign.getlValue().getType().toString().equals(assign.getrValue().getType().toString()) ){
-                        System.out.println("Line:"+Integer.toString(assign.get_line_number())+":unsupported operand type for assign");
-                    }                   
-                }
-                if(assign.getlValue().getClass().getName().equals("ast.node.expression.Identifier") && assign.getrValue().getClass().getName().equals("ast.node.expression.NewArray")){
-                    try {
-                        SymbolTableItem this_item = symTable.top.get(((Identifier) assign.getlValue()).getName());
-                        SymbolTableVariableItemBase this_var_item = (SymbolTableVariableItemBase) this_item;
-                        this_var_item.setType(assign.getrValue().getType()); 
-                    }
-                    catch(ItemNotFoundException ex){
-                    }
-                }
+                //////////////////////////
             }
+            ////////////////////
+            //?
+            //////////////////////////
         }
     }
 
