@@ -253,7 +253,7 @@ grammar Smoola;
         exp = expressionAssignment{
             if ($exp.this_expression_lvalue == null){
                 $this_expression = $exp.this_expression_rvalue;
-                $this_lvalue = $exp.this_expression_rvalue;
+                $this_rvalue = $exp.this_expression_rvalue;
             }
             else{
                 $this_lvalue = $exp.this_expression_lvalue;
