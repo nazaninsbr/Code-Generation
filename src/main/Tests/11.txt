@@ -1,5 +1,13 @@
 class Test { 
 	def main() : int {
+		writeln("hi");
+		return 0;
+	}
+}
+
+class Test2 { 
+	def main(i: int) : int {
+		i = 1 + 2;
 		return 0;
 	}
 }

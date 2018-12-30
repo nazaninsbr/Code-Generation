@@ -3,6 +3,8 @@ package ast;
 import ast.node.declaration.VarDeclaration;
 import java.util.ArrayList;
 import java.util.*;
+import symbolTable.*;
+
 
 public class Translator {
 
@@ -31,7 +33,35 @@ public class Translator {
     }
 
     String convert_args_to_string(ArrayList<VarDeclaration> args){
+    	ArrayList <String> args_string = new ArrayList<String>();
+    	for(int i=0; i<args.size(); i++){
+    		String type = args.get(i).getType().toString();
+    		args_string.add(get_type_code_generation_equivalent(type));
+    	}
+    	return String.join(";", args_string);
+    }
+
+
+    String get_type_code_generation_equivalent(String type){
+    	if(type.equals("int")){
+    		return "I";
+    	} else if(type.equals("int")){
+    		return "I";
+    	} else if(type.equals("bool")){
+    		return "Z";
+    	} else if(type.equals("string")){
+    		return "Ljava/lang/String";
+    	} else if(type.equals("int[]")){
+    		return "[I";
+    	}
     	return "";
+    }
+
+    public void printAStringValue(String class_name, String value_to_print){
+    	ArrayList<String> c = this.commands.get(class_name);
+    	c.add("   ldc "+value_to_print);
+    	c.add("   ; invoke println");
+    	c.add("   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V");
     }
 
     public void createMethodInClassFile(String class_name, String method_name, String return_type, ArrayList<VarDeclaration> args){
@@ -85,6 +115,46 @@ public class Translator {
 		commands.get(class_name).add("iload_"+Integer.toString(indVar2));	
 		performMathOPeration(class_name, op);
 	}
+
+
+	public void moveArgsToIndex(String class_name, ArrayList<VarDeclaration> args, SymbolTable symTable){
+		for(int i=0; i<args.size(); i++){
+			int real_index = i+1;
+			int symTable_index = 0;
+			try {
+                SymbolTableItem item = symTable.top.get(args.get(i).getIdentifier().getName());
+                SymbolTableVariableItemBase varItem = (SymbolTableVariableItemBase) item;
+                symTable_index = varItem.getIndex();
+            }
+            catch(ItemNotFoundException ex){
+            }
+            if(args.get(i).getType().toString().equals("int")){
+            	commands.get(class_name).add("   iload_"+Integer.toString(real_index));
+            	commands.get(class_name).add("   istore_"+Integer.toString(symTable_index));
+            }
+
+		}
+	}
+
+	public void moveArgsBackToIndex(String class_name, ArrayList<VarDeclaration> args, SymbolTable symTable){
+		for(int i=0; i<args.size(); i++){
+			int real_index = i+1;
+			int symTable_index = 0;
+			try {
+                SymbolTableItem item = symTable.top.get(args.get(i).getIdentifier().getName());
+                SymbolTableVariableItemBase varItem = (SymbolTableVariableItemBase) item;
+                symTable_index = varItem.getIndex();
+            }
+            catch(ItemNotFoundException ex){
+            }
+            if(args.get(i).getType().toString().equals("int")){
+            	commands.get(class_name).add("   iload_"+Integer.toString(symTable_index));
+            	commands.get(class_name).add("   istore_"+Integer.toString(real_index));
+            }
+
+		}
+	}
+
 
 	@Override
     public String toString() {

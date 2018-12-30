@@ -110,6 +110,7 @@ public class VisitorImpl implements Visitor {
             check_class_existance_condition_with_symTable(program);
         }
         if (no_error==true){
+            index = 0;
             if(! program.getMainClass().getMethodDeclarations().get(0).getName().getName().equals("main")){
                 System.out.println("Line:"+Integer.toString((program.getMainClass().getMethodDeclarations().get(0)).get_line_number())+":main method was not found");
                 no_error = false; 
@@ -124,6 +125,7 @@ public class VisitorImpl implements Visitor {
             }
         }
         if (no_error==true){
+            index = 0;
             second_round = false;
             code_generation_round = true;
             code_generation_translator = new Translator();
@@ -466,6 +468,7 @@ public class VisitorImpl implements Visitor {
             call_methods_and_vars_to_continue_checks(classDeclaration);
 
             symTable.pop();
+            this.code_generation_translator.printTheCommands(this.curr_class.getName().getName());
         }
     }
 
@@ -563,9 +566,18 @@ public class VisitorImpl implements Visitor {
         }
         else if(code_generation_round==true && second_round==false){
             
+            symTable.push(new SymbolTable(symTable.top));
+            check_variable_type_defined_condition_with_symTable(methodDeclaration);
+
             this.code_generation_translator.createMethodInClassFile(this.curr_class.getName().getName(), methodDeclaration.getName().getName(), methodDeclaration.getReturnValue().getType().toString(), methodDeclaration.getArgs());
+            this.code_generation_translator.moveArgsToIndex(this.curr_class.getName().getName(), methodDeclaration.getArgs(), symTable.top);
+
+            check_for_statements(methodDeclaration.getBody());
+
+            this.code_generation_translator.moveArgsBackToIndex(this.curr_class.getName().getName(), methodDeclaration.getArgs(), symTable.top);
             this.code_generation_translator.endMethodInClassFile(this.curr_class.getName().getName());
-            this.code_generation_translator.printTheCommands(this.curr_class.getName().getName());
+
+            symTable.pop();
 
         }
 
@@ -622,7 +634,7 @@ public class VisitorImpl implements Visitor {
 
     @Override
     public void visit(BinaryExpression binaryExpression) {
-        if(second_round==false){
+        if(second_round==false && code_generation_round==false){
             binaryExpression.getLeft().accept(this);
             binaryExpression.getRight().accept(this);
         }
@@ -765,6 +777,13 @@ public class VisitorImpl implements Visitor {
             }
             else{
                 binaryExpression.setType(this_binary_exp_type);
+            }
+        }
+        else if(second_round==false && code_generation_round==true){
+            if(binaryExpression.getLeft().getClass().getName().equals("class ast.node.expression.Value.IntValue") && inaryExpression.getRight().getClass().getName().equals("class ast.node.expression.Value.IntValue")){
+                int x1 = ((IntValue) binaryExpression.getLeft()).getConstant();
+                int x2 = ((IntValue) binaryExpression.getRight()).getConstant();
+                this.code_generation_translator.operationBetweenTwoConstantNumbers(this.curr_class.getName().getName(), x1, x2, binaryExpression.getBinaryOperator());
             }
         }
     }
@@ -1195,13 +1214,19 @@ public class VisitorImpl implements Visitor {
     public void visit(Write write) {
         ArrayList<Expression> exprs = new ArrayList<Expression>();
         exprs.add(write.getArg());
-        if(second_round==false){
+        if(second_round==false && code_generation_round==false){
             check_statement_expressions_for_newArray_expr(exprs);
         }
         else if(second_round==true){
             write.getArg().accept(this);
             if (!(write.getArg().getType().toString().equals("string") || write.getArg().getType().toString().equals("NoType") || write.getArg().getType().toString().equals("int") || write.getArg().getType().toString().equals("int[]"))){
                 System.out.println("Line:"+Integer.toString(write.get_line_number())+":unsupported type for writeln");
+            }
+        }
+        else if(code_generation_round==true && second_round==false){
+            if (write.getArg().getClass().toString().equals("class ast.node.expression.Value.StringValue")) {
+                StringValue str_val = (StringValue) write.getArg();
+                this.code_generation_translator.printAStringValue(this.curr_class.getName().getName(), str_val.getConstant());
             }
         }
     }
