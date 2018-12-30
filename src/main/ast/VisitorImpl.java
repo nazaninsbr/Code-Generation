@@ -2,6 +2,7 @@ package ast;
 
 
 import ast.node.Program;
+import ast.Translator;
 import ast.node.declaration.ClassDeclaration;
 import ast.node.declaration.MethodDeclaration;
 import ast.node.declaration.VarDeclaration;
@@ -28,8 +29,10 @@ public class VisitorImpl implements Visitor {
 
     boolean no_error;
     boolean second_round; 
+    boolean code_generation_round;
     Program this_prog; 
     ClassDeclaration curr_class; 
+    Translator code_generation_translator; 
     SymbolTable symTable;  
     int index; 
 
@@ -100,6 +103,7 @@ public class VisitorImpl implements Visitor {
             index = 0;
             no_error = true;
             second_round = false; 
+            code_generation_round = false;
             this_prog = program;
             symTable = new SymbolTable(); 
             check_class_name_conditions_with_symTable(program);
@@ -108,11 +112,24 @@ public class VisitorImpl implements Visitor {
         if (no_error==true){
             if(! program.getMainClass().getMethodDeclarations().get(0).getName().getName().equals("main")){
                 System.out.println("Line:"+Integer.toString((program.getMainClass().getMethodDeclarations().get(0)).get_line_number())+":main method was not found");
+                no_error = false; 
             }            
             second_round = true; 
             program.getMainClass().accept(this);
 
            
+            List<ClassDeclaration> classes = program.getClasses(); 
+            for(int i=0; i<classes.size(); i++){
+                classes.get(i).accept(this);
+            }
+        }
+        if (no_error==true){
+            second_round = false;
+            code_generation_round = true;
+            code_generation_translator = new Translator();
+
+            program.getMainClass().accept(this);
+
             List<ClassDeclaration> classes = program.getClasses(); 
             for(int i=0; i<classes.size(); i++){
                 classes.get(i).accept(this);
@@ -425,6 +442,9 @@ public class VisitorImpl implements Visitor {
             }   
             continue_phase3_checks_for_class(classDeclaration);
             symTable.pop();
+        }
+        else if (code_generation_round==true){
+            this.code_generation_translator.createFileForClass(classDeclaration.getName().getName(), ClassDeclaration.getParentName().getName());
         }
     }
 
