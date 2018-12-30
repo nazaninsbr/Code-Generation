@@ -13,6 +13,7 @@
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 .end method
+ast.node.expression.Value.IntValue
 .class public Test2
 .super Object
 ; default constructor
@@ -26,6 +27,9 @@
    .limit locals 32
    iload_1
    istore_2
+iconst_1
+iconst_2
+iadd
    iload_2
    istore_1
 .end method

@@ -780,7 +780,8 @@ public class VisitorImpl implements Visitor {
             }
         }
         else if(second_round==false && code_generation_round==true){
-            if(binaryExpression.getLeft().getClass().getName().equals("class ast.node.expression.Value.IntValue") && inaryExpression.getRight().getClass().getName().equals("class ast.node.expression.Value.IntValue")){
+            System.out.println(binaryExpression.getLeft().getClass().getName());
+            if(binaryExpression.getLeft().getClass().getName().equals("ast.node.expression.Value.IntValue") && binaryExpression.getRight().getClass().getName().equals("ast.node.expression.Value.IntValue")){
                 int x1 = ((IntValue) binaryExpression.getLeft()).getConstant();
                 int x2 = ((IntValue) binaryExpression.getRight()).getConstant();
                 this.code_generation_translator.operationBetweenTwoConstantNumbers(this.curr_class.getName().getName(), x1, x2, binaryExpression.getBinaryOperator());
