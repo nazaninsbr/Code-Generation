@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.*;
 import symbolTable.*;
 import ast.node.expression.BinaryOperator;
-
+import ast.node.expression.UnaryOperator;
 public class Translator {
 
 	private HashMap<String, ArrayList<String>> commands;
@@ -92,24 +92,40 @@ public class Translator {
     }
 
 	public void operationBetweenTwoConstantNumbers(String class_name, int x1, int x2, BinaryOperator op){
-		commands.get(class_name).add("iconst_"+Integer.toString(x1));	
-		commands.get(class_name).add("iconst_"+Integer.toString(x2));	
+		commands.get(class_name).add("   iconst_"+Integer.toString(x1));	
+		commands.get(class_name).add("   iconst_"+Integer.toString(x2));	
 		performMathOPeration(class_name, op);
 	}
+    public void operationBetweenTwoVariables(String class_name, int indVar1, int indVar2, BinaryOperator op){
+        commands.get(class_name).add("   iload_"+Integer.toString(indVar1));
+        commands.get(class_name).add("   iload_"+Integer.toString(indVar2));    
+        performMathOPeration(class_name, op);
+    }
 
+    public void operationBetweenVariableAndConstantNumber(String class_name, int indVar1, int x2, BinaryOperator op){ 
+        commands.get(class_name).add("   iload_"+Integer.toString(indVar1));
+        commands.get(class_name).add("   iconst_"+Integer.toString(x2)); 
+        performMathOPeration(class_name, op);
+    }
+    
+    public void operationBetweenConstantNumberAndVariable(String class_name, int x1, int  indVar2, BinaryOperator op){ 
+        commands.get(class_name).add("   iconst_"+Integer.toString(x1));
+        commands.get(class_name).add("   iload_"+Integer.toString(indVar2));
+        performMathOPeration(class_name, op);
+    } 
 
 	public void performMathOPeration(String class_name, BinaryOperator op){
 		if (op == BinaryOperator.add){
-			commands.get(class_name).add("iadd");
+			commands.get(class_name).add("   iadd");
 		}
 		else if (op == BinaryOperator.sub){
-			commands.get(class_name).add("isub");
+			commands.get(class_name).add("   isub");
 		}
 		else if (op == BinaryOperator.mult){
-			commands.get(class_name).add("imul");
+			commands.get(class_name).add("   imul");
 		}
         else if(op == BinaryOperator.div){
-            commands.get(class_name).add("idiv");
+            commands.get(class_name).add("   idiv");
         }
         /*
         else if(op == BinaryOperator.eq){
@@ -130,11 +146,6 @@ public class Translator {
         */
 	}
 
-	public void operationBetweenTwoVariables(String class_name, int indVar1, int indVar2, int var1, int var2, BinaryOperator op){
-		commands.get(class_name).add("iload_"+Integer.toString(indVar1));
-		commands.get(class_name).add("iload_"+Integer.toString(indVar2));	
-		performMathOPeration(class_name, op);
-	}
 
 
 	public void moveArgsToIndex(String class_name, ArrayList<VarDeclaration> args, SymbolTable symTable){
@@ -175,18 +186,7 @@ public class Translator {
 		}
 	}
 
-
-    public void operationBetweenVariableAndConstantNumber(String class_name, int indVar1, int x2, int var1, int var2, BinaryOperator op){ 
-        commands.get(class_name).add("iload_"+Integer.toString(indVar1));
-        commands.get(class_name).add("iconst_"+Integer.toString(x2)); 
-        performMathOPeration(class_name, op);
-    }
-    
-    public void operationBetweenConstantNumberAndVariable(String class_name, int x1, int indVar2, int var1, int var2, BinaryOperator op){ 
-        commands.get(class_name).add("iconst_"+Integer.toString(x1));
-        commands.get(class_name).add("iload_"+Integer.toString(indVar2));
-        performMathOPeration(class_name, op);
-    }  
+  
 
 	@Override
     public String toString() {
