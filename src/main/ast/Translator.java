@@ -3,8 +3,12 @@ package ast;
 import ast.node.declaration.VarDeclaration;
 import java.util.ArrayList;
 import java.util.*;
+<<<<<<< HEAD
 import symbolTable.*;
 
+=======
+import ast.node.expression.BinaryOperator;
+>>>>>>> 6020fca71c0d6b01b93f432815951eb2b256bb4e
 
 public class Translator {
 
@@ -98,16 +102,36 @@ public class Translator {
 	}
 
 
-	public void performMathOPeration(String class_name, char op){
-		if (op == '+'){
+	public void performMathOPeration(String class_name, BinaryOperator op){
+		if (op == BinaryOperator.add){
 			commands.get(class_name).add("iadd");
 		}
-		else if (op == '-'){
+		else if (op == BinaryOperator.sub){
 			commands.get(class_name).add("isub");
 		}
-		else if (op == '*'){
+		else if (op == BinaryOperator.mult){
 			commands.get(class_name).add("imul");
 		}
+        else if(op == BinaryOperator.div){
+            commands.get(class_name).add("idiv");
+        }
+        /*
+        else if(op == BinaryOperator.eq){
+
+        }
+        else if (op == BinaryOperator.neq){
+
+        }
+        else if (op == BinaryOperator.lt){
+
+        }
+        else if (op == BinaryOperator.gt){
+
+        }
+        else{
+
+        }
+        */
 	}
 
 	public void operationBetweenTwoVariables(String class_name, int indVar1, int indVar2, int var1, int var2, char op){
@@ -155,6 +179,17 @@ public class Translator {
 		}
 	}
 
+
+    public void operationBetweenVariableAndConstantNumber(String class_name, int indVar1, int x2, int var1, int var2, char op){ 
+        commands.get(class_name).add("iload_"+Integer.toString(indVar1));
+        commands.get(class_name).add("iconst_"+Integer.toString(x2)); 
+        performMathOPeration(class_name, op);
+    }
+    public void operationBetweenConstantNumberAndVariable(String class_name, int x1, int indVar2, int var1, int var2, char op){ 
+        commands.get(class_name).add("iconst_"+Integer.toString(x1));
+        commands.get(class_name).add("iload_"+Integer.toString(indVar2));
+        performMathOPeration(class_name, op);
+    }  
 
 	@Override
     public String toString() {
