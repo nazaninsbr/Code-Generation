@@ -1,5 +1,6 @@
 package ast;
 
+import ast.node.declaration.VarDeclaration;
 import java.util.ArrayList;
 import java.util.*;
 
@@ -29,12 +30,24 @@ public class Translator {
    		c.add(".end method");
     }
 
-    public void createMethodInClassFile(String class_name, String method_name, String return_type){
+    String convert_args_to_string(ArrayList<VarDeclaration> args){
+    	return "";
+    }
+
+    public void createMethodInClassFile(String class_name, String method_name, String return_type, ArrayList<VarDeclaration> args){
     	ArrayList<String> c = this.commands.get(class_name);
-    	c.add(".method public "+method_name+"("+")V");
-    	// for(int i=0; i<c.size(); i++){
-   		// 	System.out.println(c.get(i));
-   		// }
+    	String args_str = convert_args_to_string(args);
+    	if (return_type.equals("int")){
+    		c.add(".method public "+method_name+"("+args_str+")I");
+    	} else if (return_type.equals("bool")){
+    		c.add(".method public "+method_name+"("+args_str+")Z");
+    	} else if (return_type.equals("string")){
+    		c.add(".method public "+method_name+"("+args_str+")Ljava/lang/String");
+    	} else if (return_type.equals("int[]")){
+    		c.add(".method public "+method_name+"("+args_str+")[I;");
+    	}
+    	c.add("   .limit stack 32");
+    	c.add("   .limit locals 32");
     }
 
     public void endMethodInClassFile(String class_name){

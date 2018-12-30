@@ -563,7 +563,7 @@ public class VisitorImpl implements Visitor {
         }
         else if(code_generation_round==true && second_round==false){
             
-            this.code_generation_translator.createMethodInClassFile(this.curr_class.getName().getName(), methodDeclaration.getName().getName(), methodDeclaration.getReturnValue().getType().toString());
+            this.code_generation_translator.createMethodInClassFile(this.curr_class.getName().getName(), methodDeclaration.getName().getName(), methodDeclaration.getReturnValue().getType().toString(), methodDeclaration.getArgs());
             this.code_generation_translator.endMethodInClassFile(this.curr_class.getName().getName());
             this.code_generation_translator.printTheCommands(this.curr_class.getName().getName());
 
