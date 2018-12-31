@@ -135,14 +135,21 @@ public class Translator {
         }
     }
 
-    public void performUnaryOperationOnANumber(String class_name, int x1, UnaryOperator op){
-        commands.get(class_name).add("   ldc "+Integer.toString(x1));
-    }
+  //  public void performUnaryOperationOnANumber(String class_name, int x1, UnaryOperator op){
+   ///     commands.get(class_name).add("   ldc "+Integer.toString(x1));
+   // }
 
-    public void operationBetweenTwoTopsInStack(String class_name, BinaryOperator op){ 
-        performMathOPeration(class_name, op);
-    }
+    public void performUnaryOperation(String class_name, UnaryOperator op){
+        if (op == UnaryOperator.not){
+            //commands.get(class_name).add("   ");
+        }
+        else if (op == UnaryOperator.minus){
+            commands.get(class_name).add("   ineg");
+        }
+        else {
 
+        }
+    }
 	public void performMathOPeration(String class_name, BinaryOperator op){
 		if (op == BinaryOperator.add){
 			commands.get(class_name).add("   iadd");
@@ -237,7 +244,6 @@ public class Translator {
                 commands.get(class_name).add("   iload "+Integer.toString(real_index));
                 commands.get(class_name).add("   istore "+Integer.toString(symTable_index));
             }
-
         }
     }
     public void moveLocalVarsBackToIndex(String class_name, ArrayList<VarDeclaration> localVars, SymbolTable symTable,int args_size){

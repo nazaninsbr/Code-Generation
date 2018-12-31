@@ -804,7 +804,7 @@ public class VisitorImpl implements Visitor {
         else if(second_round==false && code_generation_round==true){
             binaryExpression.getLeft().accept(this);
             binaryExpression.getRight().accept(this);
-            this.code_generation_translator.operationBetweenTwoTopsInStack(this.curr_class.getName().getName(),binaryExpression.getBinaryOperator());
+            this.code_generation_translator.performMathOPeration(this.curr_class.getName().getName(),binaryExpression.getBinaryOperator());
         }
     }
 
@@ -1048,7 +1048,7 @@ public class VisitorImpl implements Visitor {
 
     @Override
     public void visit(UnaryExpression unaryExpression) {
-        if(second_round==false){
+        if(second_round==false && code_generation_round == false){
             Expression exp = unaryExpression.getValue();
             exp.accept(this);
         }
@@ -1073,6 +1073,11 @@ public class VisitorImpl implements Visitor {
             } else{
                 unaryExpression.setType(new NoType());
             }
+        }
+        else if (second_round == false && code_generation_round == true){
+            Expression exp = unaryExpression.getValue();
+            exp.accept(this);
+            this.code_generation_translator.performUnaryOperation(this.curr_class.getName().getName(),unaryExpression.getUnaryOperator());
         }
     }
 
