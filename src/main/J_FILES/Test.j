@@ -9,13 +9,13 @@
 .method public main()I
    .limit stack 32
    .limit locals 32
-   iconst_1
-   iconst_2
+   ldc 1
+   ldc 2
    iadd
    ldc "hi"
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+   ldc 2
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iconst_2
    invokevirtual java/io/PrintStream/println(I)V
 .end method

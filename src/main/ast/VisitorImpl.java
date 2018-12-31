@@ -30,11 +30,14 @@ public class VisitorImpl implements Visitor {
     boolean no_error;
     boolean second_round; 
     boolean code_generation_round;
+
     Program this_prog; 
     ClassDeclaration curr_class; 
     Translator code_generation_translator; 
     SymbolTable symTable;  
+
     int index; 
+    int unique_label_number; 
 
 
     void add_class_to_symbol_table(String class_name, ClassDeclaration class_dec){
@@ -126,8 +129,10 @@ public class VisitorImpl implements Visitor {
         }
         if (no_error==true){
             index = 0;
+            unique_label_number = 0;
             second_round = false;
             code_generation_round = true;
+
             code_generation_translator = new Translator();
 
             program.getMainClass().accept(this);
@@ -1000,6 +1005,9 @@ public class VisitorImpl implements Visitor {
             this_array.setSize(newArray.getIntSize());
             newArray.setType(this_array);
         }
+        else if(second_round==false && code_generation_round==true){
+            this.code_generation_translator.createNewArray(this.curr_class.getName().getName(), newArray.getIntSize());
+        }
     }
 
     @Override
@@ -1074,12 +1082,18 @@ public class VisitorImpl implements Visitor {
         if(second_round==true){
             value.setType(new IntType());
         }
+        else if(second_round==false && code_generation_round==true){
+            this.code_generation_translator.putConstantIntOnTopOfStack(this.curr_class.getName().getName(), value.getConstant());
+        }
     }
 
     @Override
     public void visit(StringValue value) {
         if(second_round==true){
             value.setType(new StringType());
+        }
+        else if(second_round==false && code_generation_round==true){
+            this.code_generation_translator.putConstantStringOnTopOfStack(this.curr_class.getName().getName(), value.getConstant());
         }
     }
 
@@ -1128,7 +1142,7 @@ public class VisitorImpl implements Visitor {
         if (assign.getlValue()!=null){
             exprs.add(assign.getlValue());
         }
-        if(second_round==false){
+        if(second_round==false && code_generation_round==false){
             check_statement_expressions_for_newArray_expr(exprs);
         }
         else if(second_round==true){
@@ -1187,6 +1201,15 @@ public class VisitorImpl implements Visitor {
             //?
             //////////////////////////
         }
+        else if(second_round==false && code_generation_round==true){
+            check_statement_expressions_for_newArray_expr(exprs);
+            if (assign.getlValue()!=null) {
+                if (assign.getlValue().getClass().getName().equals("ast.node.expression.Identifier")) {
+                    Identifier var_name = (Identifier) assign.getlValue();
+                    this.code_generation_translator.storeToTheVariableAssumingTheValueIsOnTopOfStack(this.curr_class.getName().getName(), var_name, symTable.top, var_name.getType().toString());
+                }
+            }
+        }
     }
 
     @Override
@@ -1209,7 +1232,7 @@ public class VisitorImpl implements Visitor {
             statements.add(conditional.getConsequenceBody()); 
         if(conditional.getAlternativeBody()!=null)
             statements.add(conditional.getAlternativeBody());
-        if(second_round==false){
+        if(second_round==false && code_generation_round==false){
             check_statement_expressions_for_newArray_expr(exprs);
             check_for_statements(statements);
         }
@@ -1220,6 +1243,11 @@ public class VisitorImpl implements Visitor {
                 no_error = false;
             }  
             check_for_statements(statements);           
+        }
+        else if(second_round==false && code_generation_round==true){
+            int this_ifs_lable_number = unique_label_number;
+            unique_label_number += 1;
+            this.code_generation_translator.create_a_label(this.curr_class.getName().getName(), "done_for_if_NO", this_ifs_lable_number);
         }
     }
 
@@ -1244,7 +1272,11 @@ public class VisitorImpl implements Visitor {
             check_for_statements(statements);                  
         } 
         else if(second_round==false && code_generation_round==true){
-
+            int this_ifs_lable_number = unique_label_number;
+            unique_label_number += 1;
+            this.code_generation_translator.create_a_label(this.curr_class.getName().getName(), "start_of_while_NO", this_ifs_lable_number);
+            check_for_statements(statements);   
+            this.code_generation_translator.create_a_label(this.curr_class.getName().getName(), "end_of_while_NO", this_ifs_lable_number);
         }
     }
 
@@ -1263,13 +1295,12 @@ public class VisitorImpl implements Visitor {
             }
         }
         else if(code_generation_round==true && second_round==false){
+            write.getArg().accept(this);
             if (write.getArg().getClass().getName().toString().equals("ast.node.expression.Value.StringValue")) {
-                StringValue str_val = (StringValue) write.getArg();
-                this.code_generation_translator.printAStringValue(this.curr_class.getName().getName(), str_val.getConstant());
+                this.code_generation_translator.printAStringValue(this.curr_class.getName().getName());
             }
             else if (write.getArg().getClass().getName().toString().equals("ast.node.expression.Value.IntValue")) {
-                IntValue int_val = (IntValue) write.getArg();
-                this.code_generation_translator.printAnIntValue(this.curr_class.getName().getName(), int_val.getConstant());
+                this.code_generation_translator.printAnIntValue(this.curr_class.getName().getName());
             }
         }
     }

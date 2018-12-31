@@ -11,8 +11,13 @@ class Test2 {
 	def main(i: int) : int {
 		var j: int[];
 		j = new int[12];
+		if(true) then {
+
+		}
+		while(false){
+			i = 3;
+		}
 		i = 1 + 2;
 		return 0;
-
 	}
 }
