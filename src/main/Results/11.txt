@@ -1,0 +1,2 @@
+Line:13:name bool is not defined
+Line:16:unsupported operand type for assign

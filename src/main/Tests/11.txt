@@ -10,9 +10,10 @@ class Test {
 class Test2 { 
 	def main(i: int) : int {
 		var j: int[];
+		var x: bool;
 		j = new int[12];
 		if(true) then {
-
+			x = true;
 		}
 		while(false){
 			i = 3;

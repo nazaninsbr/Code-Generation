@@ -50,8 +50,6 @@ public class Translator {
     String get_type_code_generation_equivalent(String type){
     	if(type.equals("int")){
     		return "I";
-    	} else if(type.equals("int")){
-    		return "I";
     	} else if(type.equals("bool")){
     		return "Z";
     	} else if(type.equals("string")){
@@ -146,6 +144,7 @@ public class Translator {
 		commands.get(class_name).add("   ldc "+Integer.toString(x2));	
 		performMathOPeration(class_name, op);
 	}
+
     public void operationBetweenTwoVariables(String class_name, int indVar1, int indVar2, BinaryOperator op){
         commands.get(class_name).add("   iload "+Integer.toString(indVar1));
         commands.get(class_name).add("   iload "+Integer.toString(indVar2));    
@@ -272,6 +271,17 @@ public class Translator {
 
     public void putConstantStringOnTopOfStack(String class_name, String value){
         commands.get(class_name).add("   ldc "+value);
+    }
+
+    public void putConstantBoolOnTopOfStack(String class_name, Boolean value){
+        if (value) {
+            commands.get(class_name).add("   iconst_1");
+            commands.get(class_name).add("   invokestatic  #2");
+        } 
+        else {
+            commands.get(class_name).add("   iconst_0");
+            commands.get(class_name).add("   invokestatic  #2");
+        }
     }
   
 

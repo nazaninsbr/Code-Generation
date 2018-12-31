@@ -1033,10 +1033,13 @@ public class VisitorImpl implements Visitor {
 
     @Override
     public void visit(This instance) {
-        if(second_round==true){
+        if(second_round==true && code_generation_round==false){
             UserDefinedType class_type = new UserDefinedType(); 
             class_type.setClassDeclaration(this.curr_class);
             instance.setType(class_type);
+        }
+        else if(second_round==false && code_generation_round==true){
+
         }
     }
 
@@ -1074,6 +1077,9 @@ public class VisitorImpl implements Visitor {
     public void visit(BooleanValue value) {
         if(second_round==true){
             value.setType(new BooleanType());
+        } 
+        else if(second_round==false && code_generation_round==true){
+            this.code_generation_translator.putConstantBoolOnTopOfStack(this.curr_class.getName().getName(), value.isConstant());
         }
     }
 
@@ -1247,6 +1253,12 @@ public class VisitorImpl implements Visitor {
         else if(second_round==false && code_generation_round==true){
             int this_ifs_lable_number = unique_label_number;
             unique_label_number += 1;
+            if(conditional.getConsequenceBody()!=null){
+                conditional.getConsequenceBody().accept(this);
+            }
+            if(conditional.getAlternativeBody()!=null){
+                this.code_generation_translator.create_a_label(this.curr_class.getName().getName(), "else_for_if_NO", this_ifs_lable_number);
+            }
             this.code_generation_translator.create_a_label(this.curr_class.getName().getName(), "done_for_if_NO", this_ifs_lable_number);
         }
     }
