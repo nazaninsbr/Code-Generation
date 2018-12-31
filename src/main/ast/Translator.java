@@ -6,8 +6,11 @@ import java.util.*;
 import symbolTable.*;
 import ast.node.expression.BinaryOperator;
 import ast.node.expression.UnaryOperator;
+import java.io.*;
+
 public class Translator {
 
+    private static final String FOLDER ="./J_FILES/";
 	private HashMap<String, ArrayList<String>> commands;
 
 	public Translator() {
@@ -64,6 +67,29 @@ public class Translator {
     	c.add("   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V");
     }
 
+    public void printAnIntValue(String class_name, int value_to_print){
+        ArrayList<String> c = this.commands.get(class_name);
+        c.add("   getstatic java/lang/System/out Ljava/io/PrintStream;");
+        c.add("   iconst_"+Integer.toString(value_to_print));
+        c.add("   invokevirtual java/io/PrintStream/println(I)V");
+    }
+
+    public void printAVariable(String class_name, VarDeclaration var, SymbolTable symTable){
+        ArrayList<String> c = this.commands.get(class_name);
+        c.add("   getstatic     #2");
+        if (var.getType().toString().equals("int[]")) {
+            c.add("   aload "+Integer.toString(getVariableSymbolTableIndex(var, symTable)));
+        }
+        c.add("   invokevirtual #3");
+    }
+
+    public void createNewArray(String class_name, int length, VarDeclaration var, SymbolTable symTable){
+        ArrayList<String> c = this.commands.get(class_name);
+        c.add("   bipush "+Integer.toString(length));
+        c.add("   newarray       int");
+        c.add("   astore "+Integer.toString(getVariableSymbolTableIndex(var, symTable)));
+    }
+
     public void createMethodInClassFile(String class_name, String method_name, String return_type, ArrayList<VarDeclaration> args){
     	ArrayList<String> c = this.commands.get(class_name);
     	String args_str = convert_args_to_string(args);
@@ -85,10 +111,31 @@ public class Translator {
     	c.add(".end method");
     }
 
-    public void printTheCommands(String class_name){
-    	for(int i=0; i<this.commands.get(class_name).size(); i++){
-   			System.out.println(this.commands.get(class_name).get(i));
-   		}
+    void create_a_folder_for_output_files(){
+        File newFolder = new File(FOLDER);
+        boolean created =  newFolder.mkdir();
+    }
+
+    void create_and_write_to_file(String class_name){
+        try{
+            File file = new File(FOLDER+class_name+".j");
+            PrintWriter writer = new PrintWriter(FOLDER+class_name+".j", "UTF-8");
+            for(int i=0; i<this.commands.get(class_name).size(); i++){
+                writer.println(this.commands.get(class_name).get(i));
+            }
+            writer.close();
+        }
+        catch(Exception e){
+            System.out.println("Unable to create or write to file");
+        }
+        
+    }
+
+    public void printTheCommands(){
+        create_a_folder_for_output_files();
+    	for (String name: this.commands.keySet()){
+            create_and_write_to_file(name);
+        }
     }
 
 	public void operationBetweenTwoConstantNumbers(String class_name, int x1, int x2, BinaryOperator op){
@@ -146,19 +193,23 @@ public class Translator {
         */
 	}
 
+    int getVariableSymbolTableIndex(VarDeclaration var, SymbolTable symTable){
+        int symTable_index = 0;
+        try {
+            SymbolTableItem item = symTable.top.get(var.getIdentifier().getName());
+            SymbolTableVariableItemBase varItem = (SymbolTableVariableItemBase) item;
+            symTable_index = varItem.getIndex();
+        }
+        catch(ItemNotFoundException ex){
+        }
+        return symTable_index;
+    }
 
 
 	public void moveArgsToIndex(String class_name, ArrayList<VarDeclaration> args, SymbolTable symTable){
 		for(int i=0; i<args.size(); i++){
 			int real_index = i+1;
-			int symTable_index = 0;
-			try {
-                SymbolTableItem item = symTable.top.get(args.get(i).getIdentifier().getName());
-                SymbolTableVariableItemBase varItem = (SymbolTableVariableItemBase) item;
-                symTable_index = varItem.getIndex();
-            }
-            catch(ItemNotFoundException ex){
-            }
+			int symTable_index = getVariableSymbolTableIndex(args.get(i), symTable);
             if(args.get(i).getType().toString().equals("int")){
             	commands.get(class_name).add("   iload_"+Integer.toString(real_index));
             	commands.get(class_name).add("   istore_"+Integer.toString(symTable_index));

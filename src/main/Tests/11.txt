@@ -2,12 +2,15 @@ class Test {
 	def main() : int {
 		1 + 2 ;
 		writeln("hi");
+		writeln(2);
 		return 0;
 	}
 }
 
 class Test2 { 
 	def main(i: int) : int {
+		var j: int[];
+		j = new int[12];
 		i = 1 + 2;
 		return 0;
 
