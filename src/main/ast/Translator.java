@@ -139,29 +139,9 @@ public class Translator {
         commands.get(class_name).add("   ldc "+Integer.toString(x1));
     }
 
-	public void operationBetweenTwoConstantNumbers(String class_name, int x1, int x2, BinaryOperator op){
-		commands.get(class_name).add("   ldc "+Integer.toString(x1));	
-		commands.get(class_name).add("   ldc "+Integer.toString(x2));	
-		performMathOPeration(class_name, op);
-	}
-
-    public void operationBetweenTwoVariables(String class_name, int indVar1, int indVar2, BinaryOperator op){
-        commands.get(class_name).add("   iload "+Integer.toString(indVar1));
-        commands.get(class_name).add("   iload "+Integer.toString(indVar2));    
+    public void operationBetweenTwoTopsInStack(String class_name, BinaryOperator op){ 
         performMathOPeration(class_name, op);
     }
-
-    public void operationBetweenVariableAndConstantNumber(String class_name, int indVar1, int x2, BinaryOperator op){ 
-        commands.get(class_name).add("   iload "+Integer.toString(indVar1));
-        commands.get(class_name).add("   ldc "+Integer.toString(x2)); 
-        performMathOPeration(class_name, op);
-    }
-    
-    public void operationBetweenConstantNumberAndVariable(String class_name, int x1, int  indVar2, BinaryOperator op){ 
-        commands.get(class_name).add("   ldc "+Integer.toString(x1));
-        commands.get(class_name).add("   iload "+Integer.toString(indVar2));
-        performMathOPeration(class_name, op);
-    } 
 
 	public void performMathOPeration(String class_name, BinaryOperator op){
 		if (op == BinaryOperator.add){
@@ -231,7 +211,6 @@ public class Translator {
 
 		}
 	}
-
 	public void moveArgsBackToIndex(String class_name, ArrayList<VarDeclaration> args, SymbolTable symTable){
 		for(int i=0; i<args.size(); i++){
 			int real_index = i+1;
@@ -250,7 +229,34 @@ public class Translator {
 
 		}
 	}
+    public void moveLocalVarsToIndex(String class_name, ArrayList<VarDeclaration> localVars, SymbolTable symTable,int args_size){
+        for(int i=0; i<localVars.size(); i++){
+            int real_index = i+1+args_size;
+            int symTable_index = getVariableSymbolTableIndex(localVars.get(i), symTable);
+            if(localVars.get(i).getType().toString().equals("int")){
+                commands.get(class_name).add("   iload "+Integer.toString(real_index));
+                commands.get(class_name).add("   istore "+Integer.toString(symTable_index));
+            }
 
+        }
+    }
+    public void moveLocalVarsBackToIndex(String class_name, ArrayList<VarDeclaration> localVars, SymbolTable symTable,int args_size){
+        for(int i=0; i<localVars.size(); i++){
+            int real_index = i+1+args_size;
+            int symTable_index = 0;
+            try {
+                SymbolTableItem item = symTable.top.get(localVars.get(i).getIdentifier().getName());
+                SymbolTableVariableItemBase varItem = (SymbolTableVariableItemBase) item;
+                symTable_index = varItem.getIndex();
+            }
+            catch(ItemNotFoundException ex){
+            }
+            if(localVars.get(i).getType().toString().equals("int")){
+                commands.get(class_name).add("   iload "+Integer.toString(symTable_index));
+                commands.get(class_name).add("   istore "+Integer.toString(real_index));
+            }
+        }
+    }
     public void storeToTheVariableAssumingTheValueIsOnTopOfStack(String class_name, Identifier var_name, SymbolTable symTable, String type){
         int symTable_index = getVariableSymbolTableIndexBasedOnName(var_name, symTable);
         if (type.equals("int")) {
@@ -258,6 +264,15 @@ public class Translator {
         }
         else if (type.equals("int[]")) {
             commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
+        }
+    }
+    public void loadFromVariableOnTopOfStack(String class_name,Identifier var_name, SymbolTable symTable,String type){
+        int symTable_index = getVariableSymbolTableIndexBasedOnName(var_name, symTable);
+        if (type.equals("int")){
+            commands.get(class_name).add("   iload "+Integer.toString(symTable_index));
+        }
+        else if(type.equals("int[]")){
+            commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
         }
     }
 

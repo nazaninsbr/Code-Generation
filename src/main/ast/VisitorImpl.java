@@ -580,10 +580,11 @@ public class VisitorImpl implements Visitor {
 
             this.code_generation_translator.createMethodInClassFile(this.curr_class.getName().getName(), methodDeclaration.getName().getName(), methodDeclaration.getReturnValue().getType().toString(), methodDeclaration.getArgs());
             this.code_generation_translator.moveArgsToIndex(this.curr_class.getName().getName(), methodDeclaration.getArgs(), symTable.top);
-
+            this.code_generation_translator.moveLocalVarsToIndex(this.curr_class.getName().getName(), methodDeclaration.getLocalVars(), symTable.top, methodDeclaration.getArgs().size());
             check_for_statements(methodDeclaration.getBody());
 
             this.code_generation_translator.moveArgsBackToIndex(this.curr_class.getName().getName(), methodDeclaration.getArgs(), symTable.top);
+            this.code_generation_translator.moveLocalVarsBackToIndex(this.curr_class.getName().getName(), methodDeclaration.getLocalVars(), symTable.top, methodDeclaration.getArgs().size());
             this.code_generation_translator.endMethodInClassFile(this.curr_class.getName().getName());
 
             symTable.pop();
@@ -801,11 +802,9 @@ public class VisitorImpl implements Visitor {
             }
         }
         else if(second_round==false && code_generation_round==true){
-            if(binaryExpression.getLeft().getClass().getName().equals("ast.node.expression.Value.IntValue") && binaryExpression.getRight().getClass().getName().equals("ast.node.expression.Value.IntValue")){
-                int x1 = ((IntValue) binaryExpression.getLeft()).getConstant();
-                int x2 = ((IntValue) binaryExpression.getRight()).getConstant();
-                this.code_generation_translator.operationBetweenTwoConstantNumbers(this.curr_class.getName().getName(), x1, x2, binaryExpression.getBinaryOperator());
-            }
+            binaryExpression.getLeft().accept(this);
+            binaryExpression.getRight().accept(this);
+            this.code_generation_translator.operationBetweenTwoTopsInStack(this.curr_class.getName().getName(),binaryExpression.getBinaryOperator());
         }
     }
 
@@ -822,6 +821,10 @@ public class VisitorImpl implements Visitor {
                 identifier.setType(new NoType());
                 no_error = false;
             }
+        }
+        else if(second_round==false && code_generation_round==true){
+            this.code_generation_translator.loadFromVariableOnTopOfStack(this.curr_class.getName().getName(),identifier,symTable.top,identifier.getType().toString());
+            //UserDefinedType? 
         }
     }
 
