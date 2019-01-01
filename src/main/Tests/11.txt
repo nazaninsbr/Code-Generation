@@ -11,6 +11,7 @@ class Test2 {
 	def main(i: int) : int {
 		var j: int[];
 		var x: boolean;
+		x = true;
 		j = new int[12];
 		if(true) then {
 			x = true;

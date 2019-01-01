@@ -11,16 +11,16 @@
    .limit locals 32
    iload 1
    istore 2
+   iconst_1
+   invokestatic  #2
    bipush 12
    newarray       int
-   aload 3
    astore 3
    iconst_1
    invokestatic  #2
 done_for_if_NO_0:
 start_of_while_NO_1:
    ldc 3
-   iload 2
    istore 2
 end_of_while_NO_1:
    ldc 1
@@ -35,7 +35,6 @@ end_of_while_NO_1:
    ineg
    iadd
    iadd
-   iload 2
    istore 2
    iload 2
    istore 1

@@ -1216,7 +1216,8 @@ public class VisitorImpl implements Visitor {
             //////////////////////////
         }
         else if(second_round==false && code_generation_round==true){
-            check_statement_expressions_for_newArray_expr(exprs);
+            if(assign.getrValue() != null)
+                assign.getrValue().accept(this);
             if (assign.getlValue()!=null) {
                 if (assign.getlValue().getClass().getName().equals("ast.node.expression.Identifier")) {
                     Identifier var_name = (Identifier) assign.getlValue();
