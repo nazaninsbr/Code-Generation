@@ -10,7 +10,7 @@ class Test {
 class Test2 { 
 	def main(i: int) : int {
 		var j: int[];
-		var x: bool;
+		var x: boolean;
 		j = new int[12];
 		if(true) then {
 			x = true;
@@ -18,7 +18,7 @@ class Test2 {
 		while(false){
 			i = 3;
 		}
-		i = 1 + 2;
+		i = 1 + -2 * -(3+4) + (-11);
 		return 0;
 	}
 }
