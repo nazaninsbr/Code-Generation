@@ -19,6 +19,8 @@ class Test2 {
 		while(false){
 			i = 3;
 		}
+		j.length + 3;
+		j[2];
 		i = 1 + -2 * -(3+4) + (-11);
 		return 0;
 	}

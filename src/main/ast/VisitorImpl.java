@@ -608,11 +608,14 @@ public class VisitorImpl implements Visitor {
                 System.out.println("Line:"+Integer.toString(varDeclaration.get_line_number())+":name "+x.getName().getName()+" is not defined");
             }
         }
+        else if (second_round == false && code_generation_round == true){
+            this.code_generation_translator.performVarDeclaration(this.curr_class.getName().getName(),varDeclaration.getIdentifier().getName(),varDeclaration.getType().toString());
+        }
     }
 
     @Override
     public void visit(ArrayCall arrayCall) {
-        if (second_round==false){
+        if (second_round==false && code_generation_round == false){
             arrayCall.getInstance().accept(this);
             arrayCall.getIndex().accept(this);
         }
@@ -642,6 +645,11 @@ public class VisitorImpl implements Visitor {
                 }
                 arrayCall.setType(new NoType());
             }
+        }
+        else if(second_round==false && code_generation_round == true){
+            arrayCall.getInstance().accept(this);
+            arrayCall.getIndex().accept(this);
+            this.code_generation_translator.performArrayCall(this.curr_class.getName().getName());
         }
     }
 
@@ -830,11 +838,11 @@ public class VisitorImpl implements Visitor {
 
     @Override
     public void visit(Length length) {
-        if (second_round==false) {
+        if (second_round==false && code_generation_round==false) {
             Expression exp = length.getExpression();
             exp.accept(this);
         }
-        else if(second_round==true){
+        else if(second_round==true ){
             length.getExpression().accept(this);
             if(length.getExpression().getType().toString().equals("int[]")){
                 length.setType(new IntType());
@@ -847,6 +855,11 @@ public class VisitorImpl implements Visitor {
                 length.setType(new NoType());
                 no_error = false;
             }
+        }
+        else if(second_round == false && code_generation_round == true){
+            length.getExpression().accept(this);
+            //array ref chi mishe??
+            this.code_generation_translator.performArrayLength(this.curr_class.getName().getName(),symTable.top);
         }
     }
 
@@ -1042,7 +1055,7 @@ public class VisitorImpl implements Visitor {
             instance.setType(class_type);
         }
         else if(second_round==false && code_generation_round==true){
-
+            //this.code_generation_translator.performThis(this.curr_class.getName().getName(),String var_name,String type)
         }
     }
 

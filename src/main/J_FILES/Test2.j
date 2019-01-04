@@ -6,6 +6,9 @@
    invokespecial java/lang/Object/<init>()V ; call super
    return
 .end method
+.field private i I
+.field private j [I
+.field private x Z
 .method public main(I)I
    .limit stack 32
    .limit locals 32
@@ -23,6 +26,13 @@ start_of_while_NO_1:
    ldc 3
    istore 2
 end_of_while_NO_1:
+   aload 3
+   arraylength
+   ldc 3
+   iadd
+   aload 3
+   ldc 2
+   aaload
    ldc 1
    ldc 2
    ineg

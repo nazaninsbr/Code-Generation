@@ -305,7 +305,25 @@ public class Translator {
         }
     }
   
-
+    public void performArrayLength(String class_name, SymbolTable symTable){
+        //int symTable_index = getVariableSymbolTableIndexBasedOnName(var_name, symTable);
+        //commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
+        commands.get(class_name).add("   arraylength");
+    }
+    public void performArrayCall(String class_name){
+        commands.get(class_name).add("   aaload");
+    }
+    public void performVarDeclaration(String class_name,String var_name,String type){
+        String type_of_this;
+        type_of_this = get_type_code_generation_equivalent(type);
+        commands.get(class_name).add(".field private "+ var_name + " " + type_of_this);
+    }
+    
+    public void performThis(String class_name,String var_name,String type){
+        String type_of_this;
+        type_of_this = get_type_code_generation_equivalent(type);
+        commands.get(class_name).add("getfield "+ class_name + "/"+ var_name + " " + type_of_this);
+    }
 	@Override
     public String toString() {
         return "CodeGeneration";
