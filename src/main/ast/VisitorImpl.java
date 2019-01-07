@@ -647,7 +647,12 @@ public class VisitorImpl implements Visitor {
             }
         }
         else if(second_round==false && code_generation_round == true){
-            arrayCall.getInstance().accept(this);
+            if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), arrayCall.getInstance(), this.symTable)){
+
+            }
+            else{
+                arrayCall.getInstance().accept(this);
+            }
             arrayCall.getIndex().accept(this);
             this.code_generation_translator.performArrayCall(this.curr_class.getName().getName());
         }
@@ -832,7 +837,6 @@ public class VisitorImpl implements Visitor {
         }
         else if(second_round==false && code_generation_round==true){
             this.code_generation_translator.loadFromVariableOnTopOfStack(this.curr_class.getName().getName(),identifier,symTable.top,identifier.getType().toString());
-            //UserDefinedType? 
         }
     }
 
@@ -858,7 +862,6 @@ public class VisitorImpl implements Visitor {
         }
         else if(second_round == false && code_generation_round == true){
             length.getExpression().accept(this);
-            //array ref chi mishe??
             this.code_generation_translator.performArrayLength(this.curr_class.getName().getName(),symTable.top);
         }
     }

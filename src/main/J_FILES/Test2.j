@@ -6,54 +6,31 @@
    invokespecial java/lang/Object/<init>()V ; call super
    return
 .end method
+.field private l 
 .field private i I
 .field private j [I
 .field private x Z
-.field private y 
 .method public main(I)I
    .limit stack 32
    .limit locals 32
    iload 1
-   istore 2
-   ; create an Test object on top of stack
-   new Test
-   dup
-   invokespecial Test/<init>() ; call constructor
+   istore 3
+   astore 1
    iconst_1
    invokestatic  #2
-   aload 3
-   getstatic java/lang/System/out Ljava/io/PrintStream;
-   invokevirtual java/io/PrintStream/println([I)V
-   bipush 12
-   newarray       int
-   astore 3
-   iconst_1
-   invokestatic  #2
+   bstore 5
 done_for_if_NO_0:
 start_of_while_NO_1:
    ldc 3
-   istore 2
+   istore 3
 end_of_while_NO_1:
-   aload 3
-   arraylength
-   ldc 3
-   iadd
-   aload 3
-   ldc 2
-   aaload
+   bipush 3
+   newarray       int
    ldc 1
+   iaload
+   aaload 4
    ldc 2
-   ineg
-   ldc 3
-   ldc 4
-   iadd
-   ineg
-   imul
-   ldc 11
-   ineg
-   iadd
-   iadd
-   istore 2
-   iload 2
+   iaload
+   iload 3
    istore 1
 .end method

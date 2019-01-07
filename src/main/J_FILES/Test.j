@@ -15,7 +15,4 @@
    ldc "hi"
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-   ldc 2
-   getstatic java/lang/System/out Ljava/io/PrintStream;
-   invokevirtual java/io/PrintStream/println(I)V
 .end method

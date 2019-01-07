@@ -2,24 +2,31 @@ class Test {
 	def main() : int {
 		1 + 2 ;
 		writeln("hi");
+		writeln(2);
 		return 0;
 	}
 }
 
 class Test2 { 
-	var l: Test2;
 	def main(i: int) : int {
 		var j: int[];
 		var x: boolean;
-		l = this;
+		var y: Test; 
+		var k: int;
+		y = new Test();
+		x = true;
+		writeln(j);
+		j = new int[12];
 		if(true) then {
 			x = true;
 		}
 		while(false){
 			i = 3;
 		}
+		j.length;
 		new int[3][1];
 		j[2];
+		i = 1 + -2 * -(3+4) + (-11);
 		return 0;
 	}
 }

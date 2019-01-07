@@ -280,6 +280,16 @@ public class Translator {
         else if (type.equals("int[]")) {
             commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
         }
+        else if(type.equals("string")){
+            // can't find it!!!
+            commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
+        } 
+        else if(type.equals("bool")){
+            commands.get(class_name).add("   bstore "+Integer.toString(symTable_index));
+        } 
+        else {
+            commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
+        }
     }
     public void loadFromVariableOnTopOfStack(String class_name,Identifier var_name, SymbolTable symTable,String type){
         int symTable_index = getVariableSymbolTableIndexBasedOnName(var_name, symTable);
@@ -289,6 +299,17 @@ public class Translator {
         else if(type.equals("int[]")){
             commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
         }
+        else if(type.equals("string")){
+            // can't find it!!!
+            commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
+        } 
+        else if(type.equals("bool")){
+            commands.get(class_name).add("   bload "+Integer.toString(symTable_index));
+        } 
+        else {
+            commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
+        } 
+
     }
 
     public void create_a_label(String class_name, String label_str, int lable_number){
@@ -324,13 +345,21 @@ public class Translator {
     }
   
     public void performArrayLength(String class_name, SymbolTable symTable){
-        //int symTable_index = getVariableSymbolTableIndexBasedOnName(var_name, symTable);
-        //commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
         commands.get(class_name).add("   arraylength");
     }
     public void performArrayCall(String class_name){
-        commands.get(class_name).add("   aaload");
+        commands.get(class_name).add("   iaload");
     }
+
+    public Boolean putArrayReferenceOnTopOfStack(String class_name, Expression arrayExpression, SymbolTable symTable){
+        if (arrayExpression.getClass().getName().equals("ast.node.expression.Identifier")){
+            int symTable_index = getVariableSymbolTableIndexBasedOnName((Identifier) arrayExpression, symTable);
+            commands.get(class_name).add("   aaload "+Integer.toString(symTable_index));
+            return true;
+        }
+        return false;
+    }
+
     public void performVarDeclaration(String class_name,String var_name,String type){
         String type_of_this;
         type_of_this = get_type_code_generation_equivalent(type);
