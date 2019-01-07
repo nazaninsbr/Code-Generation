@@ -9,13 +9,21 @@
 .field private i I
 .field private j [I
 .field private x Z
+.field private y 
 .method public main(I)I
    .limit stack 32
    .limit locals 32
    iload 1
    istore 2
+   ; create an Test object on top of stack
+   new Test
+   dup
+   invokespecial Test/<init>() ; call constructor
    iconst_1
    invokestatic  #2
+   aload 3
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   invokevirtual java/io/PrintStream/println([I)V
    bipush 12
    newarray       int
    astore 3

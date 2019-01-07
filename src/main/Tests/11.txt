@@ -11,7 +11,10 @@ class Test2 {
 	def main(i: int) : int {
 		var j: int[];
 		var x: boolean;
+		var y: Test; 
+		y = new Test();
 		x = true;
+		writeln(j);
 		j = new int[12];
 		if(true) then {
 			x = true;

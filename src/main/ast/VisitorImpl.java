@@ -1028,7 +1028,7 @@ public class VisitorImpl implements Visitor {
 
     @Override
     public void visit(NewClass newClass) {
-        if(second_round==true){
+        if(second_round==true && code_generation_round==false){
             
             Identifier class_name = newClass.getClassName();
             try {
@@ -1044,6 +1044,9 @@ public class VisitorImpl implements Visitor {
                 newClass.setType(new NoType());
                 no_error = false;
             }
+        } 
+        else if(second_round==false && code_generation_round==true){
+            this.code_generation_translator.createAnObjectOnTopOfStack(this.curr_class.getName().getName(), newClass.getClassName().getName(), newClass.getType().toString());
         }
     }
 

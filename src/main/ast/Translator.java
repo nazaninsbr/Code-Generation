@@ -191,6 +191,18 @@ public class Translator {
         return symTable_index;
     }
 
+    int getClassSymbolTableIndex(VarDeclaration var, SymbolTable symTable){
+        int symTable_index = 0;
+        try {
+            SymbolTableItem item = symTable.top.get("class_"+var.getIdentifier().getName());
+            SymbolTableVariableItemBase varItem = (SymbolTableVariableItemBase) item;
+            symTable_index = varItem.getIndex();
+        }
+        catch(ItemNotFoundException ex){
+        }
+        return symTable_index;
+    }
+
     int getVariableSymbolTableIndexBasedOnName(Identifier var_name, SymbolTable symTable){
         int symTable_index = 0;
         try {
@@ -300,6 +312,15 @@ public class Translator {
             commands.get(class_name).add("   iconst_0");
             commands.get(class_name).add("   invokestatic  #2");
         }
+    }
+
+    public void createAnObjectOnTopOfStack(String class_name, String new_class_name, String type){
+        String type_of_this;
+        type_of_this = get_type_code_generation_equivalent(type);
+        commands.get(class_name).add("   ; create an "+new_class_name+" object on top of stack");
+        commands.get(class_name).add("   new "+new_class_name);
+        commands.get(class_name).add("   dup");
+        commands.get(class_name).add("   invokespecial "+new_class_name+"/<init>()"+type_of_this+" ; call constructor");
     }
   
     public void performArrayLength(String class_name, SymbolTable symTable){
