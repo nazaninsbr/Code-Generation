@@ -15,22 +15,20 @@
    .limit locals 32
    iload 1
    istore 3
+   aload_0
    astore 1
    iconst_1
    invokestatic  #2
+   iconst_0
+   invokestatic  #2
+   iand
+   iconst_1
+   invokestatic  #2
+   bload 5
+   
+   iand
+   ior
    bstore 5
-done_for_if_NO_0:
-start_of_while_NO_1:
-   ldc 3
-   istore 3
-end_of_while_NO_1:
-   bipush 3
-   newarray       int
-   ldc 1
-   iaload
-   aaload 4
-   ldc 2
-   iaload
    iload 3
    istore 1
 .end method

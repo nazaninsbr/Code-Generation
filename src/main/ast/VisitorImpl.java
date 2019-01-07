@@ -1061,7 +1061,7 @@ public class VisitorImpl implements Visitor {
             instance.setType(class_type);
         }
         else if(second_round==false && code_generation_round==true){
-            //this.code_generation_translator.performThis(this.curr_class.getName().getName(),String var_name,String type)
+            this.code_generation_translator.loadThisIntoStack(this.curr_class.getName().getName());
         }
     }
 

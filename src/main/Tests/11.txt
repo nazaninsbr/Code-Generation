@@ -12,14 +12,7 @@ class Test2 {
 		var j: int[];
 		var x: boolean;
 		l = this;
-		if(true) then {
-			x = true;
-		}
-		while(false){
-			i = 3;
-		}
-		new int[3][1];
-		j[2];
+		x = true && false || true && !x;
 		return 0;
 	}
 }

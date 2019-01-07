@@ -138,7 +138,7 @@ public class Translator {
 
     public void performUnaryOperation(String class_name, UnaryOperator op){
         if (op == UnaryOperator.not){
-            //commands.get(class_name).add("   ");
+            commands.get(class_name).add("   ");
         }
         else if (op == UnaryOperator.minus){
             commands.get(class_name).add("   ineg");
@@ -159,6 +159,12 @@ public class Translator {
 		}
         else if(op == BinaryOperator.div){
             commands.get(class_name).add("   idiv");
+        }
+        else if(op == BinaryOperator.and){
+            commands.get(class_name).add("   iand");
+        }
+        else if(op == BinaryOperator.or){
+            commands.get(class_name).add("   ior");
         }
         /*
         else if(op == BinaryOperator.eq){
@@ -371,6 +377,11 @@ public class Translator {
         type_of_this = get_type_code_generation_equivalent(type);
         commands.get(class_name).add("getfield "+ class_name + "/"+ var_name + " " + type_of_this);
     }
+
+    public void loadThisIntoStack(String class_name){
+        commands.get(class_name).add("   aload_0");
+    }
+
 	@Override
     public String toString() {
         return "CodeGeneration";
