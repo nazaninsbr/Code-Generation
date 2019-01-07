@@ -72,13 +72,10 @@ public class Translator {
         c.add("   invokevirtual java/io/PrintStream/println(I)V");
     }
 
-    public void printAVariable(String class_name, VarDeclaration var, SymbolTable symTable){
-        ArrayList<String> c = this.commands.get(class_name);
-        c.add("   getstatic     #2");
-        if (var.getType().toString().equals("int[]")) {
-            c.add("   aload "+Integer.toString(getVariableSymbolTableIndex(var, symTable)));
-        }
-        c.add("   invokevirtual #3");
+    public void printAnIntArrayValue(String class_name){
+         ArrayList<String> c = this.commands.get(class_name);
+        c.add("   getstatic java/lang/System/out Ljava/io/PrintStream;");
+        c.add("   invokevirtual java/io/PrintStream/println([I)V");
     }
 
     public void createNewArray(String class_name, int length){

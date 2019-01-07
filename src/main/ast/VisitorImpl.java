@@ -313,7 +313,7 @@ public class VisitorImpl implements Visitor {
             }
             index += 1;
         }
-    }
+    } 
 
     void ___fill_the_sym_table_with_parent_data(String class_we_came_here_from, String parent_name, ArrayList<String> already_seen){
         Boolean found = false;
@@ -1330,11 +1330,14 @@ public class VisitorImpl implements Visitor {
         }
         else if(code_generation_round==true && second_round==false){
             write.getArg().accept(this);
-            if (write.getArg().getClass().getName().toString().equals("ast.node.expression.Value.StringValue")) {
+            if (write.getArg().getType().toString().equals("string")) {
                 this.code_generation_translator.printAStringValue(this.curr_class.getName().getName());
             }
-            else if (write.getArg().getClass().getName().toString().equals("ast.node.expression.Value.IntValue")) {
+            else if (write.getArg().getType().toString().equals("int")) {
                 this.code_generation_translator.printAnIntValue(this.curr_class.getName().getName());
+            }
+            else if (write.getArg().getType().toString().equals("int[]")){
+                this.code_generation_translator.printAnIntArrayValue(this.curr_class.getName().getName());
             }
         }
     }
