@@ -1,4 +1,4 @@
-.class public Test2
+.class public Test4444
 .super java/lang/Object
 ; default constructor
 .method public <init>()V

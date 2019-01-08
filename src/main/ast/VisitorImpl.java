@@ -932,7 +932,7 @@ public class VisitorImpl implements Visitor {
 
     @Override
     public void visit(MethodCall methodCall){
-        if(second_round==false){
+        if(second_round==false && code_generation_round == false){
             methodCall.getInstance().accept(this);
             ArrayList<Expression> methodcall_args = methodCall.getArgs();
             for (int i = 0; i < methodcall_args.size(); i++){
@@ -1012,7 +1012,30 @@ public class VisitorImpl implements Visitor {
                 }
             }
         }
+        else if (second_round == false && code_generation_round == true){
+            methodCall.getInstance().accept(this);
+            ArrayList<Expression> methodcall_args = methodCall.getArgs();
+            ArrayList<String> methodcall_args_types_str = new ArrayList<String>();;
+            for (int i = 0; i < methodcall_args.size(); i++){
+                methodcall_args.get(i).accept(this);
+                methodcall_args_types_str.add(methodcall_args.get(i).getType().toString());
+            }
+            String ret_type_str= "";
+            try {
+                SymbolTableItem thisItem = symTable.top.get("method_"+methodCall.getMethodName().getName());
+                SymbolTableMethodItem method_item = (SymbolTableMethodItem) thisItem;
+                ret_type_str = method_item.get_return_type().toString();
+            }
+            catch(ItemNotFoundException ex){
+
+            }
+            this.code_generation_translator.performMethodCall(this.curr_class.getName().getName(),methodCall.getInstance().getType().toString(),methodCall.getMethodName().getName(),methodcall_args_types_str,ret_type_str);
+        }
     }
+
+
+
+
 
     @Override
     public void visit(NewArray newArray) {

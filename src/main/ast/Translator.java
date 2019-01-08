@@ -480,6 +480,21 @@ public class Translator {
             commands.get(class_name).add("   return");             
         }                  
     }
+
+
+    public void performMethodCall(String class_name,String instance_class,String method_name,ArrayList<String> args,String return_type){
+        System.out.println("asdjsf");
+        String cmd = "invokevirtual " + instance_class + "/" + method_name + "(";
+        for (int i = 0; i < args.size(); i++){
+            cmd = cmd + args.get(i);
+            cmd = cmd + ";";
+        }
+        cmd = cmd + ")";
+        String type_of_this;
+        type_of_this = get_type_code_generation_equivalent(return_type);       
+        cmd = cmd + type_of_this;
+        commands.get(class_name).add(cmd);
+    }
 	@Override
     public String toString() {
         return "CodeGeneration";

@@ -3,6 +3,13 @@ class Test {
 		new Test2.main();
 		return 0;
 	}
+
+}
+class Test4444 { 
+	def main2(i: int) : int {
+		var x: boolean;
+		return 0;
+	}
 }
 
 class Test2 {
