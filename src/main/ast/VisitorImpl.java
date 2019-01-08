@@ -1315,7 +1315,10 @@ public class VisitorImpl implements Visitor {
             int this_ifs_lable_number = unique_label_number;
             unique_label_number += 1;
             this.code_generation_translator.create_a_label(this.curr_class.getName().getName(), "start_of_while_NO", this_ifs_lable_number);
+            loop.getCondition().accept(this);
+            this.code_generation_translator.createJumpWithCondition(this.curr_class.getName().getName(), loop.getCondition(), "end_of_while_NO", this_ifs_lable_number);
             check_for_statements(statements);   
+            this.code_generation_translator.jumpToLabel(this.curr_class.getName().getName(), "start_of_while_NO", this_ifs_lable_number);
             this.code_generation_translator.create_a_label(this.curr_class.getName().getName(), "end_of_while_NO", this_ifs_lable_number);
         }
     }

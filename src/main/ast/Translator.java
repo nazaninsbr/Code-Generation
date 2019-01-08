@@ -322,6 +322,36 @@ public class Translator {
         commands.get(class_name).add(label_str+"_"+Integer.toString(lable_number)+":");
     }
 
+    public void jumpToLabel(String class_name, String label_str, int lable_number){
+        commands.get(class_name).add("   goto "+label_str+"_"+Integer.toString(lable_number));
+    }
+
+    public void createJumpWithCondition(String class_name, Expression condition, String end_label, int lable_number){
+        if (condition.getClass().getName().toString().equals("ast.node.expression.BinaryExpression")) {
+            BinaryExpression b = (BinaryExpression) condition;
+            BinaryOperator op = b.getBinaryOperator();
+            if (op == BinaryOperator.and || op == BinaryOperator.or) {
+                commands.get(class_name).add("   ifle "+end_label+"_"+Integer.toString(lable_number));
+            }
+            else if(op == BinaryOperator.eq){
+                commands.get(class_name).add("   if_icmpne "+end_label+"_"+Integer.toString(lable_number));
+            }
+            else if(op == BinaryOperator.neq){
+                commands.get(class_name).add("   if_icmpeq "+end_label+"_"+Integer.toString(lable_number));
+            }
+            else if(op == BinaryOperator.lt){
+                commands.get(class_name).add("   if_icmpgt "+end_label+"_"+Integer.toString(lable_number));
+            }
+            else if(op == BinaryOperator.gt){
+                commands.get(class_name).add("   if_icmplt "+end_label+"_"+Integer.toString(lable_number));
+            }
+        }
+        else if(condition.getClass().getName().toString().equals("ast.node.expression.Value.BooleanValue")){
+            commands.get(class_name).add("   ifle "+end_label+"_"+Integer.toString(lable_number));
+        }
+
+    }
+
     public void putConstantIntOnTopOfStack(String class_name, int value){
         commands.get(class_name).add("   ldc "+Integer.toString(value));
     }

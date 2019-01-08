@@ -19,6 +19,22 @@
    astore 1
    iconst_1
    invokestatic  #2
+   bstore 5
+done_for_if_NO_0:
+start_of_while_NO_1:
+   ldc 1
+   ldc 3
+   if_icmpne end_of_while_NO_1
+   ldc 3
+   istore 3
+   goto start_of_while_NO_1
+end_of_while_NO_1:
+   bipush 3
+   newarray       int
+   ldc 1
+   iaload
+   iconst_1
+   invokestatic  #2
    iconst_0
    invokestatic  #2
    iand
