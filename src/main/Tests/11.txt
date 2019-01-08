@@ -1,15 +1,9 @@
 class Test { 
 	def main() : int {
-		new Test2.main();
+		new Test2().main();
 		return 0;
 	}
 
-}
-class Test4444 { 
-	def main2(i: int) : int {
-		var x: boolean;
-		return 0;
-	}
 }
 
 class Test2 {
@@ -17,5 +11,6 @@ class Test2 {
 		var i: int; 
 		i = 1+2;
 		writeln(i);
+		return "0";
 	}
 }
