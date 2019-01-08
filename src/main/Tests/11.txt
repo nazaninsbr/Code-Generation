@@ -1,5 +1,6 @@
 class Test { 
 	def main() : int {
+		writeln("hi");
 		return 0;
 	}
 }
@@ -7,7 +8,6 @@ class Test {
 class Test2 { 
 	def main(i: int) : int {
 		var x: boolean;
-		x = !true;
 		return 0;
 	}
 }

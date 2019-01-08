@@ -134,6 +134,7 @@ public class VisitorImpl implements Visitor {
             code_generation_round = true;
 
             code_generation_translator = new Translator();
+            this.code_generation_translator.addJavaMainClass(program.getMainClass().getName().getName());
 
             program.getMainClass().accept(this);
 
@@ -585,6 +586,7 @@ public class VisitorImpl implements Visitor {
 
             this.code_generation_translator.moveArgsBackToIndex(this.curr_class.getName().getName(), methodDeclaration.getArgs(), symTable.top);
             this.code_generation_translator.moveLocalVarsBackToIndex(this.curr_class.getName().getName(), methodDeclaration.getLocalVars(), symTable.top, methodDeclaration.getArgs().size());
+            this.code_generation_translator.addReturnStatement(this.curr_class.getName().getName());
             this.code_generation_translator.endMethodInClassFile(this.curr_class.getName().getName());
 
             symTable.pop();
@@ -609,7 +611,7 @@ public class VisitorImpl implements Visitor {
             }
         }
         else if (second_round == false && code_generation_round == true){
-            this.code_generation_translator.performVarDeclaration(this.curr_class.getName().getName(),varDeclaration.getIdentifier().getName(),varDeclaration.getType().toString());
+            // this.code_generation_translator.performVarDeclaration(this.curr_class.getName().getName(),varDeclaration.getIdentifier().getName(),varDeclaration.getType().toString());
         }
     }
 

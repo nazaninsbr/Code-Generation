@@ -21,12 +21,34 @@ public class Translator {
         this.binary_number_jump_condition = 0;
     }
 
+    public void addJavaMainClass(String main_class_name){
+        this.commands.put("JavaMain", new ArrayList<String>());
+        ArrayList<String> c = this.commands.get("JavaMain");
+        c.add(".class public JavaMain");
+        c.add(".super java/lang/Object");
+        c.add("; default constructor");
+        c.add(".method public <init>()V");
+        c.add("   aload_0 ; push this");
+        c.add("   invokespecial java/lang/Object/<init>()V ; call super");
+        c.add("   return");
+        c.add(".end method");
+        c.add(".method public static main([Ljava/lang/String;)V");
+        c.add("   .limit stack 32");
+        c.add("   .limit locals 32");
+        c.add("   new "+main_class_name);
+        c.add("   dup");
+        c.add("   invokespecial "+main_class_name+"/<init>()V ; call constructor");
+        c.add("   invokevirtual "+main_class_name+"/main()I");
+        c.add("   return");
+        c.add(".end method");
+    }
+
     public void createFileForClass(String class_name, String parent_name){
     	this.commands.put(class_name, new ArrayList<String>());
     	ArrayList<String> c = this.commands.get(class_name);
     	c.add(".class public "+class_name);
     	if(parent_name.equals("null") || parent_name.equals("Object")){
-    		c.add(".super Object");
+    		c.add(".super java/lang/Object");
     	}
     	else {
     		c.add(".super "+parent_name);
@@ -330,6 +352,10 @@ public class Translator {
             commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
         } 
 
+    }
+
+    public void addReturnStatement(String class_name){
+        commands.get(class_name).add("   return");
     }
 
     public void create_a_label(String class_name, String label_str, int lable_number){

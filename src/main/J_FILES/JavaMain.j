@@ -1,4 +1,4 @@
-.class public Test2
+.class public JavaMain
 .super java/lang/Object
 ; default constructor
 .method public <init>()V
@@ -6,12 +6,12 @@
    invokespecial java/lang/Object/<init>()V ; call super
    return
 .end method
-.method public main(I)I
+.method public static main([Ljava/lang/String;)V
    .limit stack 32
    .limit locals 32
-   iload 1
-   istore 2
-   iload 2
-   istore 1
+   new Test
+   dup
+   invokespecial Test/<init>()V ; call constructor
+   invokevirtual Test/main()I
    return
 .end method
