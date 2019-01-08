@@ -1,18 +1,60 @@
 class Test { 
 	def main() : int {
 		writeln(new Test2().print(1, 2));
+		new Test2().add();
 		new conditionalClass().checkBooleanStuff();
 		new Test2().classCreationStuff(); 
+		writeln(new TestWrite().test());
 		return 0;
+	}
+}
+
+class TestWrite{
+	def test(): int{
+		var s: string; 
+		var x: int; 
+		x = 12;
+		s = "my name is N";
+		writeln(s);
+		writeln("hi");
+		return x;
+	}
+}
+
+class ArrayStuff{
+	def x():int{
+		# var i: int[];
+		# i = new int[4];
+		# i[0] = 1;
+		# return i[2];
+		return -1234;
+	}
+}
+
+class thisStuff{
+	def another(): int{
+		var x2: int;
+		x2 = new ArrayStuff().x();
+		return 12; 
+	}
+	def aFunc(): int{
+		return this.another(); 
 	}
 }
 
 class Test2 {
 	def add(): int{
+		var arr: int[];
 		var i:int;
+		var t: thisStuff; 
+		writeln("IN TEST2 ADD");
+		arr = new int[10];
+		writeln(arr.length);
 		i = 1 + 3;
 		writeln(i);
-		return 0;
+		t = new thisStuff(); 
+		writeln(t.aFunc());
+		return 14;
 	}
 	def print(g :int,k: int):int{
 		writeln(g);
@@ -67,8 +109,17 @@ class conditionalClass{
 		if(1>4) then {
 			writeln("1>4");
 		}
+		if(7+1>6) then{
+			writeln("7+1>6");
+		}
 		if(1<4) then {
 			writeln("1<4");
+		}
+		if(1 <> new WhileClass().printInWhile()) then {
+			writeln("1 <> new WhileClass.printInWhile()");
+		}
+		if(1 == new WhileClass().printInWhile()) then {
+			writeln("1 == new WhileClass.printInWhile()");
 		}
 		return 0;
 	}

@@ -7,8 +7,8 @@
    return
 .end method
 .method public checkBooleanStuff()I
-   .limit stack 32
-   .limit locals 32
+   .limit stack 128
+   .limit locals 128
    iconst_1
    ifle done_for_if_NO_2
    getstatic java/lang/System/out Ljava/io/PrintStream;
@@ -64,15 +64,52 @@ done_for_if_NO_6:
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    goto done_for_if_NO_7
 done_for_if_NO_7:
+   ldc 7
    ldc 1
-   ldc 4
-   if_icmpgt done_for_if_NO_8
+   iadd
+   ldc 6
+   if_icmplt done_for_if_NO_8
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   ldc "1<4"
+   ldc "7+1>6"
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    goto done_for_if_NO_8
 done_for_if_NO_8:
+   ldc 1
+   ldc 4
+   if_icmpgt done_for_if_NO_9
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   ldc "1<4"
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+   goto done_for_if_NO_9
+done_for_if_NO_9:
+   ldc 1
+   ; create an WhileClass object on top of stack
+   new WhileClass
+   dup
+   invokespecial WhileClass/<init>()V ; call constructor
+   invokevirtual WhileClass/printInWhile()I
+   if_icmpeq done_for_if_NO_10
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   ldc "1 <> new WhileClass.printInWhile()"
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+   goto done_for_if_NO_10
+done_for_if_NO_10:
+   ldc 1
+   ; create an WhileClass object on top of stack
+   new WhileClass
+   dup
+   invokespecial WhileClass/<init>()V ; call constructor
+   invokevirtual WhileClass/printInWhile()I
+   if_icmpne done_for_if_NO_11
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   ldc "1 == new WhileClass.printInWhile()"
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+   goto done_for_if_NO_11
+done_for_if_NO_11:
    ldc 0
    ireturn
 .end method

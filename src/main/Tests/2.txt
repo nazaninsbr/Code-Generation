@@ -1,17 +1,18 @@
 class Test {
 	def main() : int {
+		new Book().x();
 		return 0;
 	}
 }
 
 class Book {
 	var j : int[];
-	var l: int;
+	var l: boolean;
 	var k : boolean; 
 	def x (f1: int) : int {
 		j = 5;
 		if(l) then {
-
+			writeln()
 		}
 		if(l=2) then{
 
@@ -22,6 +23,6 @@ class Book {
 		while (i.length < 4){
 			j = j && (3*2);
 		}
-		return 3+5+(3||true);
+		return 3+5+(6-4);
 	}
 }

@@ -1327,7 +1327,7 @@ public class VisitorImpl implements Visitor {
                 conditional.getAlternativeBody().accept(this);
             }
             this.code_generation_translator.create_a_label(this.curr_class.getName().getName(), "done_for_if_NO", this_ifs_lable_number);
-        }
+       }
     }
 
     @Override

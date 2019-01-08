@@ -126,8 +126,8 @@ public class Translator {
     	} else if (return_type.equals("int[]")){
     		c.add(".method public "+method_name+"("+args_str+")[I");
     	}
-    	c.add("   .limit stack 32");
-    	c.add("   .limit locals 32");
+    	c.add("   .limit stack 128");
+    	c.add("   .limit locals 128");
     }
 
     public void endMethodInClassFile(String class_name){
