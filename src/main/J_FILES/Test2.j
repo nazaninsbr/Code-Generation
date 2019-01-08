@@ -12,12 +12,12 @@
    ldc 1
    ldc 3
    iadd
-   istore 7
+   istore 11
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 7
+   iload 11
    invokevirtual java/io/PrintStream/println(I)V
    ldc 0
-   iload 7
+   iload 11
    istore 1
    ireturn
 .end method
@@ -25,19 +25,38 @@
    .limit stack 32
    .limit locals 32
    iload 1
-   istore 8
+   istore 12
    iload 2
-   istore 9
+   istore 13
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 8
+   iload 12
    invokevirtual java/io/PrintStream/println(I)V
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 9
+   iload 13
    invokevirtual java/io/PrintStream/println(I)V
    ldc 9
-   iload 8
+   iload 12
    istore 1
-   iload 9
+   iload 13
+   istore 2
+   ireturn
+.end method
+.method public classCreationStuff()I
+   .limit stack 32
+   .limit locals 32
+   ; create an WhileClass object on top of stack
+   new WhileClass
+   dup
+   invokespecial WhileClass/<init>()V ; call constructor
+   astore 14
+   aload 14
+   invokevirtual WhileClass/printInWhile()I
+   istore 15
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   iload 15
+   invokevirtual java/io/PrintStream/println(I)V
+   ldc 0
+   iload 15
    istore 2
    ireturn
 .end method

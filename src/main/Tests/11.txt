@@ -1,8 +1,8 @@
 class Test { 
 	def main() : int {
 		writeln(new Test2().print(1, 2));
-		new WhileClass().printInWhile();
 		new conditionalClass().checkBooleanStuff();
+		new Test2().classCreationStuff(); 
 		return 0;
 	}
 }
@@ -18,6 +18,14 @@ class Test2 {
 		writeln(g);
 		writeln(k);
 		return 9;
+	}
+	def classCreationStuff():int{
+		var x: WhileClass;
+		var y: int; 
+		x = new WhileClass(); 
+		y = x.printInWhile();
+		writeln(y);
+		return 0;
 	}
 }
 

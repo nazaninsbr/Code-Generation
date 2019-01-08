@@ -18,16 +18,16 @@
    ldc 2
    invokevirtual Test2/print(II)I
    invokevirtual java/io/PrintStream/println(I)V
-   ; create an WhileClass object on top of stack
-   new WhileClass
-   dup
-   invokespecial WhileClass/<init>()V ; call constructor
-   invokevirtual WhileClass/printInWhile()I
    ; create an conditionalClass object on top of stack
    new conditionalClass
    dup
    invokespecial conditionalClass/<init>()V ; call constructor
    invokevirtual conditionalClass/checkBooleanStuff()I
+   ; create an Test2 object on top of stack
+   new Test2
+   dup
+   invokespecial Test2/<init>()V ; call constructor
+   invokevirtual Test2/classCreationStuff()I
    ldc 0
    ireturn
 .end method
