@@ -1,16 +1,21 @@
 class Test { 
 	def main() : int {
 		new Test2().main();
+		new Test2().main2(123,"hello");
 		return 0;
 	}
-
 }
 
 class Test2 {
-	def main(): string{
-		var i: int; 
-		i = 1+2;
+	def main(): int{
+		var i:int;
+		i = 1 + 3;
 		writeln(i);
-		return "0";
+		return 0;
+	}
+	def main2(g :int,k: string):int{
+		writeln(g);
+		writeln(k);
+		return g;
 	}
 }

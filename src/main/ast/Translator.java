@@ -65,9 +65,13 @@ public class Translator {
     	ArrayList <String> args_string = new ArrayList<String>();
     	for(int i=0; i<args.size(); i++){
     		String type = args.get(i).getType().toString();
-    		args_string.add(get_type_code_generation_equivalent(type));
+            String this_type = get_type_code_generation_equivalent(type);
+            if(this_type.equals("[Ljava/lang/String")){
+                this_type = this_type+";";
+            }
+    		args_string.add(this_type);
     	}
-    	return String.join(";", args_string);
+    	return String.join("", args_string);
     }
 
 
@@ -77,7 +81,7 @@ public class Translator {
     	} else if(type.equals("bool")){
     		return "Z";
     	} else if(type.equals("string")){
-    		return "Ljava/lang/String";
+    		return "[Ljava/lang/String";
     	} else if(type.equals("int[]")){
     		return "[I";
     	}
@@ -120,7 +124,7 @@ public class Translator {
     	} else if (return_type.equals("string")){
     		c.add(".method public "+method_name+"("+args_str+")Ljava/lang/String");
     	} else if (return_type.equals("int[]")){
-    		c.add(".method public "+method_name+"("+args_str+")[I;");
+    		c.add(".method public "+method_name+"("+args_str+")[I");
     	}
     	c.add("   .limit stack 32");
     	c.add("   .limit locals 32");
@@ -415,7 +419,7 @@ public class Translator {
         commands.get(class_name).add("   ; create an "+new_class_name+" object on top of stack");
         commands.get(class_name).add("   new "+new_class_name);
         commands.get(class_name).add("   dup");
-        commands.get(class_name).add("   invokespecial "+new_class_name+"/<init>()"+type_of_this+" ; call constructor");
+        commands.get(class_name).add("   invokespecial "+new_class_name+"/<init>()V ; call constructor");
     }
   
     public void performArrayLength(String class_name, SymbolTable symTable){
@@ -449,17 +453,7 @@ public class Translator {
     public void loadThisIntoStack(String class_name){
         commands.get(class_name).add("   aload_0");
     }
-    public void performMethodCall(String class_name,String instance_class,String method_name,ArrayList<String> args){
-       //invokevirtual java/lang/Object/equals(Ljava/lang/Object;)Z
-        String cmd = "invokevirtual " + instance_class + "/" + method_name + "(";
-        for (int i = 0; i < args.size(); i++){
-            cmd = cmd + args.get(i);
-            cmd = cmd + ";";
-        }
-        cmd = cmd + ")";
-        //cmd = cmd + 
-        commands.get(class_name).add(cmd);
-    }
+
     public void performReturn(String class_name,String type){
         if (type.equals("int")){
             commands.get(class_name).add("   ireturn");
@@ -483,11 +477,13 @@ public class Translator {
 
 
     public void performMethodCall(String class_name,String instance_class,String method_name,ArrayList<String> args,String return_type){
-        System.out.println("asdjsf");
         String cmd = "invokevirtual " + instance_class + "/" + method_name + "(";
         for (int i = 0; i < args.size(); i++){
-            cmd = cmd + args.get(i);
-            cmd = cmd + ";";
+            String type_of_this = get_type_code_generation_equivalent(args.get(i));
+            cmd = cmd + type_of_this;
+            if (type_of_this.equals("[Ljava/lang/String")){
+                cmd = cmd + ";";  
+            } 
         }
         cmd = cmd + ")";
         String type_of_this;
@@ -495,6 +491,9 @@ public class Translator {
         cmd = cmd + type_of_this;
         commands.get(class_name).add(cmd);
     }
+
+
+
 	@Override
     public String toString() {
         return "CodeGeneration";

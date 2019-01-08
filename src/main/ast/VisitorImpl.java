@@ -35,11 +35,8 @@ public class VisitorImpl implements Visitor {
     ClassDeclaration curr_class; 
     Translator code_generation_translator; 
     SymbolTable symTable;  
-
     int index; 
     int unique_label_number; 
-
-
     void add_class_to_symbol_table(String class_name, ClassDeclaration class_dec){
         try{
             UserDefinedType class_type = new UserDefinedType(); 
@@ -64,6 +61,7 @@ public class VisitorImpl implements Visitor {
         }
         index += 1;
     }
+
 
     void add_object_class_to_symtable(){
         Identifier class_name = new Identifier("Object");
@@ -554,10 +552,13 @@ public class VisitorImpl implements Visitor {
             }
         }
     }
-
     ArrayList<String> convert_args_var_declarations_to_string(ArrayList<VarDeclaration> args){
         return new ArrayList<String>();
     }
+
+
+
+
 
     @Override
     public void visit(MethodDeclaration methodDeclaration) {
@@ -575,26 +576,24 @@ public class VisitorImpl implements Visitor {
             symTable.pop();
         }
         else if(code_generation_round==true && second_round==false){
-            
+           
             symTable.push(new SymbolTable(symTable.top));
             check_variable_type_defined_condition_with_symTable(methodDeclaration);
-
+            //symTable.top.printSymbolTableItems();
             this.code_generation_translator.createMethodInClassFile(this.curr_class.getName().getName(), methodDeclaration.getName().getName(), methodDeclaration.getReturnValue().getType().toString(), methodDeclaration.getArgs());
             this.code_generation_translator.moveArgsToIndex(this.curr_class.getName().getName(), methodDeclaration.getArgs(), symTable.top);
-            this.code_generation_translator.moveLocalVarsToIndex(this.curr_class.getName().getName(), methodDeclaration.getLocalVars(), symTable.top, methodDeclaration.getArgs().size());
+            //this.code_generation_translator.moveLocalVarsToIndex(this.curr_class.getName().getName(), methodDeclaration.getLocalVars(), symTable.top, methodDeclaration.getArgs().size());
             check_for_statements(methodDeclaration.getBody());
             methodDeclaration.getReturnValue().accept(this);
             this.code_generation_translator.moveArgsBackToIndex(this.curr_class.getName().getName(), methodDeclaration.getArgs(), symTable.top);
             this.code_generation_translator.moveLocalVarsBackToIndex(this.curr_class.getName().getName(), methodDeclaration.getLocalVars(), symTable.top, methodDeclaration.getArgs().size());
             this.code_generation_translator.performReturn(this.curr_class.getName().getName(),methodDeclaration.getReturnType().toString());
             this.code_generation_translator.endMethodInClassFile(this.curr_class.getName().getName());
-
             symTable.pop();
 
         }
 
     }
-
 
     @Override
     public void visit(VarDeclaration varDeclaration) {
@@ -1012,28 +1011,32 @@ public class VisitorImpl implements Visitor {
                 }
             }
         }
+
         else if (second_round == false && code_generation_round == true){
-            methodCall.getInstance().accept(this);
+            SymbolTable this_classes_symTable = new SymbolTable();
+            boolean check_error = find_class_and_get_symTable(methodCall, this_classes_symTable);
             ArrayList<Expression> methodcall_args = methodCall.getArgs();
-            ArrayList<String> methodcall_args_types_str = new ArrayList<String>();;
+            ArrayList<String> methodcall_args_types_str = new ArrayList<String>();
+            
             for (int i = 0; i < methodcall_args.size(); i++){
                 methodcall_args.get(i).accept(this);
                 methodcall_args_types_str.add(methodcall_args.get(i).getType().toString());
             }
+            
             String ret_type_str= "";
-            try {
-                SymbolTableItem thisItem = symTable.top.get("method_"+methodCall.getMethodName().getName());
-                SymbolTableMethodItem method_item = (SymbolTableMethodItem) thisItem;
-                ret_type_str = method_item.get_return_type().toString();
-            }
-            catch(ItemNotFoundException ex){
+            if (check_error){
+                try {
+                    SymbolTableItem thisItem = this_classes_symTable.get("method_"+methodCall.getMethodName().getName());
+                    SymbolTableMethodItem method_item = (SymbolTableMethodItem) thisItem;
+                    ret_type_str = method_item.get_return_type().toString();
+                }
+                catch(ItemNotFoundException ex){
 
+                }
             }
             this.code_generation_translator.performMethodCall(this.curr_class.getName().getName(),methodCall.getInstance().getType().toString(),methodCall.getMethodName().getName(),methodcall_args_types_str,ret_type_str);
         }
     }
-
-
 
 
 
@@ -1077,6 +1080,7 @@ public class VisitorImpl implements Visitor {
         else if(second_round==false && code_generation_round==true){
             this.code_generation_translator.createAnObjectOnTopOfStack(this.curr_class.getName().getName(), newClass.getClassName().getName(), newClass.getType().toString());
         }
+
     }
 
     @Override
@@ -1421,16 +1425,21 @@ public class VisitorImpl implements Visitor {
             this_methodCall.addArg(methodCallInMain_args.get(i));
         }
 
-        if(second_round==false){
+        if(second_round==false && code_generation_round == false){
             this_methodCall.accept(this);
         }
         else if(second_round==true){
-            if (this.curr_class.getName().getName().equals(this_prog.getMainClass().getName().getName()) ){ 
+            if (this.curr_class.getName().getName().equals(this_prog.getMainClass().getName().getName())){ 
                 this_methodCall.accept(this);               
             }
             else{
                 System.out.println("Line:"+Integer.toString(methodCallInMain.get_line_number())+":method call is illegal outside main class");
                 no_error = false;
+            }
+        }
+        else if(second_round == false && code_generation_round == true){
+            if (this.curr_class.getName().getName().equals(this_prog.getMainClass().getName().getName())){ 
+                this_methodCall.accept(this);               
             }
         }
     }

@@ -78,7 +78,7 @@ public class SymbolTable {
 		for (String name: this.items.keySet()){
             String key =name;
             String value = this.items.get(name).getKey();  
-            System.out.println(key + " " + value);  
+            System.out.println(key + " " + value);
 		} 
 	}
 }
