@@ -1,6 +1,14 @@
 class Test { 
 	def main() : int {
-		writeln(1+3*6);
+		new Test2.main();
 		return 0;
+	}
+}
+
+class Test2 {
+	def main(): string{
+		var i: int; 
+		i = 1+2;
+		writeln(i);
 	}
 }
