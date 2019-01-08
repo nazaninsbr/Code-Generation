@@ -13,10 +13,12 @@ import ast.node.expression.*;
 public class Translator {
 
     private static final String FOLDER ="./J_FILES/";
+    private int binary_number_jump_condition;
 	private HashMap<String, ArrayList<String>> commands;
 
 	public Translator() {
         this.commands = new HashMap<String, ArrayList<String>>();
+        this.binary_number_jump_condition = 0;
     }
 
     public void createFileForClass(String class_name, String parent_name){
@@ -138,13 +140,25 @@ public class Translator {
 
     public void performUnaryOperation(String class_name, UnaryOperator op){
         if (op == UnaryOperator.not){
-            commands.get(class_name).add("   ");
+            String last_instruction = commands.get(class_name).get(commands.get(class_name).size() - 1);
+            if (last_instruction.equals("   iconst_1")) {
+                commands.get(class_name).remove(commands.get(class_name).size() - 1);
+                commands.get(class_name).add("   iconst_0");
+            }
+            else if (last_instruction.equals("   iconst_0")) {
+                commands.get(class_name).remove(commands.get(class_name).size() - 1);
+                commands.get(class_name).add("   iconst_1");
+            }
+            else{
+                commands.get(class_name).add("   if_icmpgt BINARY_NUMBER_JUMP_CONDITION_"+Integer.toString(this.binary_number_jump_condition));
+                commands.get(class_name).add("   iconst_1");
+                commands.get(class_name).add("BINARY_NUMBER_JUMP_CONDITION_"+Integer.toString(this.binary_number_jump_condition)+":");
+                commands.get(class_name).add("   iconst_0");
+                this.binary_number_jump_condition += 1; 
+            }
         }
         else if (op == UnaryOperator.minus){
             commands.get(class_name).add("   ineg");
-        }
-        else {
-
         }
     }
 	public void performMathOPeration(String class_name, BinaryOperator op){
@@ -363,11 +377,11 @@ public class Translator {
     public void putConstantBoolOnTopOfStack(String class_name, Boolean value){
         if (value) {
             commands.get(class_name).add("   iconst_1");
-            commands.get(class_name).add("   invokestatic  #2");
+            // commands.get(class_name).add("   invokestatic  #2");
         } 
         else {
             commands.get(class_name).add("   iconst_0");
-            commands.get(class_name).add("   invokestatic  #2");
+            // commands.get(class_name).add("   invokestatic  #2");
         }
     }
 

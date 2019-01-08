@@ -9,10 +9,4 @@
 .method public main()I
    .limit stack 32
    .limit locals 32
-   ldc 1
-   ldc 2
-   iadd
-   ldc "hi"
-   ; invoke println
-   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 .end method
