@@ -1,4 +1,4 @@
-package ast;invokespecial Calculator/<init>()V ; call constructor
+package ast;
 
 
 import ast.node.Program;
@@ -1349,6 +1349,7 @@ public class VisitorImpl implements Visitor {
             }
         }
         else if(code_generation_round==true && second_round==false){
+            this.code_generation_translator.getStaticPrint(this.curr_class.getName().getName());
             write.getArg().accept(this);
             if (write.getArg().getType().toString().equals("string")) {
                 this.code_generation_translator.printAStringValue(this.curr_class.getName().getName());

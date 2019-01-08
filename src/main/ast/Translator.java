@@ -84,6 +84,10 @@ public class Translator {
     	return "";
     }
 
+    public void getStaticPrint(String class_name){
+        commands.get(class_name).add("   getstatic java/lang/System/out Ljava/io/PrintStream;");
+    }
+
     public void printAStringValue(String class_name){
     	ArrayList<String> c = this.commands.get(class_name);
     	c.add("   ; invoke println");
@@ -353,7 +357,7 @@ public class Translator {
         } 
 
     }
-    
+
     public void create_a_label(String class_name, String label_str, int lable_number){
         commands.get(class_name).add(label_str+"_"+Integer.toString(lable_number)+":");
     }

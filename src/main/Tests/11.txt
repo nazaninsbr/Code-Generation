@@ -4,10 +4,3 @@ class Test {
 		return 0;
 	}
 }
-
-class Test2 { 
-	def main(i: int) : int {
-		var x: boolean;
-		return 0;
-	}
-}
