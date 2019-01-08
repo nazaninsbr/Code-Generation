@@ -15,6 +15,8 @@
    istore 2
    iconst_0
    bstore 3
+   ldc 0
    iload 2
    istore 1
+   ireturn
 .end method

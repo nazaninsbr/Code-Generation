@@ -9,4 +9,6 @@
 .method public main()I
    .limit stack 32
    .limit locals 32
+   ldc 0
+   ireturn
 .end method
