@@ -477,7 +477,7 @@ public class Translator {
 
 
     public void performMethodCall(String class_name,String instance_class,String method_name,ArrayList<String> args,String return_type){
-        String cmd = "invokevirtual " + instance_class + "/" + method_name + "(";
+        String cmd = "   invokevirtual " + instance_class + "/" + method_name + "(";
         for (int i = 0; i < args.size(); i++){
             String type_of_this = get_type_code_generation_equivalent(args.get(i));
             cmd = cmd + type_of_this;

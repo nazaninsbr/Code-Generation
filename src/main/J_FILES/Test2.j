@@ -6,7 +6,7 @@
    invokespecial java/lang/Object/<init>()V ; call super
    return
 .end method
-.method public main()I
+.method public add()I
    .limit stack 32
    .limit locals 32
    ldc 1
@@ -21,20 +21,23 @@
    istore 1
    ireturn
 .end method
-.method public main2(I[Ljava/lang/String;)I
+.method public print(II)I
    .limit stack 32
    .limit locals 32
    iload 1
    istore 8
+   iload 2
+   istore 9
    getstatic java/lang/System/out Ljava/io/PrintStream;
    iload 8
    invokevirtual java/io/PrintStream/println(I)V
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   aload 9
-   ; invoke println
-   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-   iload 8
+   iload 9
+   invokevirtual java/io/PrintStream/println(I)V
+   ldc 9
    iload 8
    istore 1
+   iload 9
+   istore 2
    ireturn
 .end method

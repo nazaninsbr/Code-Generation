@@ -1,21 +1,67 @@
 class Test { 
 	def main() : int {
-		new Test2().main();
-		new Test2().main2(123,"hello");
+		writeln(new Test2().print(1, 2));
+		new WhileClass().printInWhile();
+		new conditionalClass().checkBooleanStuff();
 		return 0;
 	}
 }
 
 class Test2 {
-	def main(): int{
+	def add(): int{
 		var i:int;
 		i = 1 + 3;
 		writeln(i);
 		return 0;
 	}
-	def main2(g :int,k: string):int{
+	def print(g :int,k: int):int{
 		writeln(g);
 		writeln(k);
-		return g;
+		return 9;
+	}
+}
+
+class WhileClass{
+	def printInWhile(): int{
+		var i: int; 
+		i = 0;
+		while(i<4){
+			writeln("In a loop!!");
+			i = i + 1;
+			if(i==3) then{
+				writeln("3");
+			}
+			else {
+				writeln("not 3");
+			}
+		}
+		return -1;
+	}
+}
+
+class conditionalClass{
+	def checkBooleanStuff(): int{
+		if(true) then{
+			writeln("true");
+		}
+		if(true && false) then{
+			writeln("true && false");
+		}
+		if(false) then{
+			writeln("false");
+		}
+		if(true || false) then{
+			writeln("true || false");
+		}
+		if(true && !false) then{
+			writeln("true && !false");
+		}
+		if(1>4) then {
+			writeln("1>4");
+		}
+		if(1<4) then {
+			writeln("1<4");
+		}
+		return 0;
 	}
 }
