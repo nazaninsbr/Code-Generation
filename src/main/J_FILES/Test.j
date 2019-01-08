@@ -10,9 +10,12 @@
    .limit stack 32
    .limit locals 32
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   ldc "hi"
-   ; invoke println
-   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+   ldc 1
+   ldc 3
+   ldc 6
+   imul
+   iadd
+   invokevirtual java/io/PrintStream/println(I)V
    ldc 0
    ireturn
 .end method

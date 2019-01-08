@@ -1,6 +1,6 @@
 class Test { 
 	def main() : int {
-		writeln("hi");
+		writeln(1+3*6);
 		return 0;
 	}
 

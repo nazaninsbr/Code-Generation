@@ -96,13 +96,11 @@ public class Translator {
 
     public void printAnIntValue(String class_name){
         ArrayList<String> c = this.commands.get(class_name);
-        c.add("   getstatic java/lang/System/out Ljava/io/PrintStream;");
         c.add("   invokevirtual java/io/PrintStream/println(I)V");
     }
 
     public void printAnIntArrayValue(String class_name){
          ArrayList<String> c = this.commands.get(class_name);
-        c.add("   getstatic java/lang/System/out Ljava/io/PrintStream;");
         c.add("   invokevirtual java/io/PrintStream/println([I)V");
     }
 
