@@ -353,11 +353,7 @@ public class Translator {
         } 
 
     }
-
-    public void addReturnStatement(String class_name){
-        commands.get(class_name).add("   return");
-    }
-
+    
     public void create_a_label(String class_name, String label_str, int lable_number){
         commands.get(class_name).add(label_str+"_"+Integer.toString(lable_number)+":");
     }
@@ -451,7 +447,37 @@ public class Translator {
     public void loadThisIntoStack(String class_name){
         commands.get(class_name).add("   aload_0");
     }
-
+    public void performMethodCall(String class_name,String instance_class,String method_name,ArrayList<String> args){
+       //invokevirtual java/lang/Object/equals(Ljava/lang/Object;)Z
+        String cmd = "invokevirtual " + instance_class + "/" + method_name + "(";
+        for (int i = 0; i < args.size(); i++){
+            cmd = cmd + args.get(i);
+            cmd = cmd + ";";
+        }
+        cmd = cmd + ")";
+        //cmd = cmd + 
+        commands.get(class_name).add(cmd);
+    }
+    public void performReturn(String class_name,String type){
+        if (type.equals("int")){
+            commands.get(class_name).add("   ireturn");
+        }
+        else if(type.equals("int[]")){
+            commands.get(class_name).add("   areturn");
+        }
+        else if(type.equals("string")){
+            //can't find it!!!
+            commands.get(class_name).add("   return");
+        } 
+        else if(type.equals("bool")){
+            //can't find it!!!
+            commands.get(class_name).add("   return"); 
+        } 
+        else {
+            //can't find it!!!
+            commands.get(class_name).add("   return");             
+        }                  
+    }
 	@Override
     public String toString() {
         return "CodeGeneration";
