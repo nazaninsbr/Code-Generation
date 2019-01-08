@@ -1281,11 +1281,19 @@ public class VisitorImpl implements Visitor {
         else if(second_round==false && code_generation_round==true){
             int this_ifs_lable_number = unique_label_number;
             unique_label_number += 1;
+            conditional.getExpression().accept(this);
+            if(conditional.getAlternativeBody()!=null){
+                this.code_generation_translator.createJumpWithCondition(this.curr_class.getName().getName(), conditional.getExpression(), "else_for_if_NO", this_ifs_lable_number);
+            }
+            else{
+                this.code_generation_translator.createJumpWithCondition(this.curr_class.getName().getName(), conditional.getExpression(), "done_for_if_NO", this_ifs_lable_number);
+            }
             if(conditional.getConsequenceBody()!=null){
                 conditional.getConsequenceBody().accept(this);
             }
             if(conditional.getAlternativeBody()!=null){
                 this.code_generation_translator.create_a_label(this.curr_class.getName().getName(), "else_for_if_NO", this_ifs_lable_number);
+                conditional.getAlternativeBody().accept(this);
             }
             this.code_generation_translator.create_a_label(this.curr_class.getName().getName(), "done_for_if_NO", this_ifs_lable_number);
         }

@@ -19,6 +19,9 @@
    astore 1
    iconst_1
    invokestatic  #2
+   ifle done_for_if_NO_0
+   iconst_1
+   invokestatic  #2
    bstore 5
 done_for_if_NO_0:
 start_of_while_NO_1:
