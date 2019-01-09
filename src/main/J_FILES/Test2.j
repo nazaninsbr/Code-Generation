@@ -15,29 +15,29 @@
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    bipush 10
    newarray       int
-   astore 31
+   astore 36
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   aload 31
+   aload 36
    arraylength
    invokevirtual java/io/PrintStream/println(I)V
    ldc 1
    ldc 3
    iadd
-   istore 32
+   istore 37
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 32
+   iload 37
    invokevirtual java/io/PrintStream/println(I)V
    ; create an thisStuff object on top of stack
    new thisStuff
    dup
    invokespecial thisStuff/<init>()V ; call constructor
-   astore 33
+   astore 38
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   aload 33
+   aload 38
    invokevirtual thisStuff/aFunc()I
    invokevirtual java/io/PrintStream/println(I)V
    ldc 14
-   iload 32
+   iload 37
    istore 2
    ireturn
 .end method
@@ -45,19 +45,19 @@
    .limit stack 128
    .limit locals 128
    iload 1
-   istore 37
+   istore 43
    iload 2
-   istore 38
+   istore 44
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 37
+   iload 43
    invokevirtual java/io/PrintStream/println(I)V
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 38
+   iload 44
    invokevirtual java/io/PrintStream/println(I)V
    ldc 9
-   iload 37
+   iload 43
    istore 1
-   iload 38
+   iload 44
    istore 2
    ireturn
 .end method
@@ -68,15 +68,15 @@
    new WhileClass
    dup
    invokespecial WhileClass/<init>()V ; call constructor
-   astore 39
-   aload 39
+   astore 45
+   aload 45
    invokevirtual WhileClass/printInWhile()I
-   istore 40
+   istore 46
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 40
+   iload 46
    invokevirtual java/io/PrintStream/println(I)V
    ldc 0
-   iload 40
+   iload 46
    istore 2
    ireturn
 .end method

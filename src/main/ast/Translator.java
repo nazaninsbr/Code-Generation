@@ -5,6 +5,7 @@ import java.util.*;
 import java.io.*;
 
 import symbolTable.*;
+import ast.node.declaration.ClassDeclaration;
 import ast.node.declaration.VarDeclaration;
 import ast.node.expression.BinaryOperator;
 import ast.node.expression.UnaryOperator;
@@ -43,7 +44,7 @@ public class Translator {
         c.add(".end method");
     }
 
-    public void createFileForClass(String class_name, String parent_name){
+    public void createFileForClass(String class_name, String parent_name, ClassDeclaration classDeclaration){
     	this.commands.put(class_name, new ArrayList<String>());
     	ArrayList<String> c = this.commands.get(class_name);
     	c.add(".class public "+class_name);
@@ -53,6 +54,12 @@ public class Translator {
     	else {
     		c.add(".super "+parent_name);
     	}
+
+        ArrayList<VarDeclaration> vars = classDeclaration.getVarDeclarations(); 
+        for(int j=0; j<vars.size(); j++){
+            this.performVarDeclaration(class_name,vars.get(j).getIdentifier().getName(),vars.get(j).getType().toString());
+        }
+
     	c.add("; default constructor");
     	c.add(".method public <init>()V");
     	c.add("   aload_0 ; push this");

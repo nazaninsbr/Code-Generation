@@ -30,6 +30,7 @@ public class VisitorImpl implements Visitor {
     boolean no_error;
     boolean second_round; 
     boolean code_generation_round;
+    boolean is_class_variable; 
 
     Program this_prog; 
     ClassDeclaration curr_class; 
@@ -130,6 +131,7 @@ public class VisitorImpl implements Visitor {
             unique_label_number = 0;
             second_round = false;
             code_generation_round = true;
+            is_class_variable = false;
 
             code_generation_translator = new Translator();
             this.code_generation_translator.addJavaMainClass(program.getMainClass().getName().getName());
@@ -408,7 +410,6 @@ public class VisitorImpl implements Visitor {
         for(int j=0; j<vars.size(); j++){
             vars.get(j).accept(this);
         }
-
         ArrayList<MethodDeclaration> methodDeclarations = classDeclaration.getMethodDeclarations();
         for(int i=0; i<methodDeclarations.size(); i++){
             methodDeclarations.get(i).accept(this);
@@ -456,6 +457,7 @@ public class VisitorImpl implements Visitor {
         else if (code_generation_round==true && second_round==false){
             symTable.push(new SymbolTable(symTable)); 
             add_vars_and_methods_to_symbolTable_for_undefiend_checks(classDeclaration);
+
             if (! classDeclaration.getParentName().getName().equals("null")) {
                 try{
                     SymbolTableItem thisItem = symTable.top.get("class_"+classDeclaration.getParentName().getName());
@@ -470,7 +472,7 @@ public class VisitorImpl implements Visitor {
                 ___fill_the_sym_table_with_parent_data(classDeclaration.getName().getName(), classDeclaration.getParentName().getName(), already_seen);
             }   
 
-            this.code_generation_translator.createFileForClass(classDeclaration.getName().getName(), classDeclaration.getParentName().getName());
+            this.code_generation_translator.createFileForClass(classDeclaration.getName().getName(), classDeclaration.getParentName().getName(), classDeclaration);
 
             call_methods_and_vars_to_continue_checks(classDeclaration);
 
@@ -611,7 +613,9 @@ public class VisitorImpl implements Visitor {
             }
         }
         else if (second_round == false && code_generation_round == true){
-            // this.code_generation_translator.performVarDeclaration(this.curr_class.getName().getName(),varDeclaration.getIdentifier().getName(),varDeclaration.getType().toString());
+            // if(is_class_variable == true){
+            //     this.code_generation_translator.performVarDeclaration(this.curr_class.getName().getName(),varDeclaration.getIdentifier().getName(),varDeclaration.getType().toString());
+            // }
         }
     }
 
