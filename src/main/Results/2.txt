@@ -1,7 +1,0 @@
-Line:12:unsupported operand type for assign
-Line:13:condition type must be boolean
-Line:16:condition type must be boolean
-Line:19:unsupported operand type for assign
-Line:22:variable i is not declared
-Line:23:unsupported operand type for and
-Line:25:unsupported operand type for or
