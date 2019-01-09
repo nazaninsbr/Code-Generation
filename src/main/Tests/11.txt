@@ -15,6 +15,7 @@ class TestWrite{
 		var s: string; 
 		var x: int; 
 		x = 12;
+		cvar = 1;
 		s = "my name is N";
 		writeln(s);
 		writeln("hi");

@@ -14,6 +14,8 @@
    istore 17
    ldc 12
    istore 17
+   ldc 1
+   putfield TestWrite/cvar I
    ldc "my name is N"
    astore 16
    getstatic java/lang/System/out Ljava/io/PrintStream;

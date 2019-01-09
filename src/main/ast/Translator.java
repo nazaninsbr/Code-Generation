@@ -97,6 +97,14 @@ public class Translator {
     	return "";
     }
 
+    public void getClassField(String class_name, String class_name_holding_var, String var_name, String type){
+        commands.get(class_name).add("   getfield "+class_name_holding_var+"/"+var_name+" "+this.get_type_code_generation_equivalent(type));
+    }
+
+    public void putClassField(String class_name, String class_name_holding_var, String var_name, String type){
+        commands.get(class_name).add("   putfield "+class_name_holding_var+"/"+var_name+" "+this.get_type_code_generation_equivalent(type));
+    }
+
     public void getStaticPrint(String class_name){
         commands.get(class_name).add("   getstatic java/lang/System/out Ljava/io/PrintStream;");
     }
