@@ -97,7 +97,12 @@ public class Translator {
     	return "";
     }
 
+    public void addLoadingOfThis(String class_name){
+        commands.get(class_name).add("   aload 0 ;this");
+    }
+
     public void getClassField(String class_name, String class_name_holding_var, String var_name, String type){
+        commands.get(class_name).add("   aload 0 ;this");
         commands.get(class_name).add("   getfield "+class_name_holding_var+"/"+var_name+" "+this.get_type_code_generation_equivalent(type));
     }
 
