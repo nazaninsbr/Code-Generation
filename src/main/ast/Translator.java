@@ -420,10 +420,10 @@ public class Translator {
                 commands.get(class_name).add("   if_icmpeq "+end_label+"_"+Integer.toString(lable_number));
             }
             else if(op == BinaryOperator.lt){
-                commands.get(class_name).add("   if_icmpgt "+end_label+"_"+Integer.toString(lable_number));
+                commands.get(class_name).add("   if_icmpge "+end_label+"_"+Integer.toString(lable_number));
             }
             else if(op == BinaryOperator.gt){
-                commands.get(class_name).add("   if_icmplt "+end_label+"_"+Integer.toString(lable_number));
+                commands.get(class_name).add("   if_icmple "+end_label+"_"+Integer.toString(lable_number));
             }
         }
         else if(condition.getType().toString().equals("bool")){

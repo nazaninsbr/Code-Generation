@@ -16,7 +16,7 @@
 start_of_while_NO_1:
    iload 54
    ldc 4
-   if_icmpgt end_of_while_NO_1
+   if_icmpge end_of_while_NO_1
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "In a loop!!"
    ; invoke println
@@ -39,8 +39,28 @@ else_for_if_NO_2:
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 done_for_if_NO_2:
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   iload 54
+   invokevirtual java/io/PrintStream/println(I)V
    goto start_of_while_NO_1
 end_of_while_NO_1:
+start_of_while_NO_3:
+   iload 54
+   ldc 1
+   if_icmple end_of_while_NO_3
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   ldc "------ In a loop 2 -----!!"
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+   iload 54
+   ldc 1
+   isub
+   istore 54
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   iload 54
+   invokevirtual java/io/PrintStream/println(I)V
+   goto start_of_while_NO_3
+end_of_while_NO_3:
    ldc 1
    ineg
    iload 54

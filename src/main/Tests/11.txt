@@ -103,6 +103,12 @@ class WhileClass{
 			else {
 				writeln("not 3");
 			}
+			writeln(i);
+		}
+		while(i>1){
+			writeln("------ In a loop 2 -----!!");
+			i = i - 1;
+			writeln(i);
 		}
 		return -1;
 	}
