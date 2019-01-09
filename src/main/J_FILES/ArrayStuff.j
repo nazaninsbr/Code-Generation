@@ -26,7 +26,10 @@ done_for_if_NO_0:
    bipush 4
    newarray       int
    astore 20
+   aload 20
+   ldc 2
    ldc 12345
+   iastore
    aload 20
    ldc 2
    iaload

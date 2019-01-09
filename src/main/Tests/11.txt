@@ -32,6 +32,7 @@ class ArrayStuff{
 		}
 		i = new int[4];
 		i[2] = 12345;
+
 		return i[2];
 	}
 }

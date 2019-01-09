@@ -1268,13 +1268,34 @@ public class VisitorImpl implements Visitor {
             //////////////////////////
         }
         else if(second_round==false && code_generation_round==true){
-            if(assign.getrValue() != null)
-                assign.getrValue().accept(this);
+
             if (assign.getlValue()!=null) {
+
                 if (assign.getlValue().getClass().getName().equals("ast.node.expression.Identifier")) {
+                    if(assign.getrValue() != null)
+                        assign.getrValue().accept(this);                    
                     Identifier var_name = (Identifier) assign.getlValue();
                     this.code_generation_translator.storeToTheVariableAssumingTheValueIsOnTopOfStack(this.curr_class.getName().getName(), var_name, symTable.top, var_name.getType().toString());
                 }
+                else if(assign.getlValue().getClass().getName().equals("ast.node.expression.ArrayCall")){
+                    if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), ((ArrayCall)assign.getlValue()).getInstance(), this.symTable)){
+                    }
+                    else{
+                        ((ArrayCall)assign.getlValue()).getInstance().accept(this);
+                    }
+                    ((ArrayCall)assign.getlValue()).getIndex().accept(this);
+                    if(assign.getrValue() != null)
+                        assign.getrValue().accept(this); 
+                    this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName());                 
+                }
+                else{
+                    if(assign.getrValue() != null)
+                        assign.getrValue().accept(this);                     
+                }
+            }
+            else{
+                if(assign.getrValue() != null)
+                    assign.getrValue().accept(this);                 
             }
         }
     }
