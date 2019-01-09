@@ -1312,10 +1312,12 @@ public class VisitorImpl implements Visitor {
             //////////////////////////
         }
         else if(second_round==false && code_generation_round==true){
-            if(assign.getrValue() != null)
-                assign.getrValue().accept(this);
+
             if (assign.getlValue()!=null) {
+
                 if (assign.getlValue().getClass().getName().equals("ast.node.expression.Identifier")) {
+                    if(assign.getrValue() != null)
+                        assign.getrValue().accept(this);                    
                     Identifier var_name = (Identifier) assign.getlValue();
                     String class_name_this_is_in = find_class_this_variable_is_in(var_name.getName());
                     if(class_name_this_is_in.equals("null")){            
@@ -1325,6 +1327,25 @@ public class VisitorImpl implements Visitor {
                         this.code_generation_translator.putClassField(this.curr_class.getName().getName(), class_name_this_is_in, var_name.getName(), var_name.getType().toString());
                     }
                 }
+                else if(assign.getlValue().getClass().getName().equals("ast.node.expression.ArrayCall")){
+                    if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), ((ArrayCall)assign.getlValue()).getInstance(), this.symTable)){
+                    }
+                    else{
+                        ((ArrayCall)assign.getlValue()).getInstance().accept(this);
+                    }
+                    ((ArrayCall)assign.getlValue()).getIndex().accept(this);
+                    if(assign.getrValue() != null)
+                        assign.getrValue().accept(this); 
+                    this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName());                 
+                }
+                else{
+                    if(assign.getrValue() != null)
+                        assign.getrValue().accept(this);                     
+                }
+            }
+            else{
+                if(assign.getrValue() != null)
+                    assign.getrValue().accept(this);                 
             }
         }
     }

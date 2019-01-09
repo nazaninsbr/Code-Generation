@@ -370,6 +370,9 @@ public class Translator {
             commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
         }
     }
+    public void storeToTheArray(String class_name){
+        commands.get(class_name).add("   iastore");
+    }
     public void loadFromVariableOnTopOfStack(String class_name,Identifier var_name, SymbolTable symTable,String type){
         int symTable_index = getVariableSymbolTableIndexBasedOnName(var_name, symTable);
         if (type.equals("int")){
@@ -497,7 +500,7 @@ public class Translator {
         } 
         else {
             //can't find it!!!
-            commands.get(class_name).add("   return");             
+            commands.get(class_name).add("   areturn");             
         }                  
     }
 

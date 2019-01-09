@@ -10,8 +10,8 @@
    .limit stack 128
    .limit locals 128
    iload 1
-   istore 55
-   iload 55
+   istore 57
+   iload 57
    ifle else_for_if_NO_3
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "boolReturnType TRUE input value"
@@ -25,7 +25,7 @@ else_for_if_NO_3:
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 done_for_if_NO_3:
    iconst_1
-   iload 55
+   iload 57
    istore 1
    ireturn
 .end method
