@@ -856,9 +856,15 @@ public class VisitorImpl implements Visitor {
             }
         }
         else if(second_round==false && code_generation_round==true){
-            binaryExpression.getLeft().accept(this);
-            binaryExpression.getRight().accept(this);
-            this.code_generation_translator.performMathOPeration(this.curr_class.getName().getName(),binaryExpression.getBinaryOperator());
+            if (binaryExpression.getBinaryOperator() == BinaryOperator.assign){
+                handle_assign_exp(binaryExpression.getRight(),binaryExpression.getLeft());               
+            }
+            else{
+                binaryExpression.getLeft().accept(this);
+                binaryExpression.getRight().accept(this);
+                this.code_generation_translator.performMathOPeration(this.curr_class.getName().getName(),binaryExpression.getBinaryOperator());                
+            }
+
         }
     }
 
@@ -1398,6 +1404,85 @@ public class VisitorImpl implements Visitor {
             }
         }
     }
+
+
+public void handle_assign_exp(Expression right,Expression left){
+    if (left!=null) {
+        if (left.getClass().getName().equals("ast.node.expression.Identifier")) {
+            Identifier var_name = (Identifier) left;
+            String class_name_this_is_in = find_class_this_variable_is_in(var_name.getName());
+            if(!class_name_this_is_in.equals("null")){
+                this.code_generation_translator.addLoadingOfThis(this.curr_class.getName().getName());
+            }
+            if(right != null)
+                right.accept(this);                    
+            if(class_name_this_is_in.equals("null")){       
+                this.code_generation_translator.addDUP(this.curr_class.getName().getName());     
+                this.code_generation_translator.storeToTheVariableAssumingTheValueIsOnTopOfStack(this.curr_class.getName().getName(), var_name, symTable.top, var_name.getType().toString());
+            }
+            else {
+                this.code_generation_translator.addDUP(this.curr_class.getName().getName());
+                this.code_generation_translator.putClassField(this.curr_class.getName().getName(), class_name_this_is_in, var_name.getName(), var_name.getType().toString());
+            }
+        }
+        else if(left.getClass().getName().equals("ast.node.expression.ArrayCall")){
+            Expression the_array_instance = ((ArrayCall)left).getInstance();
+            if(the_array_instance.getClass().getName().equals("ast.node.expression.Identifier")){
+                Identifier this_identifier = (Identifier)the_array_instance;
+                String class_name_this_is_in = find_class_this_variable_is_in(this_identifier.getName());
+                if(class_name_this_is_in.equals("null")){
+                    if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), ((ArrayCall)left).getInstance(), this.symTable)){
+                    }
+                    else{
+                        ((ArrayCall)left).getInstance().accept(this);
+                    }
+                    ((ArrayCall)left).getIndex().accept(this);
+                    if(right != null)
+                        right.accept(this); 
+                    this.code_generation_translator.addDUP(this.curr_class.getName().getName());
+                    this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName()); 
+                }
+                else{
+                    this.code_generation_translator.getClassField(this.curr_class.getName().getName(), class_name_this_is_in, this_identifier.getName(), this_identifier.getType().toString());
+                    ((ArrayCall)left).getIndex().accept(this);
+                    if(right != null)
+                        right.accept(this); 
+                    this.code_generation_translator.addDUP(this.curr_class.getName().getName());
+                    this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName());
+                }
+            }
+            else {
+                if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), ((ArrayCall)left).getInstance(), this.symTable)){
+                }
+                else{
+                    ((ArrayCall)left).getInstance().accept(this);
+                }
+                ((ArrayCall)left).getIndex().accept(this);
+                if(right!= null)
+                    right.accept(this); 
+                this.code_generation_translator.addDUP(this.curr_class.getName().getName());
+                this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName()); 
+            }
+                            
+        }
+        else{
+            if(right != null)
+                right.accept(this);                     
+        }
+    }
+    else{
+        if(right != null)
+            right.accept(this);                 
+    }    
+}
+
+
+
+
+
+
+
+
 
     @Override
     public void visit(Block block) {

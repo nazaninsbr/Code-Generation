@@ -60,9 +60,10 @@
    aload_0
    invokevirtual thisStuff/test()I
    istore 40
-   iload 40
    ldc 777
    ineg
+   dup
+   istore 40
    istore 41
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "*******************************************"
