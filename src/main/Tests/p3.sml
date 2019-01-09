@@ -1,6 +1,6 @@
 class Test {
 	def main() : int {
-		writeln(new Math().factorial(5));
+		writeln(new Math().factorial(2));
 		return 0;
 	}
 }
@@ -10,8 +10,9 @@ class Math {
 	def factorial(f: int): int {
 		var j: int; 
 		j = 1;
-		while (f <> 0){
+		while (j <> 128){
 			j = j*f; 
+			writeln(j);
 		}
 		return j;
 	}
