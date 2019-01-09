@@ -573,10 +573,6 @@ public class VisitorImpl implements Visitor {
         return new ArrayList<String>();
     }
 
-
-
-
-
     @Override
     public void visit(MethodDeclaration methodDeclaration) {
         if(second_round==false && code_generation_round==false){
@@ -1074,7 +1070,6 @@ public class VisitorImpl implements Visitor {
                     String the_class_name = methodCall.getInstance().getType().toString();
                     System.out.println("Line:"+Integer.toString(methodCall.get_line_number())+":there is no method named "+methodCall.getMethodName().getName()+" in class "+the_class_name);
                     methodCall.setType(new NoType());
-                    no_error = false;
                 }
             }
         }

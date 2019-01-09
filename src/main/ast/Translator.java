@@ -22,15 +22,36 @@ public class Translator {
         this.binary_number_jump_condition = 0;
     }
 
-    public void addJavaMainClass(String main_class_name){
-        this.commands.put("JavaMain", new ArrayList<String>());
-        ArrayList<String> c = this.commands.get("JavaMain");
-        c.add(".class public JavaMain");
+    void addObjectClass(){
+        String object_string = "Object";
+        this.commands.put("Object", new ArrayList<String>());
+        ArrayList<String> c = this.commands.get("Object");
+        c.add(".class public Object");
         c.add(".super java/lang/Object");
         c.add("; default constructor");
         c.add(".method public <init>()V");
         c.add("   aload_0 ; push this");
         c.add("   invokespecial java/lang/Object/<init>()V ; call super");
+        c.add("   return");
+        c.add(".end method");
+        c.add(".method public toString()Ljava/lang/String;");
+        c.add("   .limit stack 32");
+        c.add("   .limit locals 32");
+        c.add("   ldc \""+object_string+"\"");
+        c.add("   areturn");
+        c.add(".end method");
+    }
+
+    public void addJavaMainClass(String main_class_name){
+        this.addObjectClass();
+        this.commands.put("JavaMain", new ArrayList<String>());
+        ArrayList<String> c = this.commands.get("JavaMain");
+        c.add(".class public JavaMain");
+        c.add(".super Object");
+        c.add("; default constructor");
+        c.add(".method public <init>()V");
+        c.add("   aload_0 ; push this");
+        c.add("   invokespecial Object/<init>()V ; call super");
         c.add("   return");
         c.add(".end method");
         c.add(".method public static main([Ljava/lang/String;)V");
@@ -49,7 +70,7 @@ public class Translator {
     	ArrayList<String> c = this.commands.get(class_name);
     	c.add(".class public "+class_name);
     	if(parent_name.equals("null") || parent_name.equals("Object")){
-    		c.add(".super java/lang/Object");
+    		c.add(".super Object");
     	}
     	else {
     		c.add(".super "+parent_name);
@@ -64,7 +85,7 @@ public class Translator {
     	c.add(".method public <init>()V");
     	c.add("   aload_0 ; push this");
         if(parent_name.equals("null") || parent_name.equals("Object")){
-            c.add("   invokespecial java/lang/Object/<init>()V ; call super");
+            c.add("   invokespecial Object/<init>()V ; call super");
         }
         else{
     	   c.add("   invokespecial "+parent_name+"/<init>()V ; call super");
@@ -133,7 +154,7 @@ public class Translator {
 
     public void createNewArray(String class_name, int length){
         ArrayList<String> c = this.commands.get(class_name);
-        c.add("   bipush "+Integer.toString(length));
+        c.add("   ldc "+Integer.toString(length));
         c.add("   newarray       int");
     }
 
@@ -151,8 +172,8 @@ public class Translator {
     	} else {
             c.add(".method public "+method_name+"("+args_str+")L"+return_type+";");
         }
-    	c.add("   .limit stack 128");
-    	c.add("   .limit locals 128");
+    	c.add("   .limit stack 256");
+    	c.add("   .limit locals 256");
     }
 
     public void endMethodInClassFile(String class_name){
@@ -332,8 +353,12 @@ public class Translator {
                 commands.get(class_name).add("   iconst_0");
                 commands.get(class_name).add("   istore "+Integer.toString(symTable_index));
             }
-            // else if(localVars.get(i).getType().toString().equals("string") || localVars.get(i).getType().toString().equals("int[]")){
-            //     commands.get(class_name).add("   iconst_0");
+            // else if(localVars.get(i).getType().toString().equals("string")){
+            //     commands.get(class_name).add("   ldc \"Object\"");
+            //     commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
+            // }
+            // else if(localVars.get(i).getType().toString().equals("int[]")){
+            //     commands.get(class_name).add("   newarray int");
             //     commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
             // }
         }
@@ -521,8 +546,13 @@ public class Translator {
         }
         cmd = cmd + ")";
         String type_of_this;
-        type_of_this = get_type_code_generation_equivalent(return_type);       
-        cmd = cmd + type_of_this;
+        if(method_name.equals("toString")){
+            cmd = cmd +"Ljava/lang/String;";
+        }
+        else{
+            type_of_this = get_type_code_generation_equivalent(return_type);       
+            cmd = cmd + type_of_this;
+        } 
         commands.get(class_name).add(cmd);
     }
 

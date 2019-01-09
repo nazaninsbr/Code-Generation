@@ -59,8 +59,8 @@ class thisStuff extends TestWrite{
 		arr[2] = 3000;
 		writeln("=============================================");
 		writeln((new ArrayStuff().x(arr)));
-		# anArrayInstance[0] = 9999; 
-		#writeln(anArrayInstance[0]);
+		#anArrayInstance[0] = 9999; 
+		#writeln(anArrayInstance[3]);
 		writeln("=============================================");
 		return 12; 
 	}

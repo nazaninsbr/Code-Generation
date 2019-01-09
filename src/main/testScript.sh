@@ -25,11 +25,11 @@ javac *.java
 # echo 9
 # java org.antlr.v4.gui.TestRig Smoola program < ./Tests/9.txt > ./Results/9.txt
 # echo 10
-# java org.antlr.v4.gui.TestRig Smoola program < ./Tests/10.txt > ./Results/10.txt
-echo 11
+# java org.antlr.v4.gui.TestRig Smoola program < ./Tests/10.txt
+# echo 11
 java org.antlr.v4.gui.TestRig Smoola program < ./Tests/11.txt
 # echo 12
-# java org.antlr.v4.gui.TestRig Smoola program < ./Tests/12.txt > ./Results/12.txt
+# java org.antlr.v4.gui.TestRig Smoola program < ./Tests/12.txt
 # echo 13
 # java org.antlr.v4.gui.TestRig Smoola program < ./Tests/13.sml > ./Results/13.sml
 # echo 14

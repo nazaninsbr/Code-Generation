@@ -1,11 +1,3 @@
-Line:12:unsupported operand type for or
-Line:15:unsupported operand type for assign
-Line:16:variable A is not declared
-Line:16:variable V is not declared
-Line:20:variable i is not declared
-Line:23:variable main is not declared
-Line:24:variable i is not declared
-Line:24:variable main is not declared
-Line:25:variable B is not declared
-Line:25:variable C is not declared
-Line:25:variable m is not declared
+Line:38:there is no method named toString in class XXX
+Line:165:there is no method named toString in class Helper
+Line:175:there is no method named toString in class X
