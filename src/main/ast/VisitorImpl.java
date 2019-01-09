@@ -1347,11 +1347,11 @@ public class VisitorImpl implements Visitor {
                             this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName()); 
                         }
                         else{
-                            this.code_generation_translator.addLoadingOfThis(this.curr_class.getName().getName());
+                            this.code_generation_translator.getClassField(this.curr_class.getName().getName(), class_name_this_is_in, this_identifier.getName(), this_identifier.getType().toString());
                             ((ArrayCall)assign.getlValue()).getIndex().accept(this);
                             if(assign.getrValue() != null)
                                 assign.getrValue().accept(this); 
-                            this.code_generation_translator.putClassField(this.curr_class.getName().getName(), class_name_this_is_in, this_identifier.getName(), this_identifier.getType().toString());
+                            this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName());
                         }
                     }
                     else {
