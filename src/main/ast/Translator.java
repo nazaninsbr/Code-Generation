@@ -556,7 +556,9 @@ public class Translator {
         commands.get(class_name).add(cmd);
     }
 
-
+    public void addDUP(String class_name){
+        commands.get(class_name).add("   dup");
+    }
 
 	@Override
     public String toString() {

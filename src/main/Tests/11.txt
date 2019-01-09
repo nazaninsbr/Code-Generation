@@ -71,6 +71,7 @@ class thisStuff extends TestWrite{
 		newName = x3 = -777; 
 		writeln("*******************************************");
 		writeln(newName);
+		writeln(x3);
 		writeln("*******************************************");
 		return this.another(); 
 	}
