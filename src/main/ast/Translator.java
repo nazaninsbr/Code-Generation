@@ -78,9 +78,6 @@ public class Translator {
     	for(int i=0; i<args.size(); i++){
     		String type = args.get(i).getType().toString();
             String this_type = get_type_code_generation_equivalent(type);
-            if(this_type.equals("Ljava/lang/String;")){
-                this_type = this_type+";";
-            }
     		args_string.add(this_type);
     	}
     	return String.join("", args_string);
@@ -284,7 +281,10 @@ public class Translator {
             	commands.get(class_name).add("   iload "+Integer.toString(real_index));
             	commands.get(class_name).add("   istore "+Integer.toString(symTable_index));
             }
-
+            else if(args.get(i).getType().toString().equals("string")){
+                commands.get(class_name).add("   aload "+Integer.toString(real_index));
+                commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
+            }
 		}
 	}
 	public void moveArgsBackToIndex(String class_name, ArrayList<VarDeclaration> args, SymbolTable symTable){
@@ -302,7 +302,10 @@ public class Translator {
             	commands.get(class_name).add("   iload "+Integer.toString(symTable_index));
             	commands.get(class_name).add("   istore "+Integer.toString(real_index));
             }
-
+            else if(args.get(i).getType().toString().equals("string")){
+                commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
+                commands.get(class_name).add("   astore "+Integer.toString(real_index));
+            }
 		}
 	}
     public void moveLocalVarsToIndex(String class_name, ArrayList<VarDeclaration> localVars, SymbolTable symTable,int args_size){
@@ -492,9 +495,6 @@ public class Translator {
         for (int i = 0; i < args.size(); i++){
             String type_of_this = get_type_code_generation_equivalent(args.get(i));
             cmd = cmd + type_of_this;
-            if (type_of_this.equals("Ljava/lang/String;")){
-                cmd = cmd + ";";  
-            } 
         }
         cmd = cmd + ")";
         String type_of_this;

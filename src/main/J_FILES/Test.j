@@ -15,8 +15,8 @@
    dup
    invokespecial Test2/<init>()V ; call constructor
    ldc 1
-   ldc 2
-   invokevirtual Test2/print(II)Ljava/lang/String;
+   ldc "string input"
+   invokevirtual Test2/print(ILjava/lang/String;)Ljava/lang/String;
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    ; create an Test2 object on top of stack

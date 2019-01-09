@@ -41,24 +41,25 @@
    istore 2
    ireturn
 .end method
-.method public print(II)Ljava/lang/String;
+.method public print(ILjava/lang/String;)Ljava/lang/String;
    .limit stack 128
    .limit locals 128
    iload 1
    istore 43
-   iload 2
-   istore 44
+   aload 2
+   astore 44
    getstatic java/lang/System/out Ljava/io/PrintStream;
    iload 43
    invokevirtual java/io/PrintStream/println(I)V
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 44
-   invokevirtual java/io/PrintStream/println(I)V
+   aload 44
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    ldc "this is a string return type"
    iload 43
    istore 1
-   iload 44
-   istore 2
+   aload 44
+   astore 2
    areturn
 .end method
 .method public classCreationStuff()I

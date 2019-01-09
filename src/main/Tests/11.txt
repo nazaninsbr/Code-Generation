@@ -1,6 +1,6 @@
 class Test { 
 	def main() : int {
-		writeln(new Test2().print(1, 2));
+		writeln(new Test2().print(1, "string input"));
 		new Test2().add();
 		new conditionalClass().checkBooleanStuff();
 		new Test2().classCreationStuff(); 
@@ -59,7 +59,7 @@ class Test2 {
 		writeln(t.aFunc());
 		return 14;
 	}
-	def print(g :int,k: int):string{
+	def print(g :int,k: string):string{
 		writeln(g);
 		writeln(k);
 		return "this is a string return type";
