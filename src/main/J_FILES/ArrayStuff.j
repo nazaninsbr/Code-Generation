@@ -21,8 +21,22 @@
    aload 0 ;this
    getfield ArrayStuff/anArrayInstance [I
    ldc 3
-   ldc 0
+   ldc 56565
    iastore
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   ldc "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   aload 0 ;this
+   getfield ArrayStuff/anArrayInstance [I
+   ldc 3
+   iaload
+   invokevirtual java/io/PrintStream/println(I)V
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   ldc "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    iconst_1
    iconst_0
    ior

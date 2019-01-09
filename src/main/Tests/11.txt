@@ -30,7 +30,10 @@ class ArrayStuff{
 		var b: boolean; 
 		var i: int[];
 		anArrayInstance = new int[5];
-		anArrayInstance[3] = 0;
+		anArrayInstance[3] = 56565;
+		writeln("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		writeln(anArrayInstance[3]);
+		writeln("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		b = true || false; 
 		if(b) then {
 			writeln("local boolean variable");
