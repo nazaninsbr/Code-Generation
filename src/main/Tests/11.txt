@@ -121,9 +121,13 @@ class WhileClass{
 }
 
 class conditionalClass{
+	var aClassBoolean: boolean;
+	var aclassString: string; 
 	def newFunc():int{
 		var t: thisStuff;
 		writeln("HIIIIIIIII");
+		aClassBoolean = true;
+		aclassString = "I REALLY HOPE THIS WORKS";
 	    t = new thisStuff(); 
 	    writeln("BYEEEEEEE");
 	    return 0;
@@ -132,6 +136,9 @@ class conditionalClass{
 	def boolReturnType(b: boolean): boolean{
 		var newInt: int; 
 		newInt = this.newFunc();
+		if(aClassBoolean) then {
+			writeln(aclassString);
+		}
 		if(b) then {
 			writeln("boolReturnType TRUE input value");
 		}

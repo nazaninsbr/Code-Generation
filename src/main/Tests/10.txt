@@ -1,25 +1,48 @@
 class MainClass {
 	def main() : int {
-		x = -12;
-		new SecondMain().main();
-		return new SecondMain().main();
+		new SecondMain().main(new Blue());
+		return 0;
 	}
 }
 class SecondMain extends Blue {
 	var arr: int[];
-	var x : int;
+	var x2 : int;
 	var y : boolean;
-	def main(): int {
-		x = (2 + (3 || 4)) / 7;
-		y = 4*6+12||c[0]-8*4&&12;
-		arr = new int[10];
-		if (arr.length == 10 * x) then
-			x = true;
-		else
-			y = false;
-		while ( j <> 12+9*2) {
-			x[j] = x+j;
+	def main(aClass: Blue): int {
+		x2 = aClass.setX(5);
+		writeln(x2);
+		return x;
+	}
+}
+
+class Emp {
+	var uu: boolean;
+	def returnAnEmp(): Emp{
+		var returnVal: Emp;
+		uu = true;
+		returnVal = new Emp();
+		return returnVal;
+	}
+
+	def getBool(): boolean{
+		return uu;
+	}
+}
+
+class Blue {
+	var x: int; 
+	def setX(val: int): int{
+		var classIns: Emp;
+		var classIns2: Emp;
+		classIns = new Emp();
+		classIns2 = classIns.returnAnEmp();
+		if(classIns2.getBool()) then{
+			writeln("NOT TO BE PRINTED");
 		}
+		if(classIns.getBool()) then{
+			writeln("PRINTED");
+		}
+		x = val; 
 		return x;
 	}
 }

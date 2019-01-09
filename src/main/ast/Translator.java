@@ -94,7 +94,7 @@ public class Translator {
     	} else if(type.equals("int[]")){
     		return "[I";
     	}
-    	return "";
+        return "L"+type+";";
     }
 
     public void addLoadingOfThis(String class_name){
@@ -148,7 +148,9 @@ public class Translator {
     		c.add(".method public "+method_name+"("+args_str+")Ljava/lang/String;");
     	} else if (return_type.equals("int[]")){
     		c.add(".method public "+method_name+"("+args_str+")[I");
-    	}
+    	} else {
+            c.add(".method public "+method_name+"("+args_str+")L"+return_type+";");
+        }
     	c.add("   .limit stack 128");
     	c.add("   .limit locals 128");
     }
@@ -295,7 +297,7 @@ public class Translator {
             	commands.get(class_name).add("   iload "+Integer.toString(real_index));
             	commands.get(class_name).add("   istore "+Integer.toString(symTable_index));
             }
-            else if(args.get(i).getType().toString().equals("string") || args.get(i).getType().toString().equals("int[]")){
+            else {
                 commands.get(class_name).add("   aload "+Integer.toString(real_index));
                 commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
             }
@@ -316,7 +318,7 @@ public class Translator {
             	commands.get(class_name).add("   iload "+Integer.toString(symTable_index));
             	commands.get(class_name).add("   istore "+Integer.toString(real_index));
             }
-            else if(args.get(i).getType().toString().equals("string") || args.get(i).getType().toString().equals("int[]")){
+            else {
                 commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
                 commands.get(class_name).add("   astore "+Integer.toString(real_index));
             }
@@ -351,7 +353,7 @@ public class Translator {
                 commands.get(class_name).add("   iload "+Integer.toString(symTable_index));
                 commands.get(class_name).add("   istore "+Integer.toString(real_index));
             }
-            else if(localVars.get(i).getType().toString().equals("string") || localVars.get(i).getType().toString().equals("int[]")){
+            else {
                 commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
                 commands.get(class_name).add("   astore "+Integer.toString(real_index));
             }
