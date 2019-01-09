@@ -59,10 +59,10 @@ class Test2 {
 		writeln(t.aFunc());
 		return 14;
 	}
-	def print(g :int,k: int):int{
+	def print(g :int,k: int):string{
 		writeln(g);
 		writeln(k);
-		return 9;
+		return "this is a string return type";
 	}
 	def classCreationStuff():int{
 		var x: WhileClass;

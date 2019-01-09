@@ -578,7 +578,7 @@ public class VisitorImpl implements Visitor {
             symTable.pop();
         }
         else if(code_generation_round==true && second_round==false){
-           
+        
             symTable.push(new SymbolTable(symTable.top));
             check_variable_type_defined_condition_with_symTable(methodDeclaration);
             //symTable.top.printSymbolTableItems();

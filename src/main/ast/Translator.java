@@ -78,7 +78,7 @@ public class Translator {
     	for(int i=0; i<args.size(); i++){
     		String type = args.get(i).getType().toString();
             String this_type = get_type_code_generation_equivalent(type);
-            if(this_type.equals("[Ljava/lang/String")){
+            if(this_type.equals("Ljava/lang/String;")){
                 this_type = this_type+";";
             }
     		args_string.add(this_type);
@@ -93,7 +93,7 @@ public class Translator {
     	} else if(type.equals("bool")){
     		return "Z";
     	} else if(type.equals("string")){
-    		return "[Ljava/lang/String";
+    		return "Ljava/lang/String;";
     	} else if(type.equals("int[]")){
     		return "[I";
     	}
@@ -134,7 +134,7 @@ public class Translator {
     	} else if (return_type.equals("bool")){
     		c.add(".method public "+method_name+"("+args_str+")Z");
     	} else if (return_type.equals("string")){
-    		c.add(".method public "+method_name+"("+args_str+")Ljava/lang/String");
+    		c.add(".method public "+method_name+"("+args_str+")Ljava/lang/String;");
     	} else if (return_type.equals("int[]")){
     		c.add(".method public "+method_name+"("+args_str+")[I");
     	}
@@ -474,8 +474,7 @@ public class Translator {
             commands.get(class_name).add("   areturn");
         }
         else if(type.equals("string")){
-            //can't find it!!!
-            commands.get(class_name).add("   return");
+            commands.get(class_name).add("   areturn");
         } 
         else if(type.equals("bool")){
             //can't find it!!!
@@ -493,7 +492,7 @@ public class Translator {
         for (int i = 0; i < args.size(); i++){
             String type_of_this = get_type_code_generation_equivalent(args.get(i));
             cmd = cmd + type_of_this;
-            if (type_of_this.equals("[Ljava/lang/String")){
+            if (type_of_this.equals("Ljava/lang/String;")){
                 cmd = cmd + ";";  
             } 
         }
