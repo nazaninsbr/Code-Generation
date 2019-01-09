@@ -97,6 +97,19 @@ public class Translator {
     	return "";
     }
 
+    public void addLoadingOfThis(String class_name){
+        commands.get(class_name).add("   aload 0 ;this");
+    }
+
+    public void getClassField(String class_name, String class_name_holding_var, String var_name, String type){
+        commands.get(class_name).add("   aload 0 ;this");
+        commands.get(class_name).add("   getfield "+class_name_holding_var+"/"+var_name+" "+this.get_type_code_generation_equivalent(type));
+    }
+
+    public void putClassField(String class_name, String class_name_holding_var, String var_name, String type){
+        commands.get(class_name).add("   putfield "+class_name_holding_var+"/"+var_name+" "+this.get_type_code_generation_equivalent(type));
+    }
+
     public void getStaticPrint(String class_name){
         commands.get(class_name).add("   getstatic java/lang/System/out Ljava/io/PrintStream;");
     }
@@ -409,10 +422,10 @@ public class Translator {
                 commands.get(class_name).add("   if_icmpeq "+end_label+"_"+Integer.toString(lable_number));
             }
             else if(op == BinaryOperator.lt){
-                commands.get(class_name).add("   if_icmpgt "+end_label+"_"+Integer.toString(lable_number));
+                commands.get(class_name).add("   if_icmpge "+end_label+"_"+Integer.toString(lable_number));
             }
             else if(op == BinaryOperator.gt){
-                commands.get(class_name).add("   if_icmplt "+end_label+"_"+Integer.toString(lable_number));
+                commands.get(class_name).add("   if_icmple "+end_label+"_"+Integer.toString(lable_number));
             }
         }
         else if(condition.getType().toString().equals("bool")){

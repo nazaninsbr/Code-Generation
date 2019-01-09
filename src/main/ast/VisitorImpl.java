@@ -14,6 +14,8 @@ import ast.Translator;
 import ast.node.expression.UnaryOperator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.*;
+import java.io.*;
 
 import ast.Type.UserDefinedType.UserDefinedType; 
 import ast.Type.ArrayType.ArrayType;
@@ -37,6 +39,10 @@ public class VisitorImpl implements Visitor {
     SymbolTable symTable;  
     int index; 
     int unique_label_number; 
+
+    private HashMap<String, ArrayList<String>> variable_name_to_class_map;
+    private HashMap<String, ArrayList<String>> class_to_parent_names_map;
+
     void add_class_to_symbol_table(String class_name, ClassDeclaration class_dec){
         try{
             UserDefinedType class_type = new UserDefinedType(); 
@@ -111,6 +117,9 @@ public class VisitorImpl implements Visitor {
             check_class_existance_condition_with_symTable(program);
         }
         if (no_error==true){
+            this.variable_name_to_class_map = new HashMap<String, ArrayList<String>>();
+            this.class_to_parent_names_map = new HashMap<String, ArrayList<String>>();
+
             index = 0;
             if(! program.getMainClass().getMethodDeclarations().get(0).getName().getName().equals("main")){
                 System.out.println("Line:"+Integer.toString((program.getMainClass().getMethodDeclarations().get(0)).get_line_number())+":main method was not found");
@@ -319,6 +328,9 @@ public class VisitorImpl implements Visitor {
         Boolean found = false;
         Boolean is_after = false;
         ClassDeclaration mainClass = this.this_prog.getMainClass();
+        if(second_round==true && code_generation_round==false){
+            this.class_to_parent_names_map.get(this.curr_class.getName().getName()).add(parent_name);
+        }
         if(mainClass.getName().getName().equals(parent_name)){
             found=true;
             ___add_every_thing_to_symbol_table_no_errors(mainClass); 
@@ -407,6 +419,7 @@ public class VisitorImpl implements Visitor {
     void call_methods_and_vars_to_continue_checks(ClassDeclaration classDeclaration){
         ArrayList<VarDeclaration> vars = classDeclaration.getVarDeclarations(); 
         for(int j=0; j<vars.size(); j++){
+            this.variable_name_to_class_map.get(classDeclaration.getName().getName()).add(vars.get(j).getIdentifier().getName());
             vars.get(j).accept(this);
         }
         ArrayList<MethodDeclaration> methodDeclarations = classDeclaration.getMethodDeclarations();
@@ -433,6 +446,9 @@ public class VisitorImpl implements Visitor {
             symTable.pop();
         } 
         else if(second_round==true){
+            this.variable_name_to_class_map.put(classDeclaration.getName().getName(), new ArrayList<String>());
+            this.class_to_parent_names_map.put(classDeclaration.getName().getName(), new ArrayList<String>());
+
             symTable.push(new SymbolTable(symTable)); 
             add_vars_and_methods_to_symbolTable_for_undefiend_checks(classDeclaration);
             if (! classDeclaration.getParentName().getName().equals("null")) {
@@ -826,6 +842,28 @@ public class VisitorImpl implements Visitor {
         }
     }
 
+    boolean is_value_in_list(String value, ArrayList<String> l){
+        for(int i=0; i<l.size(); i++){
+            if(value.equals(l.get(i))){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    String find_class_this_variable_is_in(String variable_name){
+        if(is_value_in_list(variable_name, this.variable_name_to_class_map.get(this.curr_class.getName().getName()))){
+            return this.curr_class.getName().getName();
+        }
+        ArrayList<String> parents_of_this_class = this.class_to_parent_names_map.get(this.curr_class.getName().getName());
+        for(int i=0; i<parents_of_this_class.size(); i++){
+            if(is_value_in_list(variable_name, this.variable_name_to_class_map.get(parents_of_this_class.get(i)))){
+                return parents_of_this_class.get(i);
+            }
+        }
+        return "null";
+    }
+
     @Override
     public void visit(Identifier identifier) {
         if(second_round==true){
@@ -841,7 +879,13 @@ public class VisitorImpl implements Visitor {
             }
         }
         else if(second_round==false && code_generation_round==true){
-            this.code_generation_translator.loadFromVariableOnTopOfStack(this.curr_class.getName().getName(),identifier,symTable.top,identifier.getType().toString());
+            String class_name_this_is_in = find_class_this_variable_is_in(identifier.getName());
+            if(class_name_this_is_in.equals("null")){            
+                this.code_generation_translator.loadFromVariableOnTopOfStack(this.curr_class.getName().getName(),identifier,symTable.top,identifier.getType().toString());
+            }
+            else {
+                this.code_generation_translator.getClassField(this.curr_class.getName().getName(), class_name_this_is_in, identifier.getName(), identifier.getType().toString());
+            }
         }
     }
 
@@ -1272,10 +1316,19 @@ public class VisitorImpl implements Visitor {
             if (assign.getlValue()!=null) {
 
                 if (assign.getlValue().getClass().getName().equals("ast.node.expression.Identifier")) {
+                    Identifier var_name = (Identifier) assign.getlValue();
+                    String class_name_this_is_in = find_class_this_variable_is_in(var_name.getName());
+                    if(!class_name_this_is_in.equals("null")){
+                        this.code_generation_translator.addLoadingOfThis(this.curr_class.getName().getName());
+                    }
                     if(assign.getrValue() != null)
                         assign.getrValue().accept(this);                    
-                    Identifier var_name = (Identifier) assign.getlValue();
-                    this.code_generation_translator.storeToTheVariableAssumingTheValueIsOnTopOfStack(this.curr_class.getName().getName(), var_name, symTable.top, var_name.getType().toString());
+                    if(class_name_this_is_in.equals("null")){            
+                        this.code_generation_translator.storeToTheVariableAssumingTheValueIsOnTopOfStack(this.curr_class.getName().getName(), var_name, symTable.top, var_name.getType().toString());
+                    }
+                    else {
+                        this.code_generation_translator.putClassField(this.curr_class.getName().getName(), class_name_this_is_in, var_name.getName(), var_name.getType().toString());
+                    }
                 }
                 else if(assign.getlValue().getClass().getName().equals("ast.node.expression.ArrayCall")){
                     if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), ((ArrayCall)assign.getlValue()).getInstance(), this.symTable)){

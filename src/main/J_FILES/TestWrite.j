@@ -14,6 +14,13 @@
    istore 17
    ldc 12
    istore 17
+   aload 0 ;this
+   ldc 888888
+   putfield TestWrite/cvar I
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   aload 0 ;this
+   getfield TestWrite/cvar I
+   invokevirtual java/io/PrintStream/println(I)V
    ldc "my name is N"
    astore 16
    getstatic java/lang/System/out Ljava/io/PrintStream;
