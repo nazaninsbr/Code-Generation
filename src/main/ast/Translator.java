@@ -56,7 +56,12 @@ public class Translator {
     	c.add("; default constructor");
     	c.add(".method public <init>()V");
     	c.add("   aload_0 ; push this");
-    	c.add("   invokespecial java/lang/Object/<init>()V ; call super");
+        if(parent_name.equals("null") || parent_name.equals("Object")){
+            c.add("   invokespecial java/lang/Object/<init>()V ; call super");
+        }
+        else{
+    	   c.add("   invokespecial "+parent_name+"/<init>()V ; call super");
+        }
    		c.add("   return");
    		c.add(".end method");
     }

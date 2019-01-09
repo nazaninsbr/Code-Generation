@@ -31,13 +31,15 @@ class ArrayStuff{
 	}
 }
 
-class thisStuff{
+class thisStuff extends TestWrite{
 	def another(): int{
 		var x2: int;
 		x2 = new ArrayStuff().x();
 		return 12; 
 	}
 	def aFunc(): int{
+		var x3: int; 
+		x3 = this.test();
 		return this.another(); 
 	}
 }
