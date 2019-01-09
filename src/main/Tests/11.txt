@@ -135,8 +135,9 @@ class conditionalClass{
 	var aclassString: string; 
 	def newFunc():int{
 		var t: thisStuff;
+		var newB: boolean;
+		aClassBoolean = 1>0;
 		writeln("HIIIIIIIII");
-		aClassBoolean = true;
 		aclassString = "I REALLY HOPE THIS WORKS";
 	    t = new thisStuff(); 
 	    writeln("BYEEEEEEE");

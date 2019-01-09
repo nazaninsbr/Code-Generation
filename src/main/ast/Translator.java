@@ -235,7 +235,7 @@ public class Translator {
             commands.get(class_name).add("   ineg");
         }
     }
-	public void performMathOPeration(String class_name, BinaryOperator op){
+	public void performMathOPeration(String class_name, BinaryOperator op, boolean in_a_conditional){
 		if (op == BinaryOperator.add){
 			commands.get(class_name).add("   iadd");
 		}
@@ -254,23 +254,45 @@ public class Translator {
         else if(op == BinaryOperator.or){
             commands.get(class_name).add("   ior");
         }
-        /*
-        else if(op == BinaryOperator.eq){
+        if(in_a_conditional==false){
+            if(op == BinaryOperator.eq){
+                commands.get(class_name).add("   if_icmpne jump_to_zero_value"+Integer.toString(this.binary_number_jump_condition));
+                commands.get(class_name).add("   iconst_1");
+                commands.get(class_name).add("   goto jump_to_end_value"+Integer.toString(this.binary_number_jump_condition));
+                commands.get(class_name).add("jump_to_zero_value"+Integer.toString(this.binary_number_jump_condition)+":");
+                commands.get(class_name).add("   iconst_0");
+                commands.get(class_name).add("jump_to_end_value"+Integer.toString(this.binary_number_jump_condition)+":");
+                this.binary_number_jump_condition += 1;
+            }
+            else if (op == BinaryOperator.neq){
+                commands.get(class_name).add("   if_icmpeq jump_to_zero_value"+Integer.toString(this.binary_number_jump_condition));
+                commands.get(class_name).add("   iconst_1");
+                commands.get(class_name).add("   goto jump_to_end_value"+Integer.toString(this.binary_number_jump_condition));
+                commands.get(class_name).add("jump_to_zero_value"+Integer.toString(this.binary_number_jump_condition)+":");
+                commands.get(class_name).add("   iconst_0");
+                commands.get(class_name).add("jump_to_end_value"+Integer.toString(this.binary_number_jump_condition)+":");
+                this.binary_number_jump_condition += 1;
 
+            }
+            else if (op == BinaryOperator.lt){
+                commands.get(class_name).add("   if_icmpge jump_to_zero_value"+Integer.toString(this.binary_number_jump_condition));
+                commands.get(class_name).add("   iconst_1");
+                commands.get(class_name).add("   goto jump_to_end_value"+Integer.toString(this.binary_number_jump_condition));
+                commands.get(class_name).add("jump_to_zero_value"+Integer.toString(this.binary_number_jump_condition)+":");
+                commands.get(class_name).add("   iconst_0");
+                commands.get(class_name).add("jump_to_end_value"+Integer.toString(this.binary_number_jump_condition)+":");
+                this.binary_number_jump_condition += 1;
+            }
+            else if (op == BinaryOperator.gt){
+                commands.get(class_name).add("   if_icmple jump_to_zero_value"+Integer.toString(this.binary_number_jump_condition));
+                commands.get(class_name).add("   iconst_1");
+                commands.get(class_name).add("   goto jump_to_end_value"+Integer.toString(this.binary_number_jump_condition));
+                commands.get(class_name).add("jump_to_zero_value"+Integer.toString(this.binary_number_jump_condition)+":");
+                commands.get(class_name).add("   iconst_0");
+                commands.get(class_name).add("jump_to_end_value"+Integer.toString(this.binary_number_jump_condition)+":");
+                this.binary_number_jump_condition += 1;
+            }
         }
-        else if (op == BinaryOperator.neq){
-
-        }
-        else if (op == BinaryOperator.lt){
-
-        }
-        else if (op == BinaryOperator.gt){
-
-        }
-        else{
-
-        }
-        */
 	}
 
     int getVariableSymbolTableIndex(VarDeclaration var, SymbolTable symTable){

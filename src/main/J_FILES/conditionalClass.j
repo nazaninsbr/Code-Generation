@@ -11,13 +11,22 @@
 .method public newFunc()I
    .limit stack 256
    .limit locals 256
+   iconst_0
+   istore 79
+   aload 0 ;this
+   ldc 1
+   ldc 0
+   if_icmple jump_to_zero_value0
+   iconst_1
+   goto jump_to_end_value0
+jump_to_zero_value0:
+   iconst_0
+jump_to_end_value0:
+   putfield conditionalClass/aClassBoolean I
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "HIIIIIIIII"
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-   aload 0 ;this
-   iconst_1
-   putfield conditionalClass/aClassBoolean I
    aload 0 ;this
    ldc "I REALLY HOPE THIS WORKS"
    putfield conditionalClass/aclassString Ljava/lang/String;
@@ -33,18 +42,20 @@
    ldc 0
    aload 78
    astore 1
+   iload 79
+   istore 2
    ireturn
 .end method
 .method public boolReturnType(I)I
    .limit stack 256
    .limit locals 256
    iload 1
-   istore 79
-   iconst_0
    istore 80
+   iconst_0
+   istore 81
    aload_0
    invokevirtual conditionalClass/newFunc()I
-   istore 80
+   istore 81
    aload 0 ;this
    getfield conditionalClass/aClassBoolean I
    ifle done_for_if_NO_4
@@ -55,7 +66,7 @@
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    goto done_for_if_NO_4
 done_for_if_NO_4:
-   iload 79
+   iload 80
    ifle else_for_if_NO_5
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "boolReturnType TRUE input value"
@@ -69,9 +80,9 @@ else_for_if_NO_5:
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 done_for_if_NO_5:
    iconst_1
-   iload 79
-   istore 1
    iload 80
+   istore 1
+   iload 81
    istore 2
    ireturn
 .end method

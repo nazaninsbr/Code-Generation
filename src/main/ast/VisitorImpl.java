@@ -32,6 +32,7 @@ public class VisitorImpl implements Visitor {
     boolean second_round; 
     boolean code_generation_round;
     boolean is_class_variable; 
+    boolean in_a_conditional; 
 
     Program this_prog; 
     ClassDeclaration curr_class; 
@@ -858,7 +859,7 @@ public class VisitorImpl implements Visitor {
             else{
                 binaryExpression.getLeft().accept(this);
                 binaryExpression.getRight().accept(this);
-                this.code_generation_translator.performMathOPeration(this.curr_class.getName().getName(),binaryExpression.getBinaryOperator());                
+                this.code_generation_translator.performMathOPeration(this.curr_class.getName().getName(),binaryExpression.getBinaryOperator(), this.in_a_conditional);                
             }
 
         }
@@ -1514,7 +1515,9 @@ public void handle_assign_exp(Expression right,Expression left){
         else if(second_round==false && code_generation_round==true){
             int this_ifs_lable_number = unique_label_number;
             unique_label_number += 1;
+            this.in_a_conditional = true;
             conditional.getExpression().accept(this);
+            this.in_a_conditional = false;
             if(conditional.getAlternativeBody()!=null){
                 this.code_generation_translator.createJumpWithCondition(this.curr_class.getName().getName(), conditional.getExpression(), "else_for_if_NO", this_ifs_lable_number);
             }
@@ -1557,7 +1560,9 @@ public void handle_assign_exp(Expression right,Expression left){
             int this_ifs_lable_number = unique_label_number;
             unique_label_number += 1;
             this.code_generation_translator.create_a_label(this.curr_class.getName().getName(), "start_of_while_NO", this_ifs_lable_number);
+            this.in_a_conditional = true;
             loop.getCondition().accept(this);
+            this.in_a_conditional = false;
             this.code_generation_translator.createJumpWithCondition(this.curr_class.getName().getName(), loop.getCondition(), "end_of_while_NO", this_ifs_lable_number);
             check_for_statements(statements);   
             this.code_generation_translator.jumpToLabel(this.curr_class.getName().getName(), "start_of_while_NO", this_ifs_lable_number);
