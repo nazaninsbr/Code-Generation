@@ -12,7 +12,11 @@ class Math {
 		j = 1;
 		while (j <> 128){
 			j = j*f; 
+<<<<<<< HEAD
 			writeln(j);
+=======
+			f = f -1;
+>>>>>>> 6ae898fd26954526c59f972669a064322576839d
 		}
 		return j;
 	}

@@ -1,4 +1,5 @@
 public class z4{
+	
     public static void main(String []args){
 	    int number;
     }
