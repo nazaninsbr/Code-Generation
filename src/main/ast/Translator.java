@@ -492,7 +492,7 @@ public class Translator {
         } 
         else {
             //can't find it!!!
-            commands.get(class_name).add("   return");             
+            commands.get(class_name).add("   areturn");             
         }                  
     }
 
