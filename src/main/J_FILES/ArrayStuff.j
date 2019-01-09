@@ -11,9 +11,9 @@
    .limit stack 128
    .limit locals 128
    aload 1
-   astore 24
+   astore 25
    iconst_0
-   istore 25
+   istore 26
    aload 0 ;this
    bipush 5
    newarray       int
@@ -21,8 +21,8 @@
    iconst_1
    iconst_0
    ior
-   istore 25
-   iload 25
+   istore 26
+   iload 26
    ifle done_for_if_NO_0
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "local boolean variable"
@@ -31,39 +31,39 @@
    goto done_for_if_NO_0
 done_for_if_NO_0:
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   aload 24
+   aload 25
    ldc 0
    iaload
    invokevirtual java/io/PrintStream/println(I)V
    bipush 4
    newarray       int
-   astore 26
-   aload 26
+   astore 27
+   aload 27
    ldc 0
    ldc 11
    iastore
-   aload 26
+   aload 27
    ldc 1
    ldc 22
    iastore
-   aload 26
+   aload 27
    ldc 2
    ldc 33
    iastore
-   aload 26
+   aload 27
    ldc 3
    ldc 44
    iastore
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   aload 26
+   aload 27
    invokestatic java/util/Arrays.toString([I)Ljava/lang/String;
    invokevirtual java/io/PrintStream.println(Ljava/lang/String;)V
-   aload 26
-   aload 24
+   aload 27
+   aload 25
    astore 1
-   iload 25
+   iload 26
    istore 2
-   aload 26
+   aload 27
    astore 3
    areturn
 .end method

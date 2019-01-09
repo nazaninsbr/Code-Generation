@@ -10,38 +10,38 @@
    .limit stack 128
    .limit locals 128
    iconst_0
-   istore 54
+   istore 55
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "IN TEST2 ADD"
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    bipush 10
    newarray       int
-   astore 53
+   astore 54
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   aload 53
+   aload 54
    arraylength
    invokevirtual java/io/PrintStream/println(I)V
    ldc 1
    ldc 3
    iadd
-   istore 54
+   istore 55
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 54
+   iload 55
    invokevirtual java/io/PrintStream/println(I)V
    ; create an thisStuff object on top of stack
    new thisStuff
    dup
    invokespecial thisStuff/<init>()V ; call constructor
-   astore 55
+   astore 56
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   aload 55
+   aload 56
    invokevirtual thisStuff/aFunc()I
    invokevirtual java/io/PrintStream/println(I)V
    ldc 14
-   aload 53
+   aload 54
    astore 1
-   iload 54
+   iload 55
    istore 2
    ireturn
 .end method
@@ -49,20 +49,20 @@
    .limit stack 128
    .limit locals 128
    iload 1
-   istore 62
+   istore 63
    aload 2
-   astore 63
+   astore 64
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 62
+   iload 63
    invokevirtual java/io/PrintStream/println(I)V
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   aload 63
+   aload 64
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    ldc "this is a string return type"
-   iload 62
+   iload 63
    istore 1
-   aload 63
+   aload 64
    astore 2
    areturn
 .end method
@@ -70,20 +70,20 @@
    .limit stack 128
    .limit locals 128
    iconst_0
-   istore 65
+   istore 66
    ; create an WhileClass object on top of stack
    new WhileClass
    dup
    invokespecial WhileClass/<init>()V ; call constructor
-   astore 64
-   aload 64
+   astore 65
+   aload 65
    invokevirtual WhileClass/printInWhile()I
-   istore 65
+   istore 66
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 65
+   iload 66
    invokevirtual java/io/PrintStream/println(I)V
    ldc 0
-   iload 65
+   iload 66
    istore 2
    ireturn
 .end method

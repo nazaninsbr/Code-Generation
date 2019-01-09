@@ -6,12 +6,36 @@
    invokespecial java/lang/Object/<init>()V ; call super
    return
 .end method
+.method public newFunc()I
+   .limit stack 128
+   .limit locals 128
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   ldc "HIIIIIIIII"
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+   ; create an thisStuff object on top of stack
+   new thisStuff
+   dup
+   invokespecial thisStuff/<init>()V ; call constructor
+   astore 73
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   ldc "BYEEEEEEE"
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+   ldc 0
+   ireturn
+.end method
 .method public boolReturnType(I)I
    .limit stack 128
    .limit locals 128
    iload 1
-   istore 71
-   iload 71
+   istore 74
+   iconst_0
+   istore 75
+   aload_0
+   invokevirtual conditionalClass/newFunc()I
+   istore 75
+   iload 74
    ifle else_for_if_NO_4
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "boolReturnType TRUE input value"
@@ -25,8 +49,10 @@ else_for_if_NO_4:
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 done_for_if_NO_4:
    iconst_1
-   iload 71
+   iload 74
    istore 1
+   iload 75
+   istore 2
    ireturn
 .end method
 .method public checkBooleanStuff()I
