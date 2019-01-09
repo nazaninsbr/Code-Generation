@@ -40,11 +40,6 @@
    ldc 1
    iaload
    invokevirtual java/io/PrintStream/println(I)V
-   aload 0 ;this
-   getfield ArrayStuff/anArrayInstance [I
-   ldc 0
-   ldc 9999
-   putfield ArrayStuff/anArrayInstance [I
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "============================================="
    ; invoke println
