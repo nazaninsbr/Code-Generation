@@ -1075,7 +1075,7 @@ public class VisitorImpl implements Visitor {
                 }
                 catch(ItemNotFoundException ex){
                     String the_class_name = methodCall.getInstance().getType().toString();
-                    System.out.println("Line:"+Integer.toString(methodCall.get_line_number())+":there is no method named "+methodCall.getMethodName().getName()+" in class "+the_class_name);
+                    // System.out.println("Line:"+Integer.toString(methodCall.get_line_number())+":there is no method named "+methodCall.getMethodName().getName()+" in class "+the_class_name);
                     methodCall.setType(new NoType());
                 }
             }
@@ -1595,6 +1595,9 @@ public void handle_assign_exp(Expression right,Expression left){
             }
             else if (write.getArg().getType().toString().equals("int[]")){
                 this.code_generation_translator.printAnIntArrayValue(this.curr_class.getName().getName());
+            }
+            else{
+                this.code_generation_translator.printAStringValue(this.curr_class.getName().getName());
             }
         }
     }

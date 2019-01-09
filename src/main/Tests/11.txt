@@ -17,6 +17,9 @@ class TestWrite extends ArrayStuff{
 		x = 12;
 		cvar = 888888;
 		writeln(cvar);
+		writeln("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		writeln(this.toString());
+		writeln("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 		s = "my name is N";
 		writeln(s);
 		writeln("hi");
