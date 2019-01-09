@@ -126,10 +126,9 @@ public class Translator {
     }
 
     public void printAnIntArrayValue(String class_name){
-         ArrayList<String> c = this.commands.get(class_name);
-        c.add("   invokevirtual java/io/PrintStream/println([I)V");
-       //  c.add("   invokestatic  #5");
-         
+        ArrayList<String> c = this.commands.get(class_name);
+        c.add("   invokestatic java/util/Arrays.toString([I)Ljava/lang/String;"); 
+        c.add("   invokevirtual java/io/PrintStream.println(Ljava/lang/String;)V");          
     }
 
     public void createNewArray(String class_name, int length){

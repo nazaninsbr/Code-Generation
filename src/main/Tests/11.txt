@@ -38,7 +38,9 @@ class ArrayStuff{
 		i = new int[4];
 		i[0] = 11;
 		i[1] = 22;
-		i[3] = 33;
+		i[2] = 33;
+		i[3] = 44;
+		writeln(i);
 		return i;
 	}
 }
@@ -53,7 +55,7 @@ class thisStuff extends TestWrite{
 		arr[2] = 3000;
 		writeln("=============================================");
 		writeln((new ArrayStuff().x(arr))[1]);
-		anArrayInstance[0] = 9999; 
+		# anArrayInstance[0] = 9999; 
 		#writeln(anArrayInstance[0]);
 		writeln("=============================================");
 		return 12; 

@@ -47,9 +47,17 @@ done_for_if_NO_0:
    ldc 22
    iastore
    aload 26
-   ldc 3
+   ldc 2
    ldc 33
    iastore
+   aload 26
+   ldc 3
+   ldc 44
+   iastore
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   aload 26
+   invokestatic java/util/Arrays.toString([I)Ljava/lang/String;
+   invokevirtual java/io/PrintStream.println(Ljava/lang/String;)V
    aload 26
    aload 24
    astore 1
