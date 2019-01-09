@@ -10,7 +10,22 @@
    .limit stack 128
    .limit locals 128
    iconst_0
-   istore 25
+   istore 26
+   bipush 3
+   newarray       int
+   astore 27
+   aload 27
+   ldc 0
+   ldc 1000
+   iastore
+   aload 27
+   ldc 1
+   ldc 2000
+   iastore
+   aload 27
+   ldc 2
+   ldc 3000
+   iastore
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "============================================="
    ; invoke println
@@ -20,28 +35,33 @@
    new ArrayStuff
    dup
    invokespecial ArrayStuff/<init>()V ; call constructor
-   invokevirtual ArrayStuff/x()I
+   aload 27
+   invokevirtual ArrayStuff/x([I)[I
+   ldc 1
+   iaload
    invokevirtual java/io/PrintStream/println(I)V
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "============================================="
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    ldc 12
-   iload 25
+   iload 26
    istore 1
+   aload 27
+   astore 2
    ireturn
 .end method
 .method public aFunc()I
    .limit stack 128
    .limit locals 128
    iconst_0
-   istore 27
+   istore 29
    aload_0
    invokevirtual thisStuff/test()I
-   istore 27
+   istore 29
    aload_0
    invokevirtual thisStuff/another()I
-   iload 27
+   iload 29
    istore 1
    ireturn
 .end method

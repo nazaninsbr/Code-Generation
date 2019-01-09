@@ -10,22 +10,22 @@
    .limit stack 128
    .limit locals 128
    iconst_0
-   istore 52
+   istore 54
    ldc 0
-   istore 52
+   istore 54
 start_of_while_NO_1:
-   iload 52
+   iload 54
    ldc 4
    if_icmpgt end_of_while_NO_1
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "In a loop!!"
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-   iload 52
+   iload 54
    ldc 1
    iadd
-   istore 52
-   iload 52
+   istore 54
+   iload 54
    ldc 3
    if_icmpne else_for_if_NO_2
    getstatic java/lang/System/out Ljava/io/PrintStream;
@@ -43,7 +43,7 @@ done_for_if_NO_2:
 end_of_while_NO_1:
    ldc 1
    ineg
-   iload 52
+   iload 54
    istore 1
    ireturn
 .end method
