@@ -668,14 +668,34 @@ public class VisitorImpl implements Visitor {
             }
         }
         else if(second_round==false && code_generation_round == true){
-            if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), arrayCall.getInstance(), this.symTable)){
-
-            }
+            if(arrayCall.getInstance().getClass().getName().toString().equals("ast.node.expression.Identifier")){
+                Identifier this_identifier = (Identifier)arrayCall.getInstance();
+                String class_name_this_is_in = find_class_this_variable_is_in(this_identifier.getName());
+                if(class_name_this_is_in.equals("null")){
+                    if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), arrayCall.getInstance(), this.symTable)){
+                    }
+                    else{
+                        arrayCall.getInstance().accept(this);
+                    }
+                    arrayCall.getIndex().accept(this);
+                    this.code_generation_translator.performArrayCall(this.curr_class.getName().getName()); 
+                }
+                else{
+                    this.code_generation_translator.getClassField(this.curr_class.getName().getName(), class_name_this_is_in, this_identifier.getName(), arrayCall.getInstance().getType().toString());
+                    arrayCall.getIndex().accept(this);
+                    this.code_generation_translator.performArrayCall(this.curr_class.getName().getName()); 
+                }
+            }  
             else{
-                arrayCall.getInstance().accept(this);
+                if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), arrayCall.getInstance(), this.symTable)){
+
+                }
+                else{
+                    arrayCall.getInstance().accept(this);
+                }
+                arrayCall.getIndex().accept(this);
+                this.code_generation_translator.performArrayCall(this.curr_class.getName().getName());
             }
-            arrayCall.getIndex().accept(this);
-            this.code_generation_translator.performArrayCall(this.curr_class.getName().getName());
         }
     }
 
@@ -1347,11 +1367,11 @@ public class VisitorImpl implements Visitor {
                             this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName()); 
                         }
                         else{
-                            this.code_generation_translator.addLoadingOfThis(this.curr_class.getName().getName());
+                            this.code_generation_translator.getClassField(this.curr_class.getName().getName(), class_name_this_is_in, this_identifier.getName(), this_identifier.getType().toString());
                             ((ArrayCall)assign.getlValue()).getIndex().accept(this);
                             if(assign.getrValue() != null)
                                 assign.getrValue().accept(this); 
-                            this.code_generation_translator.putClassField(this.curr_class.getName().getName(), class_name_this_is_in, this_identifier.getName(), this_identifier.getType().toString());
+                            this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName());
                         }
                     }
                     else {

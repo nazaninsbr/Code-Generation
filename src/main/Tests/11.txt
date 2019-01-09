@@ -30,6 +30,10 @@ class ArrayStuff{
 		var b: boolean; 
 		var i: int[];
 		anArrayInstance = new int[5];
+		anArrayInstance[3] = 56565;
+		writeln("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		writeln(anArrayInstance[3]);
+		writeln("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 		b = true || false; 
 		if(b) then {
 			writeln("local boolean variable");
@@ -62,7 +66,12 @@ class thisStuff extends TestWrite{
 	}
 	def aFunc(): int{
 		var x3: int; 
+		var newName: int; 
 		x3 = this.test();
+		newName = x3 = -777; 
+		writeln("*******************************************");
+		writeln(newName);
+		writeln("*******************************************");
 		return this.another(); 
 	}
 }

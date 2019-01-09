@@ -9,9 +9,9 @@
 .method public static main([Ljava/lang/String;)V
    .limit stack 32
    .limit locals 32
-   new MainClass
+   new Test
    dup
-   invokespecial MainClass/<init>()V ; call constructor
-   invokevirtual MainClass/main()I
+   invokespecial Test/<init>()V ; call constructor
+   invokevirtual Test/main()I
    return
 .end method
