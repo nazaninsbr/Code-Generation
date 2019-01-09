@@ -10,36 +10,12 @@
    .limit stack 256
    .limit locals 256
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   ; create an Test2 object on top of stack
-   new Test2
+   ; create an Math object on top of stack
+   new Math
    dup
-   invokespecial Test2/<init>()V ; call constructor
-   ldc 1
-   ldc "string input"
-   invokevirtual Test2/print(ILjava/lang/String;)Ljava/lang/String;
-   ; invoke println
-   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-   ; create an Test2 object on top of stack
-   new Test2
-   dup
-   invokespecial Test2/<init>()V ; call constructor
-   invokevirtual Test2/add()I
-   ; create an conditionalClass object on top of stack
-   new conditionalClass
-   dup
-   invokespecial conditionalClass/<init>()V ; call constructor
-   invokevirtual conditionalClass/checkBooleanStuff()I
-   ; create an Test2 object on top of stack
-   new Test2
-   dup
-   invokespecial Test2/<init>()V ; call constructor
-   invokevirtual Test2/classCreationStuff()I
-   getstatic java/lang/System/out Ljava/io/PrintStream;
-   ; create an TestWrite object on top of stack
-   new TestWrite
-   dup
-   invokespecial TestWrite/<init>()V ; call constructor
-   invokevirtual TestWrite/test()I
+   invokespecial Math/<init>()V ; call constructor
+   ldc 5
+   invokevirtual Math/factorial(I)I
    invokevirtual java/io/PrintStream/println(I)V
    ldc 0
    ireturn

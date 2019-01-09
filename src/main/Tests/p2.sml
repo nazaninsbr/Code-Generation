@@ -1,6 +1,6 @@
 class ww1 {
 	def main() : int {
-		writeln(new ww2().a());
+		new ww3().cc();
 		return 0;
 	}
 }
@@ -17,6 +17,14 @@ class ww3 extends ww4{
 	def bb():int {
 		a = 45;
 		return a;
+	}
+	def cc():int{
+		var l : int[];
+		var t :string;
+		l = new int[4];
+		t = "hello";
+		writeln(new ww2().a(11,l,t,new ww3()));
+		return 10;
 	}
 }
 class ww4{

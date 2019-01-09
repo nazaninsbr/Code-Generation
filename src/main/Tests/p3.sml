@@ -12,6 +12,7 @@ class Math {
 		j = 1;
 		while (f <> 0){
 			j = j*f; 
+			f = f -1;
 		}
 		return j;
 	}

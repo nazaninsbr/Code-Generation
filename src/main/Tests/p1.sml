@@ -8,8 +8,9 @@ class Test {
 		writeln(new Test2().c("hi"));
 		writeln(new Test2().d());
 		writeln(new Test2().e());
-		writeln(new Test3().bb().aaa());
-		writeln((new Test3().bb().aaa())[0]);
+		writeln("INJA");
+		writeln(new Test3().bb().aaa(500));
+		writeln((new Test3().bb().aaa(400))[0]);
 		return 0;
 	}
 }
