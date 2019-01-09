@@ -9,7 +9,7 @@ class Test {
 	}
 }
 
-class TestWrite{
+class TestWrite extends ArrayStuff{
 	var cvar: int;
 	def test(): int{
 		var s: string; 
@@ -25,9 +25,11 @@ class TestWrite{
 }
 
 class ArrayStuff{
+	var anArrayInstance : int[];
 	def x(y :int[]):int[]{
 		var b: boolean; 
 		var i: int[];
+		anArrayInstance = new int[5];
 		b = true || false; 
 		if(b) then {
 			writeln("local boolean variable");
@@ -50,7 +52,9 @@ class thisStuff extends TestWrite{
 		arr[1] = 2000;
 		arr[2] = 3000;
 		writeln("=============================================");
-		writeln((new ArrayStuff().x(arr)));
+		writeln((new ArrayStuff().x(arr))[1]);
+		anArrayInstance[0] = 9999; 
+		#writeln(anArrayInstance[0]);
 		writeln("=============================================");
 		return 12; 
 	}
