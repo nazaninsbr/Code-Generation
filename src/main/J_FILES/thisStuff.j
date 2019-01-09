@@ -10,19 +10,19 @@
    .limit stack 256
    .limit locals 256
    iconst_0
-   istore 36
+   istore 40
    ldc 3
    newarray       int
-   astore 37
-   aload 37
+   astore 41
+   aload 41
    ldc 0
    ldc 1000
    iastore
-   aload 37
+   aload 41
    ldc 1
    ldc 2000
    iastore
-   aload 37
+   aload 41
    ldc 2
    ldc 3000
    iastore
@@ -35,7 +35,7 @@
    new ArrayStuff
    dup
    invokespecial ArrayStuff/<init>()V ; call constructor
-   aload 37
+   aload 41
    invokevirtual ArrayStuff/x([I)[I
    invokestatic java/util/Arrays.toString([I)Ljava/lang/String;
    invokevirtual java/io/PrintStream.println(Ljava/lang/String;)V
@@ -44,9 +44,9 @@
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    ldc 12
-   iload 36
+   iload 40
    istore 1
-   aload 37
+   aload 41
    astore 2
    ireturn
 .end method
@@ -54,26 +54,26 @@
    .limit stack 256
    .limit locals 256
    iconst_0
-   istore 40
+   istore 44
    iconst_0
-   istore 41
+   istore 45
    aload_0
    invokevirtual thisStuff/test()I
-   istore 40
+   istore 44
    ldc 777
    ineg
    dup
-   istore 40
-   istore 41
+   istore 44
+   istore 45
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "*******************************************"
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 41
+   iload 45
    invokevirtual java/io/PrintStream/println(I)V
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   iload 40
+   iload 44
    invokevirtual java/io/PrintStream/println(I)V
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "*******************************************"
@@ -81,9 +81,9 @@
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    aload_0
    invokevirtual thisStuff/another()I
-   iload 40
+   iload 44
    istore 1
-   iload 41
+   iload 45
    istore 2
    ireturn
 .end method

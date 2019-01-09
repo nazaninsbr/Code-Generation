@@ -12,7 +12,7 @@
    .limit stack 256
    .limit locals 256
    iconst_0
-   istore 79
+   istore 83
    aload 0 ;this
    ldc 1
    ldc 0
@@ -34,15 +34,15 @@ jump_to_end_value0:
    new thisStuff
    dup
    invokespecial thisStuff/<init>()V ; call constructor
-   astore 78
+   astore 82
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "BYEEEEEEE"
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    ldc 0
-   aload 78
+   aload 82
    astore 1
-   iload 79
+   iload 83
    istore 2
    ireturn
 .end method
@@ -50,12 +50,12 @@ jump_to_end_value0:
    .limit stack 256
    .limit locals 256
    iload 1
-   istore 80
+   istore 84
    iconst_0
-   istore 81
+   istore 85
    aload_0
    invokevirtual conditionalClass/newFunc()I
-   istore 81
+   istore 85
    aload 0 ;this
    getfield conditionalClass/aClassBoolean I
    ifle done_for_if_NO_4
@@ -66,7 +66,7 @@ jump_to_end_value0:
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    goto done_for_if_NO_4
 done_for_if_NO_4:
-   iload 80
+   iload 84
    ifle else_for_if_NO_5
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "boolReturnType TRUE input value"
@@ -80,9 +80,9 @@ else_for_if_NO_5:
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
 done_for_if_NO_5:
    iconst_1
-   iload 80
+   iload 84
    istore 1
-   iload 81
+   iload 85
    istore 2
    ireturn
 .end method

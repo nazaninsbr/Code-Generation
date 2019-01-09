@@ -10,6 +10,8 @@
 .method public test()I
    .limit stack 256
    .limit locals 256
+   ldc "Object"
+   astore 23
    iconst_0
    istore 24
    ldc 12
@@ -21,6 +23,19 @@
    aload 0 ;this
    getfield TestWrite/cvar I
    invokevirtual java/io/PrintStream/println(I)V
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   ldc "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   aload_0
+   invokevirtual Object/toString()Ljava/lang/String;
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
+   getstatic java/lang/System/out Ljava/io/PrintStream;
+   ldc "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
+   ; invoke println
+   invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    ldc "my name is N"
    astore 23
    getstatic java/lang/System/out Ljava/io/PrintStream;

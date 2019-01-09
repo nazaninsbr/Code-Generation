@@ -375,10 +375,10 @@ public class Translator {
                 commands.get(class_name).add("   iconst_0");
                 commands.get(class_name).add("   istore "+Integer.toString(symTable_index));
             }
-            // else if(localVars.get(i).getType().toString().equals("string")){
-            //     commands.get(class_name).add("   ldc \"Object\"");
-            //     commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
-            // }
+            else if(localVars.get(i).getType().toString().equals("string")){
+                commands.get(class_name).add("   ldc \"Object\"");
+                commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
+            }
             // else if(localVars.get(i).getType().toString().equals("int[]")){
             //     commands.get(class_name).add("   newarray int");
             //     commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
@@ -561,6 +561,11 @@ public class Translator {
 
 
     public void performMethodCall(String class_name,String instance_class,String method_name,ArrayList<String> args,String return_type){
+        if(method_name.equals("toString")){
+            String cmd2 = "   invokevirtual Object/toString()Ljava/lang/String;";
+            commands.get(class_name).add(cmd2);
+            return;
+        }
         String cmd = "   invokevirtual " + instance_class + "/" + method_name + "(";
         for (int i = 0; i < args.size(); i++){
             String type_of_this = get_type_code_generation_equivalent(args.get(i));
@@ -568,13 +573,8 @@ public class Translator {
         }
         cmd = cmd + ")";
         String type_of_this;
-        if(method_name.equals("toString")){
-            cmd = cmd +"Ljava/lang/String;";
-        }
-        else{
-            type_of_this = get_type_code_generation_equivalent(return_type);       
-            cmd = cmd + type_of_this;
-        } 
+        type_of_this = get_type_code_generation_equivalent(return_type);       
+        cmd = cmd + type_of_this;
         commands.get(class_name).add(cmd);
     }
 
