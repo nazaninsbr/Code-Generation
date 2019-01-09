@@ -1331,15 +1331,41 @@ public class VisitorImpl implements Visitor {
                     }
                 }
                 else if(assign.getlValue().getClass().getName().equals("ast.node.expression.ArrayCall")){
-                    if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), ((ArrayCall)assign.getlValue()).getInstance(), this.symTable)){
+                    Expression the_array_instance = ((ArrayCall)assign.getlValue()).getInstance();
+                    if(the_array_instance.getClass().getName().equals("ast.node.expression.Identifier")){
+                        Identifier this_identifier = (Identifier)the_array_instance;
+                        String class_name_this_is_in = find_class_this_variable_is_in(this_identifier.getName());
+                        if(class_name_this_is_in.equals("null")){
+                            if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), ((ArrayCall)assign.getlValue()).getInstance(), this.symTable)){
+                            }
+                            else{
+                                ((ArrayCall)assign.getlValue()).getInstance().accept(this);
+                            }
+                            ((ArrayCall)assign.getlValue()).getIndex().accept(this);
+                            if(assign.getrValue() != null)
+                                assign.getrValue().accept(this); 
+                            this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName()); 
+                        }
+                        else{
+                            this.code_generation_translator.addLoadingOfThis(this.curr_class.getName().getName());
+                            ((ArrayCall)assign.getlValue()).getIndex().accept(this);
+                            if(assign.getrValue() != null)
+                                assign.getrValue().accept(this); 
+                            this.code_generation_translator.putClassField(this.curr_class.getName().getName(), class_name_this_is_in, this_identifier.getName(), this_identifier.getType().toString());
+                        }
                     }
-                    else{
-                        ((ArrayCall)assign.getlValue()).getInstance().accept(this);
+                    else {
+                        if(this.code_generation_translator.putArrayReferenceOnTopOfStack(this.curr_class.getName().getName(), ((ArrayCall)assign.getlValue()).getInstance(), this.symTable)){
+                        }
+                        else{
+                            ((ArrayCall)assign.getlValue()).getInstance().accept(this);
+                        }
+                        ((ArrayCall)assign.getlValue()).getIndex().accept(this);
+                        if(assign.getrValue() != null)
+                            assign.getrValue().accept(this); 
+                        this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName()); 
                     }
-                    ((ArrayCall)assign.getlValue()).getIndex().accept(this);
-                    if(assign.getrValue() != null)
-                        assign.getrValue().accept(this); 
-                    this.code_generation_translator.storeToTheArray(this.curr_class.getName().getName());                 
+                                    
                 }
                 else{
                     if(assign.getrValue() != null)

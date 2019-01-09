@@ -1,5 +1,6 @@
 .class public ArrayStuff
 .super java/lang/Object
+.field private anArrayInstance [I
 ; default constructor
 .method public <init>()V
    aload_0 ; push this
@@ -10,14 +11,18 @@
    .limit stack 128
    .limit locals 128
    aload 1
-   astore 19
+   astore 24
    iconst_0
-   istore 20
+   istore 25
+   aload 0 ;this
+   bipush 5
+   newarray       int
+   putfield ArrayStuff/anArrayInstance [I
    iconst_1
    iconst_0
    ior
-   istore 20
-   iload 20
+   istore 25
+   iload 25
    ifle done_for_if_NO_0
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "local boolean variable"
@@ -26,31 +31,31 @@
    goto done_for_if_NO_0
 done_for_if_NO_0:
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   aload 19
+   aload 24
    ldc 0
    iaload
    invokevirtual java/io/PrintStream/println(I)V
    bipush 4
    newarray       int
-   astore 21
-   aload 21
+   astore 26
+   aload 26
    ldc 0
    ldc 11
    iastore
-   aload 21
+   aload 26
    ldc 1
    ldc 22
    iastore
-   aload 21
+   aload 26
    ldc 3
    ldc 33
    iastore
-   aload 21
-   aload 19
+   aload 26
+   aload 24
    astore 1
-   iload 20
+   iload 25
    istore 2
-   aload 21
+   aload 26
    astore 3
    areturn
 .end method
