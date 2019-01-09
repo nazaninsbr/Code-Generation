@@ -24,18 +24,24 @@ class TestWrite{
 
 class ArrayStuff{
 	def x():int{
-		# var i: int[];
-		# i = new int[4];
-		# i[0] = 1;
-		# return i[2];
-		return -1234;
+		var b: boolean; 
+		var i: int[];
+		b = true || false; 
+		if(b) then {
+			writeln("local boolean variable");
+		}
+		i = new int[4];
+		i[2] = 12345;
+		return i[2];
 	}
 }
 
 class thisStuff extends TestWrite{
 	def another(): int{
 		var x2: int;
-		x2 = new ArrayStuff().x();
+		writeln("=============================================");
+		writeln(new ArrayStuff().x());
+		writeln("=============================================");
 		return 12; 
 	}
 	def aFunc(): int{

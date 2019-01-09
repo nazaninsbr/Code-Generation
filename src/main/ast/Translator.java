@@ -281,7 +281,7 @@ public class Translator {
             	commands.get(class_name).add("   iload "+Integer.toString(real_index));
             	commands.get(class_name).add("   istore "+Integer.toString(symTable_index));
             }
-            else if(args.get(i).getType().toString().equals("string")){
+            else if(args.get(i).getType().toString().equals("string") || args.get(i).getType().toString().equals("int[]")){
                 commands.get(class_name).add("   aload "+Integer.toString(real_index));
                 commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
             }
@@ -302,7 +302,7 @@ public class Translator {
             	commands.get(class_name).add("   iload "+Integer.toString(symTable_index));
             	commands.get(class_name).add("   istore "+Integer.toString(real_index));
             }
-            else if(args.get(i).getType().toString().equals("string")){
+            else if(args.get(i).getType().toString().equals("string") || args.get(i).getType().toString().equals("int[]")){
                 commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
                 commands.get(class_name).add("   astore "+Integer.toString(real_index));
             }
@@ -312,10 +312,14 @@ public class Translator {
         for(int i=0; i<localVars.size(); i++){
             int real_index = i+1+args_size;
             int symTable_index = getVariableSymbolTableIndex(localVars.get(i), symTable);
-            if(localVars.get(i).getType().toString().equals("int")){
-                commands.get(class_name).add("   iload "+Integer.toString(real_index));
+            if(localVars.get(i).getType().toString().equals("int") || localVars.get(i).getType().toString().equals("bool")){
+                commands.get(class_name).add("   iconst_0");
                 commands.get(class_name).add("   istore "+Integer.toString(symTable_index));
             }
+            // else if(localVars.get(i).getType().toString().equals("string") || localVars.get(i).getType().toString().equals("int[]")){
+            //     commands.get(class_name).add("   iconst_0");
+            //     commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
+            // }
         }
     }
     public void moveLocalVarsBackToIndex(String class_name, ArrayList<VarDeclaration> localVars, SymbolTable symTable,int args_size){
@@ -329,9 +333,13 @@ public class Translator {
             }
             catch(ItemNotFoundException ex){
             }
-            if(localVars.get(i).getType().toString().equals("int")){
+            if(localVars.get(i).getType().toString().equals("int") || localVars.get(i).getType().toString().equals("bool")){
                 commands.get(class_name).add("   iload "+Integer.toString(symTable_index));
                 commands.get(class_name).add("   istore "+Integer.toString(real_index));
+            }
+            else if(localVars.get(i).getType().toString().equals("string") || localVars.get(i).getType().toString().equals("int[]")){
+                commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
+                commands.get(class_name).add("   astore "+Integer.toString(real_index));
             }
         }
     }
@@ -419,11 +427,9 @@ public class Translator {
     public void putConstantBoolOnTopOfStack(String class_name, Boolean value){
         if (value) {
             commands.get(class_name).add("   iconst_1");
-            // commands.get(class_name).add("   invokestatic  #2");
         } 
         else {
             commands.get(class_name).add("   iconst_0");
-            // commands.get(class_name).add("   invokestatic  #2");
         }
     }
 
@@ -446,7 +452,7 @@ public class Translator {
     public Boolean putArrayReferenceOnTopOfStack(String class_name, Expression arrayExpression, SymbolTable symTable){
         if (arrayExpression.getClass().getName().equals("ast.node.expression.Identifier")){
             int symTable_index = getVariableSymbolTableIndexBasedOnName((Identifier) arrayExpression, symTable);
-            commands.get(class_name).add("   aaload "+Integer.toString(symTable_index));
+            commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
             return true;
         }
         return false;

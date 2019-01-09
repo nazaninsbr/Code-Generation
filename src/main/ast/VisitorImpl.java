@@ -583,7 +583,7 @@ public class VisitorImpl implements Visitor {
             //symTable.top.printSymbolTableItems();
             this.code_generation_translator.createMethodInClassFile(this.curr_class.getName().getName(), methodDeclaration.getName().getName(), methodDeclaration.getReturnValue().getType().toString(), methodDeclaration.getArgs());
             this.code_generation_translator.moveArgsToIndex(this.curr_class.getName().getName(), methodDeclaration.getArgs(), symTable.top);
-            //this.code_generation_translator.moveLocalVarsToIndex(this.curr_class.getName().getName(), methodDeclaration.getLocalVars(), symTable.top, methodDeclaration.getArgs().size());
+            this.code_generation_translator.moveLocalVarsToIndex(this.curr_class.getName().getName(), methodDeclaration.getLocalVars(), symTable.top, methodDeclaration.getArgs().size());
             check_for_statements(methodDeclaration.getBody());
             methodDeclaration.getReturnValue().accept(this);
             this.code_generation_translator.moveArgsBackToIndex(this.curr_class.getName().getName(), methodDeclaration.getArgs(), symTable.top);

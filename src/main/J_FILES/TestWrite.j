@@ -10,6 +10,8 @@
 .method public test()I
    .limit stack 128
    .limit locals 128
+   iconst_0
+   istore 17
    ldc 12
    istore 17
    ldc "my name is N"
@@ -23,6 +25,8 @@
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    iload 17
+   aload 16
+   astore 1
    iload 17
    istore 2
    ireturn
