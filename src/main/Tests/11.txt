@@ -93,7 +93,19 @@ class WhileClass{
 }
 
 class conditionalClass{
+	def boolReturnType(b: boolean): boolean{
+		if(b) then {
+			writeln("boolReturnType TRUE input value");
+		}
+		else {
+			writeln("boolReturnType FALSE input value");
+		}
+		return true;
+	}
 	def checkBooleanStuff(): int{
+		if(this.boolReturnType(false)) then {
+			writeln("this.boolReturnType()");
+		}
 		if(true) then{
 			writeln("true");
 		}

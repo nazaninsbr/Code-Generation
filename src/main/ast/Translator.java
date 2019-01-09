@@ -88,7 +88,7 @@ public class Translator {
     	if(type.equals("int")){
     		return "I";
     	} else if(type.equals("bool")){
-    		return "Z";
+    		return "I";
     	} else if(type.equals("string")){
     		return "Ljava/lang/String;";
     	} else if(type.equals("int[]")){
@@ -129,7 +129,7 @@ public class Translator {
     	if (return_type.equals("int")){
     		c.add(".method public "+method_name+"("+args_str+")I");
     	} else if (return_type.equals("bool")){
-    		c.add(".method public "+method_name+"("+args_str+")Z");
+    		c.add(".method public "+method_name+"("+args_str+")I");
     	} else if (return_type.equals("string")){
     		c.add(".method public "+method_name+"("+args_str+")Ljava/lang/String;");
     	} else if (return_type.equals("int[]")){
@@ -277,7 +277,7 @@ public class Translator {
 		for(int i=0; i<args.size(); i++){
 			int real_index = i+1;
 			int symTable_index = getVariableSymbolTableIndex(args.get(i), symTable);
-            if(args.get(i).getType().toString().equals("int")){
+            if(args.get(i).getType().toString().equals("int") || args.get(i).getType().toString().equals("bool")){
             	commands.get(class_name).add("   iload "+Integer.toString(real_index));
             	commands.get(class_name).add("   istore "+Integer.toString(symTable_index));
             }
@@ -298,7 +298,7 @@ public class Translator {
             }
             catch(ItemNotFoundException ex){
             }
-            if(args.get(i).getType().toString().equals("int")){
+            if(args.get(i).getType().toString().equals("int") || args.get(i).getType().toString().equals("bool")){
             	commands.get(class_name).add("   iload "+Integer.toString(symTable_index));
             	commands.get(class_name).add("   istore "+Integer.toString(real_index));
             }
@@ -348,7 +348,7 @@ public class Translator {
             commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
         } 
         else if(type.equals("bool")){
-            commands.get(class_name).add("   bstore "+Integer.toString(symTable_index));
+            commands.get(class_name).add("   istore "+Integer.toString(symTable_index));
         } 
         else {
             commands.get(class_name).add("   astore "+Integer.toString(symTable_index));
@@ -363,11 +363,10 @@ public class Translator {
             commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
         }
         else if(type.equals("string")){
-            // can't find it!!!
             commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
         } 
         else if(type.equals("bool")){
-            commands.get(class_name).add("   bload "+Integer.toString(symTable_index));
+            commands.get(class_name).add("   iload "+Integer.toString(symTable_index));
         } 
         else {
             commands.get(class_name).add("   aload "+Integer.toString(symTable_index));
@@ -403,7 +402,7 @@ public class Translator {
                 commands.get(class_name).add("   if_icmplt "+end_label+"_"+Integer.toString(lable_number));
             }
         }
-        else if(condition.getClass().getName().toString().equals("ast.node.expression.Value.BooleanValue")){
+        else if(condition.getType().toString().equals("bool")){
             commands.get(class_name).add("   ifle "+end_label+"_"+Integer.toString(lable_number));
         }
 
@@ -480,8 +479,7 @@ public class Translator {
             commands.get(class_name).add("   areturn");
         } 
         else if(type.equals("bool")){
-            //can't find it!!!
-            commands.get(class_name).add("   return"); 
+            commands.get(class_name).add("   ireturn"); 
         } 
         else {
             //can't find it!!!

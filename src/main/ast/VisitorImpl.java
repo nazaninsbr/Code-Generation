@@ -1,6 +1,5 @@
 package ast;
 
-
 import ast.node.Program;
 import ast.node.declaration.ClassDeclaration;
 import ast.node.declaration.MethodDeclaration;

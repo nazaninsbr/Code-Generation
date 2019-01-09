@@ -11,19 +11,19 @@
    .limit stack 128
    .limit locals 128
    ldc 12
-   istore 16
+   istore 17
    ldc "my name is N"
-   astore 15
+   astore 16
    getstatic java/lang/System/out Ljava/io/PrintStream;
-   aload 15
+   aload 16
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
    getstatic java/lang/System/out Ljava/io/PrintStream;
    ldc "hi"
    ; invoke println
    invokevirtual java/io/PrintStream/println(Ljava/lang/String;)V
-   iload 16
-   iload 16
+   iload 17
+   iload 17
    istore 2
    ireturn
 .end method

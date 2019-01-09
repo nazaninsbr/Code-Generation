@@ -14,9 +14,9 @@
    dup
    invokespecial ArrayStuff/<init>()V ; call constructor
    invokevirtual ArrayStuff/x()I
-   istore 22
+   istore 23
    ldc 12
-   iload 22
+   iload 23
    istore 1
    ireturn
 .end method
@@ -25,10 +25,10 @@
    .limit locals 128
    aload_0
    invokevirtual thisStuff/test()I
-   istore 24
+   istore 25
    aload_0
    invokevirtual thisStuff/another()I
-   iload 24
+   iload 25
    istore 1
    ireturn
 .end method
